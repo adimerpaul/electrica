@@ -15,16 +15,17 @@ return new class extends Migration
     {
         Schema::create('denuncias', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre");
-            $table->string("telefono");
-            $table->string("direccion");
-            $table->string("zona");
-            $table->string("nroposte");
-            $table->text("reclamo");
-            $table->double("lat",11,6);
-            $table->double("lng",11,6);
-            $table->date("fecha");
-            $table->time("hora");
+            $table->string("nombre")->nullable();
+            $table->string("ci")->nullable();
+            $table->string("telefono")->nullable();
+            $table->string("direccion")->nullable();
+            $table->string("zona")->nullable();
+            $table->string("nroposte")->nullable();
+            $table->text("reclamo")->nullable();
+            $table->double("lat",11,6)->nullable();
+            $table->double("lng",11,6)->nullable();
+            $table->date("fecha")->nullable();
+            $table->time("hora")->nullable();
             $table->string("estado")->default('EN ESPERA');
             $table->timestamps();
         });

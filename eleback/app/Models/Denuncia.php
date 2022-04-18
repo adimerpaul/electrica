@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Denuncia extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        "nombre",
+        "ci",
+        "telefono",
+        "direccion",
+        "zona",
+        "nroposte",
+        "reclamo",
+        "lat",
+        "lng",
+        "fecha",
+        "hora",
+        "estado"
+    ];
 }

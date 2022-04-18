@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
+Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);

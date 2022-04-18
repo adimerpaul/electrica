@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Electria
+          ALUMBRADO PUBLICO
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>

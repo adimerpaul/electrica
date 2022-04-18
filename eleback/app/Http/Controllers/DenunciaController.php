@@ -15,7 +15,7 @@ class DenunciaController extends Controller
      */
     public function index()
     {
-        //
+       return Denuncia::all();
     }
 
     /**
@@ -36,7 +36,7 @@ class DenunciaController extends Controller
      */
     public function store(StoreDenunciaRequest $request)
     {
-        //
+      return Denuncia::create($request->all());
     }
 
     /**
@@ -70,7 +70,7 @@ class DenunciaController extends Controller
      */
     public function update(UpdateDenunciaRequest $request, Denuncia $denuncia)
     {
-        //
+        return $denuncia->update($request->all());
     }
 
     /**
@@ -81,6 +81,6 @@ class DenunciaController extends Controller
      */
     public function destroy(Denuncia $denuncia)
     {
-        //
+        return $denuncia->delete();
     }
 }

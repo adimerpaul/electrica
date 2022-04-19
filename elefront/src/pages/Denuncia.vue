@@ -4,7 +4,7 @@
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker @click="frmmodalpunto(p)" v-for="p in puntos" :lat-lng="[p.lat,p.lng]" :key="p.id" >
         <!--        <l-icon><q-badge  :class="c.tipo=='PEDIDO'?'bg-green-5  text-italic':c.tipo=='PARADO'?'bg-yellow-5  text-italic':c.tipo=='NO PEDIDO'?'bg-red-5 text-italic':''"  class="q-pa-none" color="info" >{{c.Cod_Aut}}</q-badge></l-icon>-->
-        <l-icon><q-badge :color="p.estado=='ACTIVO'?'info':'negative'"  class="q-pa-xs" label="" /> <div style="color: white;
+        <l-icon><q-badge :color="p.estado=='ATENDIDO'?'info':'negative'"  class="q-pa-xs" label="" /> <div style="color: white;
             font-size: 15px;
             font-family: 'Arial Black';
             opacity: 0.8;

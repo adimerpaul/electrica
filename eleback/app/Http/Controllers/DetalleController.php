@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Denuncia;
-use App\Http\Requests\StoreDenunciaRequest;
-use App\Http\Requests\UpdateDenunciaRequest;
+use App\Models\Detalle;
+use App\Http\Requests\StoreDetalleRequest;
+use App\Http\Requests\UpdateDetalleRequest;
 
-class DenunciaController extends Controller
+class DetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class DenunciaController extends Controller
      */
     public function index()
     {
-       return Denuncia::all();
+        //
     }
 
     /**
@@ -31,21 +31,21 @@ class DenunciaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDenunciaRequest  $request
+     * @param  \App\Http\Requests\StoreDetalleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDenunciaRequest $request)
+    public function store(StoreDetalleRequest $request)
     {
-      return Denuncia::create($request->all());
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Detalle  $detalle
      * @return \Illuminate\Http\Response
      */
-    public function show(Denuncia $denuncia)
+    public function show(Detalle $detalle)
     {
         //
     }
@@ -53,10 +53,10 @@ class DenunciaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Detalle  $detalle
      * @return \Illuminate\Http\Response
      */
-    public function edit(Denuncia $denuncia)
+    public function edit(Detalle $detalle)
     {
         //
     }
@@ -64,25 +64,23 @@ class DenunciaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDenunciaRequest  $request
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Http\Requests\UpdateDetalleRequest  $request
+     * @param  \App\Models\Detalle  $detalle
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDenunciaRequest $request, Denuncia $denuncia)
+    public function update(UpdateDetalleRequest $request, Detalle $detalle)
     {
-        $denuncia=Denuncia::find($request->id);
-//        return $request;
-        return $denuncia->update($request->all());
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Detalle  $detalle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Denuncia $denuncia)
+    public function destroy(Detalle $detalle)
     {
-        return $denuncia->delete();
+        //
     }
 }

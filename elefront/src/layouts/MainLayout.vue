@@ -12,13 +12,11 @@
         />
 
         <q-toolbar-title>
-          ALUMBRADO PUBLICO
+          {{$store.getters["login/user"].name}}
         </q-toolbar-title>
-
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
-
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -51,6 +49,28 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/denuncia" exact>
+          <q-item-section avatar>
+            <q-icon name="cell_tower" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Denuncias</q-item-label>
+            <q-item-label caption>
+              Denuncias realizadas
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="$store.getters['login/isLoggedIn']" clickable @click="logout">
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Salir</q-item-label>
+            <q-item-label caption>
+              Salir del sistema
+            </q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -68,6 +88,37 @@ export default {
     return {
       leftDrawerOpen: false
     }
+  },
+  created() {
+    const token = localStorage.getItem('tokenelec')
+// console.log(token)
+    if (token) {
+      // console.log('a')
+      this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+token
+      // axios.defaults.headers.common['Authorization'] = 'Bearer '+token
+      this.$axios.post(process.env.API+'me').then(res=>{
+        // console.log(res.data);
+        // return false;
+        // store.state.user=res.data;
+        this.$store.commit('login/auth_success', {token:token,user:res.data})
+      })
+      .catch(err=>{
+        // console.error('aas')
+        this.$store.commit('login/salir')
+        localStorage.removeItem('tokenelec')
+
+      })
+    }
+  },
+  methods:{
+    logout () {
+      this.$q.loading.show()
+      this.$store.dispatch('login/logout')
+        .then(() => {
+          this.$q.loading.hide()
+          this.$router.push('/login')
+        })
+    },
   }
 }
 </script>

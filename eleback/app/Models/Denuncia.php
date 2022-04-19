@@ -20,6 +20,11 @@ class Denuncia extends Model
         "lng",
         "fecha",
         "hora",
-        "estado"
+        "estado",
+        "tecnico",
+        "supervisor",
+        "fechaman",
+        "horaman",
+        "actividad",
     ];
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Denuncia;
-use App\Http\Requests\StoreDenunciaRequest;
-use App\Http\Requests\UpdateDenunciaRequest;
+use App\Models\Carro;
+use App\Http\Requests\StoreCarroRequest;
+use App\Http\Requests\UpdateCarroRequest;
 
-class DenunciaController extends Controller
+class CarroController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class DenunciaController extends Controller
      */
     public function index()
     {
-       return Denuncia::all();
+        //
     }
 
     /**
@@ -31,21 +31,21 @@ class DenunciaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDenunciaRequest  $request
+     * @param  \App\Http\Requests\StoreCarroRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDenunciaRequest $request)
+    public function store(StoreCarroRequest $request)
     {
-      return Denuncia::create($request->all());
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Carro  $carro
      * @return \Illuminate\Http\Response
      */
-    public function show(Denuncia $denuncia)
+    public function show(Carro $carro)
     {
         //
     }
@@ -53,10 +53,10 @@ class DenunciaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Carro  $carro
      * @return \Illuminate\Http\Response
      */
-    public function edit(Denuncia $denuncia)
+    public function edit(Carro $carro)
     {
         //
     }
@@ -64,25 +64,23 @@ class DenunciaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDenunciaRequest  $request
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Http\Requests\UpdateCarroRequest  $request
+     * @param  \App\Models\Carro  $carro
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDenunciaRequest $request, Denuncia $denuncia)
+    public function update(UpdateCarroRequest $request, Carro $carro)
     {
-        $denuncia=Denuncia::find($request->id);
-//        return $request;
-        return $denuncia->update($request->all());
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Denuncia  $denuncia
+     * @param  \App\Models\Carro  $carro
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Denuncia $denuncia)
+    public function destroy(Carro $carro)
     {
-        return $denuncia->delete();
+        //
     }
 }

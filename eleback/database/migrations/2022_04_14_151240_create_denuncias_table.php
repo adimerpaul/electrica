@@ -27,6 +27,11 @@ return new class extends Migration
             $table->date("fecha")->nullable();
             $table->time("hora")->nullable();
             $table->string("estado")->default('EN ESPERA');
+            $table->string("tecnico")->nullable();
+            $table->string("supervisor")->nullable();
+            $table->string("actividad")->nullable();
+            $table->date("fechaman")->nullable();
+            $table->time("horaman")->nullable();
             $table->timestamps();
         });
     }

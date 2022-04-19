@@ -17,5 +17,11 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
-Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
+Route::post('login',[\App\Http\Controllers\UserController::class,'login']);
+Route::group(['middleware'=>'auth:sanctum'],function (){
+    Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
+    Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
+    Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
+    Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
+});
+

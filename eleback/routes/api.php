@@ -18,10 +18,11 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 Route::post('login',[\App\Http\Controllers\UserController::class,'login']);
+Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
-    Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
+
 });
 

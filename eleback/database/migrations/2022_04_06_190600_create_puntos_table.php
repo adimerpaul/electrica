@@ -15,13 +15,28 @@ return new class extends Migration
     {
         Schema::create('puntos', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->string('codigo');
+//            $table->date('fecha');
+//            $table->string('codigo');
+//            $table->string('nroposte');
+//            $table->string('descripcion');
+//            $table->string('potencia');
+//            $table->float('lat');
+//            $table->float('lng');
+//            $table->string('color');
+            $table->double('lat',11,6);
+            $table->double('lng',11,6);
             $table->string('nroposte');
+            $table->string('material');
+            $table->date('fecha');
             $table->string('descripcion');
+            $table->string('cantidad');
+            $table->string('codigo');
+            $table->string('tecnico');
+            $table->string('destino');
+            $table->string('dirigente');
+            $table->string('celular');
+            $table->string('distrito');
             $table->string('potencia');
-            $table->float('lat');
-            $table->float('lng');
             $table->string('color');
             $table->string('estado')->default('ACTIVO');
             $table->timestamps();

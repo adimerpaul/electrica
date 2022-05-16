@@ -10,11 +10,13 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@coderstm/quasar-google-maps": "^1.0.4",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "leaflet": "^1.7.1",
     "quasar": "^1.0.0",
+    "vue2-gmap-custom-marker": "^6.0.1",
     "vue2-leaflet": "^2.7.1"
   },
   "devDependencies": {

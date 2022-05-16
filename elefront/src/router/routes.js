@@ -1,6 +1,7 @@
 import Mantenimiento from "pages/Mantenimiento";
 import Denuncia from "pages/Denuncia";
 import Login from "pages/Login";
+import Mapa from "pages/Mapa";
 
 const routes = [
   {
@@ -10,6 +11,7 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue'),meta: {requiresAuth: true} },
       { path: 'mantenimiento', component: Mantenimiento ,meta: {requiresAuth: true}},
       { path: 'denuncia', component: Denuncia ,meta: {requiresAuth: true}},
+      { path: 'mapa', component: Mapa ,meta: {requiresAuth: true}},
       { path: 'login', component: Login },
     ]
   },

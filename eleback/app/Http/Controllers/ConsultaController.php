@@ -46,7 +46,12 @@ class ConsultaController extends Controller
      */
     public function show($nroposte)
     {
-        return Denuncia::where('nroposte',$nroposte)->get() ;
+        if (Denuncia::where('nroposte',$nroposte)->get()->count()>0){
+            return Denuncia::where('nroposte',$nroposte)->get() ;
+        }else{
+            return Denuncia::where('ci',$nroposte)->get() ;
+        }
+
     }
 
     /**

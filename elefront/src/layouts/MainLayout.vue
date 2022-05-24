@@ -12,9 +12,13 @@
         />
 
         <q-toolbar-title>
+          <q-img src="logo.png" style="width: 30px"/>
           {{$store.getters["login/user"].name}}
         </q-toolbar-title>
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+<!--          Quasar v{{ $q.version }}-->
+          <q-btn color="negative" icon="logout" @click="logout" label="Salir"  />
+        </div>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -49,17 +53,42 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/denuncia" exact>
-          <q-item-section avatar>
-            <q-icon name="cell_tower" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Denuncias</q-item-label>
-            <q-item-label caption>
-              Denuncias realizadas
-            </q-item-label>
-          </q-item-section>
-        </q-item>
+
+        <q-expansion-item
+          expand-separator
+          icon="perm_identity"
+          label="Denuncias"
+          caption="Denuncias de contribuyente"
+        >
+          <q-card>
+            <q-card-section>
+              <q-item clickable to="/denuncia" exact>
+                <q-item-section avatar>
+                  <q-icon name="cell_tower" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Denuncias</q-item-label>
+                  <q-item-label caption>
+                    Denuncias realizadas
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable to="/reportedenuncia" exact>
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reporte denuncias</q-item-label>
+                  <q-item-label caption>
+                    Reporte denuncias
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+
+          </q-card>
+        </q-expansion-item>
+
         <q-item v-if="$store.getters['login/isLoggedIn']" clickable @click="logout">
           <q-item-section avatar>
             <q-icon name="logout" />

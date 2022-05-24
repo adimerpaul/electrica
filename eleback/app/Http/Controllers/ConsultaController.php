@@ -35,7 +35,7 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Denuncia::whereDate('fecha','>=',$request->inicio)->whereDate('fecha','<=',$request->fin)->get();
     }
 
     /**

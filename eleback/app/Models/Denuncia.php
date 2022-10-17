@@ -26,5 +26,18 @@ class Denuncia extends Model
         "fechaman",
         "horaman",
         "actividad",
+        "l70",
+        "l150",
+        "l250",
+        "r70",
+        "r150",
+        "r250",
+        "foto",
+        "base",
+        "ignitor",
+        "cable",
+        "contactor",
+        "termico",
+        "soquet",
     ];
 }

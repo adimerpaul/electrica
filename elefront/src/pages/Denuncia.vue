@@ -93,6 +93,41 @@
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="actividad" v-model="punto.actividad" />
               </div>
+              <div class="col-12 row">
+                <div class="col-3">
+                  <div class="text-h6">LAMPARA W</div>
+                  <q-input outlined dense v-model="punto.l70" type="text" label="70W" />
+                  <q-input outlined dense v-model="punto.l150" type="text" label="150W" />
+                  <q-input outlined dense v-model="punto.l250" type="text" label="250W" />
+                  <q-btn dense color="yellow" icon="check" @click="regActividad" />
+                </div>
+                <div class="col-3">
+
+                <div class="text-h6">REACTOR W</div>
+                  <q-input outlined dense v-model="punto.r70" type="text" label="70W" />
+                  <q-input outlined dense v-model="punto.r150" type="text" label="150W" />
+                  <q-input outlined dense v-model="punto.r250" type="text" label="250W" />
+                </div>
+                <div class="col-3">
+
+                <div class="text-h6">FOTOCELULA</div>
+                  <q-input outlined dense v-model="punto.foto" type="text" label="Foto" />
+                  <q-input outlined dense v-model="punto.base" type="text" label="Base" />
+                </div>
+                <div class="col-3">
+
+                <div class="text-h6">VARIOS</div>
+                  <q-input outlined dense v-model="punto.ignitor" type="text" label="IGNITOR" />
+                  <q-input outlined dense v-model="punto.cable" type="number" step="0.01" label="CABLE M/L" />
+                  <div class="row">
+                    <q-toggle false-value="NO"  :label="`Contactor ${punto.contactor}`" true-value="SI" color="green" v-model="punto.contactor" />
+                  <q-toggle false-value="NO"  :label="`Termico ${punto.termico}`" true-value="SI" color="green" v-model="punto.termico" />
+                </div>
+                  <q-input outlined dense v-model="punto.soquet" type="text" label="SOQUET" />
+                </div>
+
+
+              </div>
               <div class="col-6">
                 <q-input dense outlined type="date" label="fechaman" v-model="punto.fechaman" />
               </div>
@@ -167,6 +202,14 @@
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="actividad" v-model="punto.actividad" />
               </div>
+              <div class="col-12">
+                <div class="col-3">
+                  <div class="text-h6">LAMPARA W</div>
+                  <q-input v-model="punto.l70" type="text" label="70" />
+                  <q-input v-model="punto.l150" type="text" label="150" />
+                  <q-input v-model="punto.l250" type="text" label="250" />
+                </div>
+              </div>
               <div class="col-6">
                 <q-input dense outlined type="date" label="fechaman" v-model="punto.fechaman" />
               </div>
@@ -226,6 +269,23 @@ export default {
     this.mispuntos()
   },
   methods:{
+    regActividad(){
+      this.punto.actividad=''
+      if(this.punto.l70!=''&&  this.punto.l70!=undefined && this.punto.l70!=null){ this.punto.actividad+='LAMPARA 70W COD '+ this.punto.l70 +',' }
+      if(this.punto.l150!=''&&  this.punto.l150!=undefined && this.punto.l150!=null){ this.punto.actividad+='LAMPARA 150W COD '+ this.punto.l150 +',' }
+      if(this.punto.l250!=''&&  this.punto.l250!=undefined && this.punto.l250!=null){ this.punto.actividad+='LAMPARA 250W COD '+ this.punto.l250+','  }
+      if(this.punto.r70!=''&&  this.punto.r70!=undefined && this.punto.r70!=null){ this.punto.actividad+=' REACTOR 70W COD '+ this.punto.r70 +',' }
+      if(this.punto.r150!=''&&  this.punto.r150!=undefined && this.punto.r150!=null){ this.punto.actividad+=' REACTOR 150W COD '+ this.punto.r150+','  }
+      if(this.punto.r250!=''&&  this.punto.r250!=undefined && this.punto.r250!=null){ this.punto.actividad+=' REACTOR 250W COD '+ this.punto.r250 +',' }
+      if(this.punto.foto!=''&&  this.punto.foto!=undefined && this.punto.foto!=null){ this.punto.actividad+=' FOTOCELULA FOTO  '+ this.punto.foto +',' }
+      if(this.punto.base!=''&&  this.punto.base!=undefined && this.punto.base!=null){ this.punto.actividad+=' FOTOCELULA BASE  '+ this.punto.base+','  }
+
+      if(this.punto.ignitor!=''&&  this.punto.ignitor!=undefined && this.punto.ignitor!=null){ this.punto.actividad+=' IGNITOR COD '+ this.punto.ignitor +',' }
+      if(this.punto.cable!=''&&  this.punto.cable!=undefined && this.punto.cable!=null){ this.punto.actividad+=' CABLE M/L '+ this.punto.cable +',' }
+      if(this.punto.contactor!=''&&  this.punto.contactor!=undefined && this.punto.contactor!=null && this.punto.contactor!='NO'){ this.punto.actividad+=' SI CONTACTOR,' }
+      if(this.punto.termico!=''&&  this.punto.termico!=undefined && this.punto.termico!=null && this.punto.termico!='NO'){ this.punto.actividad+=' SI TERMICO,' }
+      if(this.punto.soquet!=''&&  this.punto.soquet!=undefined && this.punto.soquet!=null){ this.punto.actividad+=' soquet COD '+ this.punto.soquet +',' }
+    },
     updatedenuncia(){
       this.$q.loading.show()
       this.punto.supervisor=this.$store.state.login.user.name

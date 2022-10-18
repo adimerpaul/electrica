@@ -93,28 +93,28 @@
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="actividad" v-model="punto.actividad" />
               </div>
-              <div class="col-12 row">
-                <div class="col-3">
+              <div class="row">
+                <div class="col-md-3 col-xs-12">
                   <div class="text-h6">LAMPARA W</div>
                   <q-input outlined dense v-model="punto.l70" type="text" label="70W" />
                   <q-input outlined dense v-model="punto.l150" type="text" label="150W" />
                   <q-input outlined dense v-model="punto.l250" type="text" label="250W" />
                   <q-btn dense color="yellow" icon="check" @click="regActividad" />
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-xs-12">
 
                 <div class="text-h6">REACTOR W</div>
                   <q-input outlined dense v-model="punto.r70" type="text" label="70W" />
                   <q-input outlined dense v-model="punto.r150" type="text" label="150W" />
                   <q-input outlined dense v-model="punto.r250" type="text" label="250W" />
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-xs-12">
 
                 <div class="text-h6">FOTOCELULA</div>
                   <q-input outlined dense v-model="punto.foto" type="text" label="Foto" />
                   <q-input outlined dense v-model="punto.base" type="text" label="Base" />
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-xs-12">
 
                 <div class="text-h6">VARIOS</div>
                   <q-input outlined dense v-model="punto.ignitor" type="text" label="IGNITOR" />
@@ -128,10 +128,10 @@
 
 
               </div>
-              <div class="col-6">
+              <div class="col-md-12 col-xs-6">
                 <q-input dense outlined type="date" label="fechaman" v-model="punto.fechaman" />
               </div>
-              <div class="col-6">
+              <div class="col-md-12 col-xs-6">
                 <q-input dense outlined type="time" label="fechaman" v-model="punto.horaman" />
               </div>
               <div class="col-12 flex flex-center">

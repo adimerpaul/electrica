@@ -9,17 +9,29 @@
     </l-map>-->
     <GmapMap
     :center="center"
-    :zoom="15"
+    :zoom="zoom"
     map-type-id="roadmap"
     style="width: 100%; height: 500px"
+    :options="{
+   zoomControl: true,
+   mapTypeControl: true,
+   scaleControl: false,
+   streetViewControl: false,
+   rotateControl: false,
+   fullscreenControl: true,
+   disableDefaultUi: false
+ }"
+
 >
   <GmapMarker
           :key="index"
-          v-for="(m, index) in postes"
+          v-for="(m, index) in puntos"
           :position="m"
           :clickable="true"
+          :title="m.material"
+          :style="background-color"
           :draggable="false"
-          @click="center={lat:m.lat,lng:m.lng}"
+          @click="center={lat:m.lat,lng:m.lng};frmmodalpunto(m)"
   />
 </GmapMap>
     <q-table :data="puntos" :columns="colums" :filter="filter">
@@ -177,7 +189,7 @@ export default {
     },
     clickclientes(c){
       // console.log(c)
-      this.center = [c.lat, c.lng]
+      this.center = {lat:c.lat, lng:c.lng}
       this.zoom= 18
     },
     cambioestado(){
@@ -190,7 +202,7 @@ export default {
       this.$axios.get('poste').then(res=>{
         this.puntos=res.data
         res.data.forEach(r => {
-          this.postes.push({lat:r.lat,lng:r.lng,id:r.id})
+          this.postes.push({lat:r.lat,lng:r.lng,id:r.id,label:'r.id'})
         });
         this.$q.loading.hide()
          console.log(this.puntos)

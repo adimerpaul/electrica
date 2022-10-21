@@ -27,7 +27,6 @@ return new class extends Migration
             $table->double('lng',11,6);
             $table->string('nroposte');
             $table->string('material');
-            $table->date('fecha');
             $table->string('descripcion');
             $table->string('cantidad');
             $table->string('codigo');

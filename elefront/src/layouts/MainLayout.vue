@@ -84,6 +84,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/alumbrado" exact>
+                <q-item-section avatar>
+                  <q-icon name="wb_incandescent" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Alumbrado Publico</q-item-label>
+                  <q-item-label caption>
+                    Ubicacion
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
             </q-card-section>
 
           </q-card>

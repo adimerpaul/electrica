@@ -16,6 +16,7 @@ class PosteController extends Controller
     public function index()
     {
         //
+        return Poste::all();
     }
 
     /**
@@ -71,6 +72,7 @@ class PosteController extends Controller
     public function update(UpdatePosteRequest $request, Poste $poste)
     {
         //
+        return $poste->update($request->all());
     }
 
     /**

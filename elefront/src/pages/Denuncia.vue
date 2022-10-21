@@ -324,6 +324,7 @@ export default {
     mispuntos(){
       this.$q.loading.show()
       this.$axios.get('denuncia').then(res=>{
+        console.log(res.data)
         this.puntos=[]
         this.puntostabla=[]
         res.data.forEach(r=>{
@@ -336,7 +337,7 @@ export default {
           this.puntos.push(r)
         })
         this.$q.loading.hide()
-        // console.log(this.puntos)
+        console.log(this.puntos)
       })
     }
   },

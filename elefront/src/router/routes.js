@@ -4,6 +4,7 @@ import Login from "pages/Login";
 import Mapa from "pages/Mapa";
 import Reportedenuncia from "pages/Reportedenuncia";
 import Alumbrado from "pages/Alumbrado";
+import Informacion from "pages/Informacion";
 
 const routes = [
   {
@@ -16,6 +17,7 @@ const routes = [
       { path: 'mapa', component: Mapa ,meta: {requiresAuth: true}},
       { path: 'reportedenuncia', component: Reportedenuncia ,meta: {requiresAuth: true}},
       { path: 'alumbrado', component: Alumbrado ,meta: {requiresAuth: true}},
+      { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]
   },

@@ -7,10 +7,14 @@
        </l-icon>
       </l-marker>
     </l-map>-->
-    <GmapMap
+    <div class="row col-12">
+      <div class="col-9 "><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
+      <div class="col-3"><q-btn color="green" icon="search" @click="onClick" /></div>
+    </div>
+    <div>
+    <gmap-map
     :center="center"
     :zoom="zoom"
-    map-type-id="roadmap"
     style="width: 100%; height: 500px"
     :options="{
    zoomControl: true,
@@ -21,19 +25,22 @@
    fullscreenControl: true,
    disableDefaultUi: false
  }"
+  >
+    <!-- use the default slot to pass markers to it -->
 
->
-  <GmapMarker
-          :key="index"
-          v-for="(m, index) in puntos"
-          :position="m"
-          :clickable="true"
-          :title="m.material"
-          :style="background-color"
-          :draggable="false"
-          @click="center={lat:m.lat,lng:m.lng};frmmodalpunto(m)"
-  />
-</GmapMap>
+    <gmap-marker
+      v-for="m in datos" :key="m.id"
+      :position="{'lat':m.lat,'lng':m.lng}"
+      :clickable="true"
+      :draggable="false"
+      :title="m.material"
+      icon="p1.png"
+      optimized:true
+      @click="center={'lat':m.lat,'lng':m.lng};punto=m;modalpunto=true "
+    >
+    </gmap-marker>
+    </gmap-map>
+  </div>
     <q-table :data="puntos" :columns="colums" :filter="filter">
 
       <template v-slot:body-cell-potencia="props">
@@ -131,15 +138,36 @@
 
 <script>
 import { QBadge } from 'quasar';
-
-
+import { components } from "gmap-vue";
 
 export default {
   data () {
     return {
+      datos:[],
+      distritos:[
+        {label:'Distrito 1',value:'D1'}, {label:'Distrito 1 Ext',value:'D1 EXT'},
+        {label:'Distrito 2',value:'D2'}, {label:'Distrito 2 Ext',value:'D2 EXT'},
+        {label:'Distrito 3',value:'D3'}, {label:'Distrito 3 Ext',value:'D3 EXT'},
+        {label:'Distrito 4',value:'D4'}, {label:'Distrito 4 Ext',value:'D4 EXT'},
+        {label:'Distrito 5',value:'D5'}, {label:'Distrito 5 Ext',value:'D5 EXT'},
+      ],
+      distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
+
+      kmlLayers:[{url:'colegio.kml'}],
       estados:['ACTIVO','MANTENIMIENTO'],
       postes:[],
+      d1:[],
+      d1e:[],
+      d2:[],
+      d2e:[],
+      d3:[],
+      d3e:[],
+      d4:[],
+      d4e:[],
+      d5:[],
+      d5e:[],
+
       estado:'ACTIVO',
       filter:'',
       colums:[
@@ -167,6 +195,20 @@ export default {
     this.cargar
   },
   methods:{
+    onClick(){
+      switch (this.distrito.value) {
+        case 'D2': this.datos=this.d2;break;
+        case 'D2 EXT': this.datos=this.d2e;break;
+        case 'D4': this.datos=this.d4;break;
+        case 'D4 EXT': this.datos=this.d4e;break;
+        case 'D5': this.datos=this.d5;break;
+        case 'D5 EXT': this.datos=this.d5e;break;
+
+        default:
+          this.datos=[]
+          break;
+      }
+    },
     cargar(){
   // The location of Uluru
   let uluru = { lat: -17.970310, lng: -67.111780 };
@@ -202,13 +244,19 @@ export default {
       this.$axios.get('poste').then(res=>{
         this.puntos=res.data
         res.data.forEach(r => {
-          this.postes.push({lat:r.lat,lng:r.lng,id:r.id,label:'r.id'})
+          if(r.distrito=='D2') this.d2.push(r)
+          if(r.distrito=='D2 EXT') this.d2e.push(r)
+          if(r.distrito=='D4') this.d4.push(r)
+          if(r.distrito=='D4 EXT') this.d4e.push(r)
+          if(r.distrito=='D5') this.d5.push(r)
+          if(r.distrito=='D5 EXT') this.d5e.push(r)
         });
         this.$q.loading.hide()
          console.log(this.puntos)
       })
     }
   },
+
 }
 </script>
 

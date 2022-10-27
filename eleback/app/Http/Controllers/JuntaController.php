@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Poste;
-use App\Http\Requests\StorePosteRequest;
-use App\Http\Requests\UpdatePosteRequest;
+use App\Models\Junta;
+use App\Http\Requests\StoreJuntaRequest;
+use App\Http\Requests\UpdateJuntaRequest;
 
-class PosteController extends Controller
+class JuntaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,6 @@ class PosteController extends Controller
     public function index()
     {
         //
-        return Poste::all();
-    }
-
-    public function listmtto(){
-        return Poste::where('estado','MANTENIMIENTO')->get();
     }
 
     /**
@@ -36,10 +31,10 @@ class PosteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePosteRequest  $request
+     * @param  \App\Http\Requests\StoreJuntaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePosteRequest $request)
+    public function store(StoreJuntaRequest $request)
     {
         //
     }
@@ -47,10 +42,10 @@ class PosteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Poste  $poste
+     * @param  \App\Models\Junta  $junta
      * @return \Illuminate\Http\Response
      */
-    public function show(Poste $poste)
+    public function show(Junta $junta)
     {
         //
     }
@@ -58,10 +53,10 @@ class PosteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Poste  $poste
+     * @param  \App\Models\Junta  $junta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Poste $poste)
+    public function edit(Junta $junta)
     {
         //
     }
@@ -69,25 +64,22 @@ class PosteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePosteRequest  $request
-     * @param  \App\Models\Poste  $poste
+     * @param  \App\Http\Requests\UpdateJuntaRequest  $request
+     * @param  \App\Models\Junta  $junta
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePosteRequest $request, Poste $poste)
+    public function update(UpdateJuntaRequest $request, Junta $junta)
     {
         //
-        $poste=Poste::find($request->id);
-        $poste->estado=$request->estado;
-        return $poste->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Poste  $poste
+     * @param  \App\Models\Junta  $junta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Poste $poste)
+    public function destroy(Junta $junta)
     {
         //
     }

@@ -1,14 +1,45 @@
 <template>
   <q-page>
-    <l-map style="height: 50vh" :zoom="zoom" :center="center">
+   <!-- <l-map style="height: 50vh" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker @click="frmmodalpunto(p)" v-for="p in puntos" :lat-lng="[p.lat,p.lng]" :key="p.id" >
-<!--        <l-icon><q-badge  :class="c.tipo=='PEDIDO'?'bg-green-5  text-italic':c.tipo=='PARADO'?'bg-yellow-5  text-italic':c.tipo=='NO PEDIDO'?'bg-red-5 text-italic':''"  class="q-pa-none" color="info" >{{c.Cod_Aut}}</q-badge></l-icon>-->
+
         <l-icon><q-badge :color="p.estado=='ACTIVO'?'primary':'negative'"  class="q-pa-xs" :label="p.nroposte" /> </l-icon>
       </l-marker>
-    </l-map>
-    <q-table :data="puntos" hide-header :columns="colums" :filter="filter">
-      <template v-slot:body-cell-descripcion="props">
+
+    </l-map>-->
+    <div>
+    <gmap-map
+    :center="center"
+    :zoom="zoom"
+    style="width: 100%; height: 500px"
+    :options="{
+   zoomControl: true,
+   mapTypeControl: true,
+   scaleControl: false,
+   streetViewControl: false,
+   rotateControl: false,
+   fullscreenControl: true,
+   disableDefaultUi: false
+ }"
+  >
+    <!-- use the default slot to pass markers to it -->
+
+    <gmap-marker
+      v-for="m in puntos" :key="m.id"
+      :position="{'lat':m.lat,'lng':m.lng}"
+      :clickable="true"
+      :draggable="false"
+      :title="m.material"
+      icon="p1.png"
+      optimized:true
+      @click="center={'lat':m.lat,'lng':m.lng};punto=m;frmmodalpunto(m); "
+    >
+    </gmap-marker>
+    </gmap-map>
+  </div>
+    <q-table :data="puntos"  :columns="colums" :filter="filter">
+      <template v-slot:body-cell-observacion="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
            <div style="font-size: 0.8em;white-space: initial;" class="text-subtitle2">{{props.row.descripcion}}</div>
         </q-td>
@@ -36,6 +67,7 @@
         </q-input>
       </template>
     </q-table>
+
     <q-dialog
       v-model="modalpunto"
       full-width
@@ -84,13 +116,16 @@ export default {
   data () {
     return {
       modalpunto:false,
+      center: {lat:-17.970310, lng:-67.111780},
       estados:['ACTIVO','MANTENIMIENTO'],
       estado:'ACTIVO',
       filter:'',
       colums:[
         {name:"nroposte",label:"nroposte",field:"nroposte"},
-        {name:"descripcion",label:"descripcion",field:"descripcion"},
+        {name:"observacion",label:"observacion",field:"observacion"},
         {name:"potencia",label:"potencia",field:"potencia"},
+        {name:"material",label:"material",field:"material"},
+        {name:"luminaria",label:"luminaria",field:"luminaria"},
         {name:"ubicacion",label:"ubicacion",field:"ubicacion"},
       ],
       puntos:[],
@@ -99,14 +134,29 @@ export default {
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 13,
-      center: [-17.970310, -67.111780],
       markerLatLng: [-17.970310, -67.111780]
     };
   },
   created() {
     this.mispuntos()
+    this.cargar()
   },
   methods:{
+    cargar(){
+  // The location of Uluru
+  let uluru = { lat: -17.970310, lng: -67.111780 };
+  // The map, centered at Uluru
+  this.map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: uluru,
+  });
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: uluru,
+    map: this.map,
+  });
+
+    },
     frmmodalpunto(p){
       // console.log('a')
       this.modalpunto=true
@@ -114,7 +164,7 @@ export default {
     },
     clickclientes(c){
       // console.log(c)
-      this.center = [c.lat, c.lng]
+      this.center = {'lat':c.lat,'lng': c.lng}
       this.zoom= 18
     },
     cambioestado(){
@@ -123,14 +173,9 @@ export default {
     },
     mispuntos(){
       this.$q.loading.show()
-      this.$axios.get('punto').then(res=>{
+      this.$axios.get('listmtto').then(res=>{
         this.$q.loading.hide()
-        this.puntos=[]
-        res.data.forEach(r=>{
-          if (r.estado=='MANTENIMIENTO'){
-            this.puntos.push(r)
-          }
-        })
+        this.puntos=res.data
         // this.puntos=res.data
         // console.log(this.puntos)
       })

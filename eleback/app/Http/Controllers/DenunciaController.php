@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Denuncia;
 use App\Http\Requests\StoreDenunciaRequest;
 use App\Http\Requests\UpdateDenunciaRequest;
+use Illuminate\Http\Request;
 
 class DenunciaController extends Controller
 {
@@ -27,7 +28,9 @@ class DenunciaController extends Controller
     {
         //
     }
-
+    public function persona(Request $request){
+        return Denuncia::where('ci',$request->ci)->first();
+    }
     /**
      * Store a newly created resource in storage.
      *

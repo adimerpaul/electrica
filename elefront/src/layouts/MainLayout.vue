@@ -42,6 +42,17 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/informacion" exact>
+          <q-item-section avatar>
+            <q-icon name="map" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Datos del Alumbrado</q-item-label>
+            <q-item-label caption>
+              Puntos en el mapa
+            </q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable to="/mantenimiento" exact>
           <q-item-section avatar>
             <q-icon name="my_location" />
@@ -53,7 +64,17 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
+        <q-item clickable to="/alumbrado" exact>
+                <q-item-section avatar>
+                  <q-icon name="wb_incandescent" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Alumbrado Publico</q-item-label>
+                  <q-item-label caption>
+                    Ubicacion
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
         <q-expansion-item
           expand-separator
           icon="perm_identity"
@@ -84,17 +105,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable to="/alumbrado" exact>
-                <q-item-section avatar>
-                  <q-icon name="wb_incandescent" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Alumbrado Publico</q-item-label>
-                  <q-item-label caption>
-                    Ubicacion
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
+
             </q-card-section>
 
           </q-card>

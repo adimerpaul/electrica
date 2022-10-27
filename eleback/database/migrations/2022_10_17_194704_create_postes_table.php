@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('material');
             $table->string('cantidad');
             $table->string('altura');
-            $table->string('junta');
+            $table->string('junta')->nullable();
             $table->string('distrito');
             $table->string('potencia');
-            $table->string('observacion');
+            $table->string('observacion')->nullable();
             $table->string('color');
             $table->string('estado')->default('ACTIVO');
             $table->timestamps();

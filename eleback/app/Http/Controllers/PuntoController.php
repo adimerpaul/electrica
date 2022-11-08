@@ -6,6 +6,8 @@ use App\Models\Punto;
 use App\Http\Requests\StorePuntoRequest;
 use App\Http\Requests\UpdatePuntoRequest;
 
+
+
 class PuntoController extends Controller
 {
     /**
@@ -17,6 +19,7 @@ class PuntoController extends Controller
     {
         return Punto::all();
     }
+
 
     /**
      * Show the form for creating a new resource.

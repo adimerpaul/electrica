@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Poste;
 use App\Http\Requests\StorePosteRequest;
 use App\Http\Requests\UpdatePosteRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PosteController extends Controller
 {
@@ -19,6 +21,37 @@ class PosteController extends Controller
         return Poste::all();
     }
 
+    public function calcularArea(Request $request){
+        $distancia=$request->distancia;
+        $lat1=$request->lat;
+        $lng1=$request->lng;
+        $puntos=Poste::all();
+        //return $puntos;
+        $enviar=array();
+        foreach($puntos as $p){
+            $dist=$this->getDistanceBetweenPointsNew($lat1,$lng1,$p->lat,$p->lng,'kilometers');
+            //return  $dist;
+            if($dist<=$distancia){
+                array_push($enviar,$p);
+            }
+        }
+        return $enviar;
+
+   }
+   function getDistanceBetweenPointsNew($latitude1, $longitude1, $latitude2, $longitude2, $unit = 'kilometers') {
+    $theta = $longitude1 - $longitude2;
+    $distance = (sin(deg2rad($latitude1)) * sin(deg2rad($latitude2))) + (cos(deg2rad($latitude1)) * cos(deg2rad($latitude2)) * cos(deg2rad($theta)));
+    $distance = acos($distance);
+    $distance = rad2deg($distance);
+    $distance = $distance * 60 * 1.1515;
+    switch($unit) {
+      case 'miles':
+        break;
+      case 'kilometers' :
+        $distance = $distance * 1.609344 *1000;
+    }
+    return (round($distance,2));
+  }
     public function listmtto(){
         return Poste::where('estado','MANTENIMIENTO')->get();
     }

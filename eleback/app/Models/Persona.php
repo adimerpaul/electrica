@@ -12,8 +12,7 @@ class Persona extends Model
     "nombre",
     "ci",
     "telefono",
-    "direccion",
-    "zona",
     'distrito',
     'junta_id'];
+    
 }

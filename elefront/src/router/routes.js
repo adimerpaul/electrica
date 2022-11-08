@@ -5,6 +5,7 @@ import Mapa from "pages/Mapa";
 import Reportedenuncia from "pages/Reportedenuncia";
 import Alumbrado from "pages/Alumbrado";
 import Informacion from "pages/Informacion";
+import prueba from "pages/prueba";
 
 const routes = [
   {
@@ -18,6 +19,7 @@ const routes = [
       { path: 'reportedenuncia', component: Reportedenuncia ,meta: {requiresAuth: true}},
       { path: 'alumbrado', component: Alumbrado ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
+      { path: 'prueba', component: prueba},
       { path: 'login', component: Login },
     ]
   },

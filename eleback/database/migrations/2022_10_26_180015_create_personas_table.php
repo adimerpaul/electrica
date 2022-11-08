@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string("nombre")->nullable();
             $table->string("ci")->unique();
             $table->string("telefono")->nullable();
-            $table->string("direccion")->nullable();
-            $table->string("zona")->nullable();
             $table->string('distrito')->nullable();
             $table->unsignedBigInteger('junta_id')->nullable();
             $table->foreign('junta_id')->references('id')->on('juntas');

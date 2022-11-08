@@ -20,8 +20,11 @@ class PersonaController extends Controller
         //
     }
 
-    public function buscarPersona(Request $request){
-        return Persona::where('ci',$request->ci)->first();
+    public function buscarPersona($ci){
+        return Persona::where('ci',$ci)->first();
+    }
+    public function buscarReclamos(Request $request){
+        return Persona::with('reclamos')->where('ci',$request->ci)->first();
     }
     /**
      * Show the form for creating a new resource.
@@ -46,8 +49,6 @@ class PersonaController extends Controller
         $persona->nombre=strtoupper($request->nombre);
         $persona->ci=$request->ci;
         $persona->telefono=$request->telefono;
-        $persona->direccion=$request->direccion;
-        $persona->zona=$request->zona;
         $persona->distrito=$request->distrito;
         $persona->junta_id=$request->junta_id;
         $persona->save();
@@ -88,8 +89,6 @@ class PersonaController extends Controller
         $persona=Persona::find($request->id);
         $persona->nombre=strtoupper($request->nombre);
         $persona->telefono=$request->telefono;
-        $persona->direccion=$request->direccion;
-        $persona->zona=$request->zona;
         $persona->distrito=$request->distrito;
         $persona->junta_id=$request->junta_id;
         $persona->save();

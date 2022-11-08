@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reclamo;
+use App\Models\Persona;
 use App\Http\Requests\StoreReclamoRequest;
 use App\Http\Requests\UpdateReclamoRequest;
+use Mockery\Undefined;
 
 class ReclamoController extends Controller
 {
@@ -37,7 +39,32 @@ class ReclamoController extends Controller
     public function store(StoreReclamoRequest $request)
     {
         //
+        if($request->persona['id']==''){
+            $persona = new Persona;
+            $persona->ci=$request->persona['ci'];
+            $persona->nombre=$request->persona['nombre'];
+            $persona->telefono=$request->persona['telefono'];
+            $persona->distrito=$request->persona['distrito'];
+            $persona->save();
+        }
+        else{
+            $persona = Persona::find($request->persona['id']);
+            $persona->nombre=$request->persona['nombre'];
+            $persona->telefono=$request->persona['telefono'];
+            $persona->distrito=$request->persona['distrito'];
+            $persona->save();
+        }
+
+        $reclamo=new Reclamo();
+        $reclamo->reclamo=$request->reclamo;
+        $reclamo->fecha=$request->fecha;
+        $reclamo->hora=$request->hora;
+        $reclamo->persona_id=$persona->id;
+        $reclamo->poste_id=$request->punto['id'];
+        $reclamo->save();
     }
+
+
 
     /**
      * Display the specified resource.

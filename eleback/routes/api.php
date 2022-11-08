@@ -17,9 +17,12 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
+Route::post('buscarPersona/{ci}',[\App\Http\Controllers\PersonaController::class,'buscarPersona']);
+Route::post('calcularArea',[\App\Http\Controllers\PosteController::class,'calcularArea']);
 Route::post('login',[\App\Http\Controllers\UserController::class,'login']);
 Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
 Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
+Route::resource('/persona',\App\Http\Controllers\PersonaController::class);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);

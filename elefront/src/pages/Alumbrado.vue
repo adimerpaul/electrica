@@ -32,10 +32,10 @@
       v-for="m in datos" :key="m.id"
       :position="{'lat':m.lat,'lng':m.lng}"
       :clickable="true"
+      :icon="'img/'+m.color"
       :draggable="false"
       :title="m.material"
-      icon="p1.png"
-      optimized:true
+      :optimized=true
       @click="center={'lat':m.lat,'lng':m.lng};punto=m;modalpunto=true "
     >
     </gmap-marker>
@@ -79,54 +79,50 @@
     <q-dialog v-model="modalpunto" full-width>
       <q-card>
         <q-card-section>
-          <div class="text-h6">Nro poste {{punto.nroposte}}</div>
+          <div class="text-h6">Nro poste {{punto.nroposte}} latlng ({{punto.lat}},{{punto.lng}})</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
           <q-form>
             <div class="row">
-              <div class="col-12">
-                <!--                <q-input dense outlined label="estado" v-model="punto.estado" />-->
-                <q-select @input="cambioestado()" dense outlined label="estado" :options="estados" v-model="punto.estado" />
+
+              <div class="col-4">
+                <q-input dense outlined label="Nro Poste" v-model="punto.nroposte" readonly />
+              </div>
+              <div class="col-4">
+                <q-input dense outlined label="Potencia" v-model="punto.potencia" readonly/>
+              </div>
+              <div class="col-4">
+                <q-input dense outlined label="Material" v-model="punto.material" readonly/>
+              </div>
+              <div class="col-4">
+                <q-input dense outlined label="Luminaria" v-model="punto.luminaria" readonly/>
+              </div>
+              <div class="col-4">
+                <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" readonly/>
               </div>
 
-              <div class="col-6">
-                <q-input dense outlined label="nroposte" v-model="punto.nroposte" />
-              </div>
-              <div class="col-6">
-                <q-input dense outlined label="potencia" v-model="punto.potencia" />
-              </div>
-              <div class="col-6">
-                <q-input dense outlined label="material" v-model="punto.material" />
-              </div>
-              <div class="col-6">
-                <q-input dense outlined label="lat" v-model="punto.lat" />
-              </div>
-              <div class="col-6">
-                <q-input dense outlined label="lng" v-model="punto.lng" />
+              <div class="col-4">
+                <q-input dense outlined label="Junta Vec" v-model="punto.junta" readonly/>
               </div>
 
-              <div class="col-6">
-                <q-input dense outlined label="cantidad" v-model="punto.cantidad" />
-              </div>
-
-              <div class="col-6">
-                <q-input dense outlined label="junta" v-model="punto.junta" />
-              </div>
-
-              <div class="col-6">
-                <q-input dense outlined label="distrito" v-model="punto.distrito" />
+              <div class="col-4">
+                <q-input dense outlined label="Distrito" v-model="punto.distrito" readonly/>
               </div>
 
               <div class="col-12">
-                <q-input dense outlined label="observacion" v-model="punto.observacion" />
+                <q-input dense outlined label="Observacion" v-model="punto.observacion" readonly/>
+              </div>
+              <div class="col-12">
+                <q-input dense outlined  v-model="mantenimiento" type="text" label="Motivo Mantenimiento" />
               </div>
             </div>
           </q-form>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat label="OK" v-close-popup />
+          <q-btn flat label="Mantenimiento" color="accent" />
+          <q-btn flat label="cerrar" color="green" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -144,13 +140,14 @@ export default {
   data () {
     return {
       datos:[],
-      distritos:[
-        {label:'Distrito 1',value:'D1'}, {label:'Distrito 1 Ext',value:'D1 EXT'},
-        {label:'Distrito 2',value:'D2'}, {label:'Distrito 2 Ext',value:'D2 EXT'},
-        {label:'Distrito 3',value:'D3'}, {label:'Distrito 3 Ext',value:'D3 EXT'},
-        {label:'Distrito 4',value:'D4'}, {label:'Distrito 4 Ext',value:'D4 EXT'},
-        {label:'Distrito 5',value:'D5'}, {label:'Distrito 5 Ext',value:'D5 EXT'},
-      ],
+      mantenimiento:'',
+        distritos:[
+          {label:'Distrito 1',value:'D1'}, {label:'Distrito 1 Ext',value:'D1 EXT'},
+          {label:'Distrito 2',value:'D2'}, {label:'Distrito 2 Ext',value:'D2 EXT'},
+          {label:'Distrito 3',value:'D3'}, {label:'Distrito 3 Ext',value:'D3 EXT'},
+          {label:'Distrito 4',value:'D4'}, {label:'Distrito 4 Ext',value:'D4 EXT'},
+          {label:'Distrito 5',value:'D5'}, {label:'Distrito 5 Ext',value:'D5 EXT'},
+        ],
       distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
 
@@ -245,7 +242,7 @@ export default {
         this.puntos=res.data
         res.data.forEach(r => {
           if(r.distrito=='D2') this.d2.push(r)
-          if(r.distrito=='D2 EXT') this.d2e.push(r)
+          if(r.distrito=='D2 EXT') this.d2.push(r)
           if(r.distrito=='D4') this.d4.push(r)
           if(r.distrito=='D4 EXT') this.d4e.push(r)
           if(r.distrito=='D5') this.d5.push(r)

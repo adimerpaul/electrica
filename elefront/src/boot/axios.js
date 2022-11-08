@@ -7,7 +7,7 @@ Vue.use(GmapVue, {
     key: 'AIzaSyCmOdLL-xpg_9JWBByO-KhaaK6WShc11LI',
     // [OPTIONAL] This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
-    // OR: libraries: 'places,drawing,visualization'
+    // OR: libraries: 'places,drawing,visualpization'
     // (as you require)
     libraries: 'places',
 
@@ -37,31 +37,32 @@ Vue.use(GmapVue, {
   // Load the Google Maps API dynamically, if you set this to `true` the plugin doesn't load the Google Maps API
   dynamicLoad: false,
 })
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyBXoCUdCBDilSwYQ8ryGAJQagi49o4Fpn0',
-    libraries: 'places', // This is required if you use the Autocomplete plugin
-    // OR: libraries: 'places,drawing'
-    // OR: libraries: 'places,drawing,visualization'
-    // (as you require)
 
-    //// If you want to set the version, you can do so:
-    // v: '3.26',
-  },
+  Vue.use(VueGoogleMaps, {
+    load: {
+      key: 'AIzaSyBXoCUdCBDilSwYQ8ryGAJQagi49o4Fpn0',
+      libraries: 'places', // This is required if you use the Autocomplete plugin
+      // OR: libraries: 'places,drawing'
+      // OR: libraries: 'places,drawing,visualization'
+      // (as you require)
 
-  //// If you intend to programmatically custom event listener code
-  //// (e.g. `this.$refs.gmap.$on('zoom_changed', someFunc)`)
-  //// instead of going through Vue templates (e.g. `<GmapMap @zoom_changed="someFunc">`)
-  //// you might need to turn this on.
-  // autobindAllEvents: false,
+      //// If you want to set the version, you can do so:
+      // v: '3.26',
+    },
 
-  //// If you want to manually install components, e.g.
-  //// import {GmapMarker} from '@coderstm/quasar-google-maps/src/components/marker'
-  //// Vue.component('GmapMarker', GmapMarker)
-  //// then set installComponents to 'false'.
-  //// If you want to automatically install all the components this property must be set to 'true':
-  installComponents: true
-})
+    //// If you intend to programmatically custom event listener code
+    //// (e.g. `this.$refs.gmap.$on('zoom_changed', someFunc)`)
+    //// instead of going through Vue templates (e.g. `<GmapMap @zoom_changed="someFunc">`)
+    //// you might need to turn this on.
+    // autobindAllEvents: false,
+
+    //// If you want to manually install components, e.g.
+    //// import {GmapMarker} from '@coderstm/quasar-google-maps/src/components/marker'
+    //// Vue.component('GmapMarker', GmapMarker)
+    //// then set installComponents to 'false'.
+    //// If you want to automatically install all the components this property must be set to 'true':
+    installComponents: true
+  })
 import axios from 'axios'
 // import Vue from 'vue';
 import { LMap, LTileLayer, LMarker,LIcon } from 'vue2-leaflet';

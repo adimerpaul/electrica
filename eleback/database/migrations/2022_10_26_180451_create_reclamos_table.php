@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string("tecnico")->nullable();
             $table->string("supervisor")->nullable();
             $table->string("actividad")->nullable();
-            
+            $table->string('tipo')->default('RECLAMO');
+
             $table->unsignedBigInteger('persona_id')->nullable();
             $table->foreign('persona_id')->references('id')->on('personas');
             $table->unsignedBigInteger('poste_id');

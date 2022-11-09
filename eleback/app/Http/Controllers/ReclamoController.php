@@ -30,6 +30,9 @@ class ReclamoController extends Controller
         //
     }
 
+    public function consultaReclamo(){
+        
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -39,19 +42,18 @@ class ReclamoController extends Controller
     public function store(StoreReclamoRequest $request)
     {
         //
+        //return $request->persona['id'];
         if($request->persona['id']==''){
             $persona = new Persona;
-            $persona->ci=$request->persona['ci'];
-            $persona->nombre=$request->persona['nombre'];
+            $persona->ci=strtoupper($request->persona['ci']);
+            $persona->nombre=strtoupper($request->persona['nombre']);
             $persona->telefono=$request->persona['telefono'];
-            $persona->distrito=$request->persona['distrito'];
             $persona->save();
         }
         else{
             $persona = Persona::find($request->persona['id']);
-            $persona->nombre=$request->persona['nombre'];
+            $persona->nombre=strtoupper($request->persona['nombre']);
             $persona->telefono=$request->persona['telefono'];
-            $persona->distrito=$request->persona['distrito'];
             $persona->save();
         }
 

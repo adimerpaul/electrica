@@ -25,6 +25,19 @@ return new class extends Migration
             $table->string("supervisor")->nullable();
             $table->string("actividad")->nullable();
             $table->string('tipo')->default('RECLAMO');
+            $table->string("l70")->nullable();
+            $table->string("l150")->nullable();
+            $table->string("l250")->nullable();
+            $table->string("r70")->nullable();
+            $table->string("r150")->nullable();
+            $table->string("r250")->nullable();
+            $table->string("foto")->nullable();
+            $table->string("base")->nullable();
+            $table->string("ignitor")->nullable();
+            $table->string("cable")->nullable();
+            $table->string("contactor")->default('NO')->nullable();
+            $table->string("termico")->default('NO')->nullable();
+            $table->string("soquet")->nullable();
 
             $table->unsignedBigInteger('persona_id')->nullable();
             $table->foreign('persona_id')->references('id')->on('personas');

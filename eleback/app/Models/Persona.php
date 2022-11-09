@@ -11,8 +11,11 @@ class Persona extends Model
     protected $fillable=[
     "nombre",
     "ci",
-    "telefono",
-    'distrito',
-    'junta_id'];
-    
+    "telefono"
+    ];
+
+    public function reclamos()
+    {
+        return $this->hasMany(Reclamo::class)->with('poste');
+    }
 }

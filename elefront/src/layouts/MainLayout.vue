@@ -78,12 +78,24 @@
 
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>
-                  <q-icon name="engine" />
+                  <q-icon name="engineering" />
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Demo Reclamo</q-item-label>
                   <q-item-label caption>
-                    Nuevo sistema 
+                    Nuevo sistema
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable to="/prueba2" exact>
+                <q-item-section avatar>
+                  <q-icon name="engineering" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Demo Consulta</q-item-label>
+                  <q-item-label caption>
+                    Nuevo sistema
                   </q-item-label>
                 </q-item-section>
               </q-item>

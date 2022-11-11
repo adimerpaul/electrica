@@ -6,6 +6,7 @@ import Reportedenuncia from "pages/Reportedenuncia";
 import Alumbrado from "pages/Alumbrado";
 import Informacion from "pages/Informacion";
 import prueba from "pages/prueba";
+import prueba2 from "pages/prueba2";
 import Reclamo from "pages/Reclamo";
 
 const routes = [
@@ -22,6 +23,7 @@ const routes = [
       { path: 'reclamos', component: Reclamo ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'prueba', component: prueba},
+      { path: 'prueba2', component: prueba2},
       { path: 'login', component: Login },
     ]
   },

@@ -75,6 +75,19 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-item clickable to="/prueba" exact>
+                <q-item-section avatar>
+                  <q-icon name="engine" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Demo Reclamo</q-item-label>
+                  <q-item-label caption>
+                    Nuevo sistema 
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
         <q-expansion-item
           expand-separator
           icon="perm_identity"

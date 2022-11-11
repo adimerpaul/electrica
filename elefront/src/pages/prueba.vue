@@ -4,19 +4,20 @@
       <div class="q-pa-md col-md-6 col-xs-12">
         <div  style="width:100%;">
         <q-banner rounded class="bg-green text-white text-h5" style="width:100%; text-align: center; ">
-         REGISTRO RECLAMOS
+         <div class="text-h6">REGISTRO RECLAMOS</div>
+
     </q-banner></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.ci"
-          label="Cedula de Identidad" @keyup="buscar"/></div>
+          label="Cedula de Identidad" @change="buscar"/></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.nombre" type="text" label="Nombre Completo" /></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.telefono" type="text" label="Celular" /></div>
-        <div class="q-pa-xs"><q-btn color="teal" icon="my_location"  @click="geolocate()" />{{ubicacion}}</div>
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
         <gmap-map
     :center="center"
     :zoom="zoom"
     style="width: 100%; height: 500px"
+    @click="handleMarkerDrag"
     :options="{
    zoomControl: true,
    mapTypeControl: true,
@@ -107,6 +108,9 @@ export default {
     //this.mispuntos()
   },
   methods:{
+    handleMarkerDrag(e) {
+      this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    },
     cargarUbicacion(){
       this.$axios.post('calcularArea',{lat:this.ubicacion.lat,lng:this.ubicacion.lng,distancia:200}).then(res=>{
           console.log(res.data)
@@ -136,7 +140,15 @@ export default {
       this.denuncia.punto=this.punto
       this.$axios.post('reclamo',this.denuncia).then(res=>{
         console.log(res.data)
+
+        this.dialogReclamo=false
+        this.$q.notify({
+          message: 'Su Reclamo fue Registrado',
+          color: 'green',
+          icon:'info'
+        })
       })
+      this.denuncia.reclamo=''
 
     },
     seleccionar(){
@@ -180,9 +192,8 @@ export default {
           this.persona=res.data
         }
         else{
-          this.persona.id=''
-          this.persona.nombre=''
-          this.persona.telefono=''
+          this.persona={}
+          this.persona.ci=carnet
         }
 
       })

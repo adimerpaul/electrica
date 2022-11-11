@@ -40,4 +40,9 @@ class Reclamo extends Model
     {
         return $this->belongsTo(Poste::class);
     }
+
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class);
+    }
 }

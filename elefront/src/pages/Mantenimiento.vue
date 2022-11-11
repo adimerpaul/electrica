@@ -139,24 +139,10 @@ export default {
   },
   created() {
     this.mispuntos()
-    this.cargar()
+    //this.cargar()
   },
   methods:{
-    cargar(){
-  // The location of Uluru
-  let uluru = { lat: -17.970310, lng: -67.111780 };
-  // The map, centered at Uluru
-  this.map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
-    center: uluru,
-  });
-  // The marker, positioned at Uluru
-  const marker = new google.maps.Marker({
-    position: uluru,
-    map: this.map,
-  });
-
-    },
+ 
     frmmodalpunto(p){
       // console.log('a')
       this.modalpunto=true

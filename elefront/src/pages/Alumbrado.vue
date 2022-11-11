@@ -102,14 +102,6 @@
                 <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" readonly/>
               </div>
 
-              <div class="col-4">
-                <q-input dense outlined label="Junta Vec" v-model="punto.junta" readonly/>
-              </div>
-
-              <div class="col-4">
-                <q-input dense outlined label="Distrito" v-model="punto.distrito" readonly/>
-              </div>
-
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" readonly/>
               </div>
@@ -142,11 +134,11 @@ export default {
       datos:[],
       mantenimiento:'',
         distritos:[
-          {label:'Distrito 1',value:'D1'}, {label:'Distrito 1 Ext',value:'D1 EXT'},
-          {label:'Distrito 2',value:'D2'}, {label:'Distrito 2 Ext',value:'D2 EXT'},
-          {label:'Distrito 3',value:'D3'}, {label:'Distrito 3 Ext',value:'D3 EXT'},
-          {label:'Distrito 4',value:'D4'}, {label:'Distrito 4 Ext',value:'D4 EXT'},
-          {label:'Distrito 5',value:'D5'}, {label:'Distrito 5 Ext',value:'D5 EXT'},
+          {label:'Distrito 1',value:'D1'},
+          {label:'Distrito 2',value:'D2'},
+          {label:'Distrito 3',value:'D3'},
+          {label:'Distrito 4',value:'D4'},
+          {label:'Distrito 5',value:'D5'},
         ],
       distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
@@ -192,14 +184,15 @@ export default {
     this.cargar
   },
   methods:{
+
     onClick(){
+      console.log(this.distrito.value)
       switch (this.distrito.value) {
+        case 'D1': this.datos=this.d1;break;
         case 'D2': this.datos=this.d2;break;
-        case 'D2 EXT': this.datos=this.d2e;break;
+        case 'D3': this.datos=this.d3;break;
         case 'D4': this.datos=this.d4;break;
-        case 'D4 EXT': this.datos=this.d4e;break;
         case 'D5': this.datos=this.d5;break;
-        case 'D5 EXT': this.datos=this.d5e;break;
 
         default:
           this.datos=[]
@@ -243,10 +236,11 @@ export default {
         res.data.forEach(r => {
           if(r.distrito=='D2') this.d2.push(r)
           if(r.distrito=='D2 EXT') this.d2.push(r)
+          if(r.distrito=='D3') this.d3.push(r)
           if(r.distrito=='D4') this.d4.push(r)
-          if(r.distrito=='D4 EXT') this.d4e.push(r)
+          if(r.distrito=='D4 EXT') this.d4.push(r)
           if(r.distrito=='D5') this.d5.push(r)
-          if(r.distrito=='D5 EXT') this.d5e.push(r)
+          if(r.distrito=='D5 EXT') this.d5.push(r)
         });
         this.$q.loading.hide()
          console.log(this.puntos)

@@ -26,10 +26,12 @@ Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
 Route::resource('/persona',\App\Http\Controllers\PersonaController::class);
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
+    Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::get('listmtto',[\App\Http\Controllers\PosteController::class,'listmtto']);
+    Route::get('listAtencion',[\App\Http\Controllers\ReclamoController::class,'listAtencion']);
     Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
 
 });

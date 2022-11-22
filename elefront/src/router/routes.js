@@ -29,8 +29,8 @@ const routes = [
       { path: 'login', component: Login },
     ]
   },
-  {path:'/reclamprueba',component:prueba},
-  {path:'/consultaprueba',component:prueba2},
+  {path:'/reclamoalumbrado',component:prueba},
+  {path:'/consulta',component:prueba2},
 
   // Always leave this as last one,
   // but you can also remove it

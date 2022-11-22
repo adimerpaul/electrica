@@ -28,6 +28,12 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
     Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
+        Route::resource('/user',\App\Http\Controllers\UserController::class);
+        Route::resource('/tecnico',\App\Http\Controllers\TecnicoController::class);
+        Route::put('/updatePassword/{user}',[\App\Http\Controllers\UserController::class,'updatePassword']);
+        Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);
+        Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
+
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::get('listmtto',[\App\Http\Controllers\PosteController::class,'listmtto']);

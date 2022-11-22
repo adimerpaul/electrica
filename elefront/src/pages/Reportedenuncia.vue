@@ -103,6 +103,11 @@ export default {
       ]
     }
   },
+  created(){
+    if (!this.$store.state.login.boolreporte){
+       this.$router.replace({ path: '/' })
+    }
+  },
   methods:{
     exportTable () {
       // naive encoding to csv format

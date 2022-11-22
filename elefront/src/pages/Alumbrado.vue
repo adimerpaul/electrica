@@ -179,7 +179,9 @@ export default {
     };
   },
   created() {
-
+    if (!this.$store.state.login.boolgeneral){
+       this.$router.replace({ path: '/' })
+    }
     this.mispuntos()
     this.cargar
   },

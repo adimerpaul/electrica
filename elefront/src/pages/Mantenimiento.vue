@@ -138,11 +138,14 @@ export default {
     };
   },
   created() {
+    if (!this.$store.state.login.boolmtto){
+       this.$router.replace({ path: '/' })
+    }
     this.mispuntos()
     //this.cargar()
   },
   methods:{
- 
+
     frmmodalpunto(p){
       // console.log('a')
       this.modalpunto=true

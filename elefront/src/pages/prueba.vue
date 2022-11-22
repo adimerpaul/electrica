@@ -1,5 +1,18 @@
 <template>
-  <q-page >
+<q-layout view="lHh Lpr lFf">
+  <q-header elevated>
+    <q-toolbar>
+
+
+      <q-toolbar-title>
+        <q-img src="logo.png" style="width: 30px"/>
+      </q-toolbar-title>
+      <div>
+      </div>
+    </q-toolbar>
+  </q-header>
+  <q-page-container>
+    <q-page >
     <div class="row" :style="backgroundDiv">
       <div class="q-pa-md col-md-6 col-xs-12">
         <div  style="width:100%;">
@@ -77,6 +90,9 @@
       </q-card>
     </q-dialog>
   </q-page>
+
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>

@@ -8,6 +8,8 @@ import Informacion from "pages/Informacion";
 import prueba from "pages/prueba";
 import prueba2 from "pages/prueba2";
 import Reclamo from "pages/Reclamo";
+import User from "pages/User";
+import Tecnicos from "pages/Tecnicos";
 
 const routes = [
   {
@@ -21,12 +23,14 @@ const routes = [
       { path: 'reportedenuncia', component: Reportedenuncia ,meta: {requiresAuth: true}},
       { path: 'alumbrado', component: Alumbrado ,meta: {requiresAuth: true}},
       { path: 'reclamos', component: Reclamo ,meta: {requiresAuth: true}},
+      { path: 'usuarios', component: User ,meta: {requiresAuth: true}},
+      { path: 'tecnicos', component: Tecnicos ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
-      { path: 'prueba', component: prueba},
-      { path: 'prueba2', component: prueba2},
       { path: 'login', component: Login },
     ]
   },
+  {path:'/reclamprueba',component:prueba},
+  {path:'/consultaprueba',component:prueba2},
 
   // Always leave this as last one,
   // but you can also remove it

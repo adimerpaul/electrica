@@ -1,4 +1,17 @@
 <template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated>
+      <q-toolbar>
+
+
+        <q-toolbar-title>
+          <q-img src="logo.png" style="width: 30px"/>
+        </q-toolbar-title>
+        <div>
+        </div>
+      </q-toolbar>
+    </q-header>
+    <q-page-container>
   <q-page class="">
 
     <div class="row">
@@ -6,7 +19,7 @@
         <q-form @submit.prevent="buscar">
           <div class="row">
             <div class="col-12 col-md-10 q-pa-xs">
-              <q-input  outlined dense label="Ingrese numero de poste/ carnet" v-model="codigo"/>
+              <q-input  outlined dense label="Ingrese numero de carnet" v-model="codigo"/>
             </div>
             <div class="col-12 col-md-2 q-pa-xs flex flex-center">
               <q-btn class="full-width" label="Buscar" color="primary" icon="send" type="submit" />
@@ -30,6 +43,9 @@
       </div>
     </div>
   </q-page>
+
+</q-page-container>
+  </q-layout>
 </template>
 
 <script>

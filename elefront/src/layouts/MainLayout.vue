@@ -28,10 +28,36 @@
       content-class="bg-grey-1"
     >
       <q-list>
+
         <q-item-label header class="text-grey-8">
           Opciones de menu
         </q-item-label>
-        <q-item clickable to="/" exact>
+
+        <q-item clickable to="usuarios" exact v-if="$store.state.login.boolusuario">
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Usuarios</q-item-label>
+            <q-item-label caption>
+              Gestion User
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="usuarios" exact v-if="$store.state.login.boolusuario">
+          <q-item-section avatar>
+            <q-icon name="engineering" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Tecnicos</q-item-label>
+            <q-item-label caption>
+              Gestion Tecnicos
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="/" exact >
           <q-item-section avatar>
             <q-icon name="list" />
           </q-item-section>
@@ -42,7 +68,8 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/informacion" exact>
+
+        <q-item clickable to="/informacion" exact v-if="$store.state.login.boolgeneral">
           <q-item-section avatar>
             <q-icon name="map" />
           </q-item-section>
@@ -53,7 +80,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/mantenimiento" exact>
+        <q-item clickable to="/mantenimiento" exact v-if="$store.state.login.boolmtto">
           <q-item-section avatar>
             <q-icon name="my_location" />
           </q-item-section>
@@ -64,7 +91,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/alumbrado" exact>
+        <q-item clickable to="/alumbrado" exact v-if="$store.state.login.booldistrito">
                 <q-item-section avatar>
                   <q-icon name="wb_incandescent" />
                 </q-item-section>
@@ -75,7 +102,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-
+<!--
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>
                   <q-icon name="engineering" />
@@ -99,16 +126,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-
+-->
         <q-expansion-item
           expand-separator
           icon="perm_identity"
           label="Denuncias"
           caption="Denuncias de contribuyente"
+          v-if="$store.state.login.booldenuncia || $store.state.login.boolreporte"
         >
           <q-card>
             <q-card-section>
-              <q-item clickable to="/denuncia" exact>
+              <q-item clickable to="/denuncia" exact v-if="$store.state.login.booldenuncia">
                 <q-item-section avatar>
                   <q-icon name="cell_tower" />
                 </q-item-section>
@@ -119,7 +147,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable to="/reportedenuncia" exact>
+              <q-item clickable to="/reportedenuncia" exact v-if="$store.state.login.boolreporte">
                 <q-item-section avatar>
                   <q-icon name="print" />
                 </q-item-section>
@@ -167,15 +195,15 @@ export default {
   },
   created() {
     const token = localStorage.getItem('tokenelec')
-// console.log(token)
+ console.log(token)
     if (token) {
       // console.log('a')
       this.$axios.defaults.headers.common['Authorization'] = 'Bearer '+token
       // axios.defaults.headers.common['Authorization'] = 'Bearer '+token
       this.$axios.post(process.env.API+'me').then(res=>{
-        // console.log(res.data);
+         console.log(res.data);
         // return false;
-        // store.state.user=res.data;
+        this.$store.state.user=res.data;
         this.$store.commit('login/auth_success', {token:token,user:res.data})
       })
       .catch(err=>{

@@ -203,15 +203,15 @@ export default {
     },
     login () {
       this.$q.loading.show()
-      this.$store.dispatch('login/login', { email:this.email, password:this.password }).then(() =>{
+      this.$store.dispatch('login/login', { email:this.email, password:this.password }).then((res) =>{
         this.$q.loading.hide()
         this.$router.push('/')
       })
         .catch(err => {
           this.$q.loading.hide();
-          console.log(err.response.data.res)
+          console.log(err.response.data.message)
           this.$q.notify({
-            message:err.response.data.res,
+            message:err.response.data.message,
             color:'red',
             icon:'error'
           })

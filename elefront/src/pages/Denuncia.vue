@@ -266,6 +266,9 @@ export default {
     };
   },
   created() {
+    if (!this.$store.state.login.booldenuncia){
+       this.$router.replace({ path: '/' })
+    }
     this.mispuntos()
   },
   methods:{

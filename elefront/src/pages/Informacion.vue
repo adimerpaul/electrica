@@ -56,7 +56,10 @@ export default {
     };
   },
   created() {
-
+      //console.log(this.$store.state.login.boolpuntos)
+    if (!this.$store.state.login.boolpuntos){
+       this.$router.replace({ path: '/' })
+    }
   },
   methods:{
     cargar(){

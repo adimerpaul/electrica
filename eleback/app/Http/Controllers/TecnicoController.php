@@ -38,6 +38,11 @@ class TecnicoController extends Controller
     public function store(StoreTecnicoRequest $request)
     {
         //
+        $tecnico=new Tecnico();
+        $tecnico->ci=strtoupper($request->ci);
+        $tecnico->nombre=strtoupper($request->nombre);
+        $tecnico->telefono=$request->telefono;
+        $tecnico->save();
     }
 
     /**
@@ -72,6 +77,11 @@ class TecnicoController extends Controller
     public function update(UpdateTecnicoRequest $request, Tecnico $tecnico)
     {
         //
+        $tecnico=Tecnico::find($request->id);
+        $tecnico->ci=strtoupper($request->ci);
+        $tecnico->nombre=strtoupper($request->nombre);
+        $tecnico->telefono=$request->telefono;
+        $tecnico->save();
     }
 
     /**
@@ -83,5 +93,6 @@ class TecnicoController extends Controller
     public function destroy(Tecnico $tecnico)
     {
         //
+        $tecnico->delete();
     }
 }

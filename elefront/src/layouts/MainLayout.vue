@@ -45,7 +45,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="usuarios" exact v-if="$store.state.login.boolusuario">
+        <q-item clickable to="tecnicos" exact v-if="$store.state.login.boolusuario">
           <q-item-section avatar>
             <q-icon name="engineering" />
           </q-item-section>

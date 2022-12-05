@@ -44,6 +44,7 @@
       <template v-slot:body-cell-ubicacion="props">
         <q-td :props="props">
           <q-btn :color="props.row.estado=='ACTIVO'?'primary':'negative'" @click="clickclientes(props.row)"  icon="place" size="xs" />
+          <q-btn color="info" icon="print" dense  @click="printReclamo(props.row)" />
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -156,12 +157,15 @@
 
       </q-card>
     </q-dialog>
+  <div id="myelement" class="hidden"></div>
+
     </q-page>
 </template>
 
 <script>
 
 import {date} from "quasar";
+import {Printd} from "printd";
 
 export default {
   data () {
@@ -191,6 +195,71 @@ export default {
     this.mispuntos()
   },
   methods:{
+    async printReclamo(recl) {
+      let cadena = "<style>\
+      .titulo{\
+      font-size: 10px;\
+      text-align: center;\
+      font-weight: bold;\
+      }\
+      .titulo2{\
+      font-size: 10px;\
+      font-weight: bold;\
+      text-align: center;\
+      }\
+            .titulo3{\
+      font-size: 9px;\
+      text-align: center;\
+      width:70%;\
+      }\
+            .contenido{\
+      font-size: 9px;\
+      text-align: left;\
+      }\
+      .conte2{\
+      font-size: 9px;\
+      text-align: right;\
+      }\
+      .campotd{\
+      text-align: center;\
+      }\
+      .titder{\
+      font-size: 10px;\
+      text-align: right;\
+      font-weight: bold;\
+      }\
+      hr{\
+  border-top: 1px dashed   ;\
+}\
+  table{\
+    width:100%\
+  }\
+  h1 {\
+    color: black;\
+    font-family: sans-serif;\
+  }</style>\
+    <div id='myelement' style='background-image:url(logo3.png);background-repeat: no-repeat; background-size: 30px 60px;'>\
+      <div class='titulo2'>\
+        GOBIERNO AUTONOMO MUNICIPAL DE ORURO<br>\
+        UNIDAD DE ALUMBRADO PUBLICO <br>Y SERVICIOS ELECTRICOS<br>\
+        Reclamo Nro: "+recl.id+"<br>\
+        Oruro\
+      </div>\
+      <hr>\
+      <table>\
+        <tr><td class='titder'>FECHA REGISTRO:</td><td class='contenido'>" + recl.fecha + "</td></tr>\
+        <tr><td class='titder'>CI:</td><td class='contenido'>" + recl.persona.ci + "</td></tr>\
+        <tr><td class='titder'>NOMBRE:</td><td class='contenido'>" + recl.persona.nombre + "</td></tr>\
+        <tr><td class='titder'>TELEFONO:</td><td class='contenido'>" + recl.persona.telefono + "</td></tr>\
+      </table>\
+      <hr>\
+      <div class='titulo'>DETALLE RECLAMO</div>\
+      <div  class='contenido'>"+recl.reclamo+"</div></div>            "
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+
+    },
     regActividad(){
       this.punto.actividad=''
       if(this.punto.l70!=''&&  this.punto.l70!=undefined && this.punto.l70!=null){ this.punto.actividad+='LAMPARA 70W COD '+ this.punto.l70 +',' }

@@ -30,7 +30,7 @@ class UserController extends Controller
         //            ->with('unid')
                     ->with('permisos')
                     ->firstOrFail();
-                return $user;   
+                return $user;
     }
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
@@ -90,7 +90,7 @@ class UserController extends Controller
         $user->permisos()->attach($permiso);
     }
     public function destroy(User $user)
-    {
+{   
         $user->delete();
     }
 }

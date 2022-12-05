@@ -233,6 +233,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
   </q-page>
 </template>
 
@@ -272,6 +273,7 @@ export default {
     this.mispuntos()
   },
   methods:{
+
     regActividad(){
       this.punto.actividad=''
       if(this.punto.l70!=''&&  this.punto.l70!=undefined && this.punto.l70!=null){ this.punto.actividad+='LAMPARA 70W COD '+ this.punto.l70 +',' }

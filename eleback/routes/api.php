@@ -35,6 +35,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
         Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
 
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
+    Route::post('upPoste',[\App\Http\Controllers\PosteController::class,'upPoste']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::get('listmtto',[\App\Http\Controllers\PosteController::class,'listmtto']);
     Route::get('listAtencion',[\App\Http\Controllers\ReclamoController::class,'listAtencion']);

@@ -90,6 +90,7 @@
       </q-card>
     </q-dialog>
   </q-page>
+  <div id="myelement" class="hidden"></div>
 
     </q-page-container>
   </q-layout>
@@ -97,6 +98,7 @@
 
 <script>
 import {date} from "quasar";
+import {Printd} from "printd";
 
 export default {
   name: 'PageIndex',
@@ -124,6 +126,72 @@ export default {
     //this.mispuntos()
   },
   methods:{
+    async printReclamo(recl) {
+      let cadena = "<style>\
+      .titulo{\
+      font-size: 10px;\
+      text-align: center;\
+      font-weight: bold;\
+      }\
+      .titulo2{\
+      font-size: 10px;\
+      font-weight: bold;\
+      text-align: center;\
+      }\
+            .titulo3{\
+      font-size: 9px;\
+      text-align: center;\
+      width:70%;\
+      }\
+            .contenido{\
+      font-size: 9px;\
+      text-align: left;\
+      }\
+      .conte2{\
+      font-size: 9px;\
+      text-align: right;\
+      }\
+      .campotd{\
+      text-align: center;\
+      }\
+      .titder{\
+      font-size: 10px;\
+      text-align: right;\
+      font-weight: bold;\
+      }\
+      hr{\
+  border-top: 1px dashed   ;\
+}\
+  table{\
+    width:100%\
+  }\
+  h1 {\
+    color: black;\
+    font-family: sans-serif;\
+  }</style>\
+    <div id='myelement' style='background-image:url(logo3.png);background-repeat: no-repeat; background-size: 30px 60px;'>\
+      <div class='titulo2'>\
+        GOBIERNO AUTONOMO MUNICIPAL DE ORURO<br>\
+        UNIDAD DE ALUMBRADO PUBLICO <br>Y SERVICIOS ELECTRICOS<br>\
+        Reclamo Nro: "+recl.id+"<br>\
+        Oruro\
+      </div>\
+      <hr>\
+      <table>\
+        <tr><td class='titder'>FECHA REGISTRO:</td><td class='contenido'>" + recl.fecha + "</td></tr>\
+        <tr><td class='titder'>CI:</td><td class='contenido'>" + recl.persona.ci + "</td></tr>\
+        <tr><td class='titder'>NOMBRE:</td><td class='contenido'>" + recl.persona.nombre + "</td></tr>\
+        <tr><td class='titder'>TELEFONO:</td><td class='contenido'>" + recl.persona.telefono + "</td></tr>\
+      </table>\
+      <hr>\
+      <div class='titulo'>DETALLE RECLAMO</div>\
+      <div  class='contenido'>"+recl.reclamo+"</div></div>            "
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+
+    },
+
     handleMarkerDrag(e) {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
@@ -156,7 +224,7 @@ export default {
       this.denuncia.punto=this.punto
       this.$axios.post('reclamo',this.denuncia).then(res=>{
         console.log(res.data)
-
+        this.printReclamo(res.data)
         this.dialogReclamo=false
         this.$q.notify({
           message: 'Su Reclamo fue Registrado',
@@ -231,7 +299,7 @@ export default {
         this.ubicacion=this.marker.position;
         this.center=this.ubicacion
         this.zoom=18;
-        this.$axios.post('calcularArea',{lat:this.ubicacion.lat,lng:this.ubicacion.lng,distancia:900}).then(res=>{
+        this.$axios.post('calcularArea',{lat:this.ubicacion.lat,lng:this.ubicacion.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })

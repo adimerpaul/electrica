@@ -45,14 +45,14 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="tecnicos" exact v-if="$store.state.login.boolusuario">
+        <q-item clickable to="apublico" exact >
           <q-item-section avatar>
             <q-icon name="engineering" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Tecnicos</q-item-label>
+            <q-item-label>Gestion AP</q-item-label>
             <q-item-label caption>
-              Gestion Tecnicos
+              Gestion Postes
             </q-item-label>
           </q-item-section>
         </q-item>

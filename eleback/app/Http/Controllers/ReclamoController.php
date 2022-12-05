@@ -64,6 +64,8 @@ class ReclamoController extends Controller
         $reclamo->persona_id=$persona->id;
         $reclamo->poste_id=$request->punto['id'];
         $reclamo->save();
+
+        return Reclamo::with('persona')->where('id',$reclamo->id)->first();
     }
 
 

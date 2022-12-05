@@ -75,6 +75,20 @@ class PosteController extends Controller
     public function store(StorePosteRequest $request)
     {
         //
+        $poste=new Poste;
+        $poste->lat=$request->lat;
+        $poste->lng=$request->lng;
+        $poste->luminaria=$request->luminaria;
+        $poste->nroposte=$request->nroposte;
+        $poste->material=$request->material;
+        $poste->cantidad=$request->cantidad;
+        $poste->altura=$request->altura;
+        $poste->distrito=$request->distrito;
+        $poste->potencia=$request->potencia;
+        $poste->observacion=$request->observacion;
+        $poste->color=$request->color;
+        $poste->junta='';
+        return $poste->save();
     }
 
     /**
@@ -111,6 +125,24 @@ class PosteController extends Controller
         //
         $poste=Poste::find($request->id);
         $poste->estado=$request->estado;
+        return $poste->save();
+    }
+
+    public function upPoste(Request $request)
+    {
+        //
+        $poste=Poste::find($request->id);
+        $poste->lat=$request->lat;
+        $poste->lng=$request->lng;
+        $poste->luminaria=$request->luminaria;
+        $poste->nroposte=$request->nroposte;
+        $poste->material=$request->material;
+        $poste->cantidad=$request->cantidad;
+        $poste->altura=$request->altura;
+        $poste->distrito=$request->distrito;
+        $poste->potencia=$request->potencia;
+        $poste->observacion=$request->observacion;
+        $poste->color=$request->color;
         return $poste->save();
     }
 

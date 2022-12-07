@@ -102,6 +102,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/reclamos" exact v-if="$store.state.login.booldistrito">
+                <q-item-section avatar>
+                  <q-icon name="handyman" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reclamos Mapa</q-item-label>
+                  <q-item-label caption>
+                    Ubicacion Reclamo
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 <!--
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>

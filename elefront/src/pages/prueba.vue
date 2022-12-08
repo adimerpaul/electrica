@@ -16,10 +16,10 @@
     <div class="row" :style="backgroundDiv">
       <div class="q-pa-md col-md-6 col-xs-12">
         <div  style="width:100%;">
-        <q-banner rounded class="bg-green text-white text-h5" style="width:100%; text-align: center; ">
-         <div class="text-h6">REGISTRO RECLAMOS</div>
+        <!--q-banner rounded class="bg-green text-white text-h5" style="width:100%; text-align: center; ">-->
+         <q-btn class="text-h6" color='green' @click="$router.replace({ path: '/consulta' })">IR CONSULTA RECLAMOS</q-btn>
 
-    </q-banner></div>
+    </div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.ci"
           label="Cedula de Identidad" @change="buscar"/></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.nombre" type="text" label="Nombre Completo" /></div>
@@ -99,6 +99,7 @@
 <script>
 import {date} from "quasar";
 import {Printd} from "printd";
+import path from "path";
 
 export default {
   name: 'PageIndex',

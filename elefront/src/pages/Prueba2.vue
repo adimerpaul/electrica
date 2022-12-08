@@ -18,11 +18,12 @@
       <div class="col-12">
         <q-form @submit.prevent="buscar">
           <div class="row">
-            <div class="col-12 col-md-10 q-pa-xs">
+            <div class="col-12 col-md-8 q-pa-xs">
               <q-input  outlined dense label="Ingrese numero de carnet" v-model="codigo"/>
             </div>
             <div class="col-12 col-md-2 q-pa-xs flex flex-center">
               <q-btn class="full-width" label="Buscar" color="primary" icon="send" type="submit" />
+              <q-btn class="full-width" label="Ir Registro" color="green" icon="location_on" @click="$router.replace({ path: '/reclamoalumbrado' })" />
             </div>
           </div>
         </q-form>

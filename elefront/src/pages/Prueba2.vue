@@ -77,10 +77,11 @@ export default {
       persona:{},
     }
   },
-  created() {
+
+  mounted() {
     if(this.cedula!=undefined || this.cedula=='')
       {this.codigo=this.cedula
-      this.buscar}
+      this.buscar()}
     // this.$q.loading.show()
     // this.$axios.get(process.env.API+'/todos').then(res=>{
     //   this.mails=[{label:process.env.API}]

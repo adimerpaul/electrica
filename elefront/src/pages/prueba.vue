@@ -100,6 +100,7 @@
 import {date} from "quasar";
 import {Printd} from "printd";
 import path from "path";
+const QRCode = require('qrcode')
 
 export default {
   name: 'PageIndex',
@@ -112,6 +113,8 @@ export default {
       zoom: 16,
       marker:{},
       postes:[],
+      urlbase:'https://electrica.gamo.cf/#/consulta',
+
       datos:[],
       ubicacion:{lat:-17.970310, lng:-67.111780},
       center: {lat:-17.970310, lng:-67.111780},
@@ -120,6 +123,28 @@ export default {
         backgroundRepeat : 'no-repeat',
         backgroundSize : '100% 100%',
       },
+      opts : {
+        errorCorrectionLevel: 'M',
+        type: 'png',
+        quality: 0.95,
+        width: 100,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFF',
+        },
+      },
+      opts2 : {
+        errorCorrectionLevel: 'M',
+        type: 'png',
+        quality: 0.95,
+        width: 50,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFF',
+        },
+      }
     }
   },
   mounted(){
@@ -128,6 +153,8 @@ export default {
   },
   methods:{
     async printReclamo(recl) {
+      this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
+      this.qrImage = await QRCode.toDataURL(this.urlbase+'/'+recl.persona.ci, this.opts)
       let cadena = "<style>\
       .titulo{\
       font-size: 10px;\
@@ -171,28 +198,37 @@ export default {
     font-family: sans-serif;\
   }</style>\
     <div id='myelement' style='background-image:url(logo3.png);background-repeat: no-repeat; background-size: 30px 60px;'>\
-      <div class='titulo2'>\
+      <div class='titulo2' >\
         GOBIERNO AUTONOMO MUNICIPAL DE ORURO<br>\
         UNIDAD DE ALUMBRADO PUBLICO <br>Y SERVICIOS ELECTRICOS<br>\
         Reclamo Nro: "+recl.id+"<br>\
         Oruro\
       </div>\
       <hr>\
+      <table><tr><td>\
       <table>\
         <tr><td class='titder'>FECHA REGISTRO:</td><td class='contenido'>" + recl.fecha + "</td></tr>\
         <tr><td class='titder'>CI:</td><td class='contenido'>" + recl.persona.ci + "</td></tr>\
         <tr><td class='titder'>NOMBRE:</td><td class='contenido'>" + recl.persona.nombre + "</td></tr>\
         <tr><td class='titder'>TELEFONO:</td><td class='contenido'>" + recl.persona.telefono + "</td></tr>\
-      </table>\
+      </table></<td> \
+      <td>\
+        <div style='display: flex;justify-content: center;'>\
+        <img src="+this.qrImage2+" >\
+        </div>\
+      </td></tr></table>\
       <hr>\
       <div class='titulo'>DETALLE RECLAMO</div>\
-      <div  class='contenido'>"+recl.reclamo+"</div></div>            "
+      <div  class='contenido'>"+recl.reclamo+"</div>\
+      <div style='display: flex;justify-content: center;'>\
+  <img src="+this.qrImage+" >\
+      </div>\
+      </div>            "
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )
 
     },
-
     handleMarkerDrag(e) {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },

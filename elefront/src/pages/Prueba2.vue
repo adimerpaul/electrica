@@ -19,7 +19,7 @@
         <q-form @submit.prevent="buscar">
           <div class="row">
             <div class="col-12 col-md-8 q-pa-xs">
-              <q-input  outlined dense label="Ingrese numero de carnet" v-model="codigo"/>
+              <q-input  outlined dense label="Ingrese numero de carnet" v-model="codigo" autofocus />
             </div>
             <div class="col-12 col-md-2 q-pa-xs flex flex-center">
               <q-btn class="full-width" label="Buscar" color="primary" icon="send" type="submit" />
@@ -67,6 +67,7 @@ export default {
         {label:'Fecha mantenimiento',field:'fechaman',name:'fechaman',sortable:true},
 
       ],
+      cedula: this.$route.params.cedula,
       url:process.env.API,
       codigo:'',
       email:{},
@@ -77,6 +78,9 @@ export default {
     }
   },
   created() {
+    if(this.cedula!=undefined || this.cedula=='')
+      {this.codigo=this.cedula
+      this.buscar}
     // this.$q.loading.show()
     // this.$axios.get(process.env.API+'/todos').then(res=>{
     //   this.mails=[{label:process.env.API}]

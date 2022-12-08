@@ -23,6 +23,7 @@ const routes = [
       { path: 'mapa', component: Mapa ,meta: {requiresAuth: true}},
       { path: 'reportedenuncia', component: Reportedenuncia ,meta: {requiresAuth: true}},
       { path: 'alumbrado', component: Alumbrado ,meta: {requiresAuth: true}},
+      { path: 'reclamos/:cedula', component: Reclamo ,meta: {requiresAuth: true}},
       { path: 'reclamos', component: Reclamo ,meta: {requiresAuth: true}},
       { path: 'usuarios', component: User ,meta: {requiresAuth: true}},
       { path: 'tecnicos', component: Tecnicos ,meta: {requiresAuth: true}},
@@ -32,6 +33,7 @@ const routes = [
     ]
   },
   {path:'/reclamoalumbrado',component:prueba},
+  {path:'/consulta/:cedula',component:prueba2},
   {path:'/consulta',component:prueba2},
 
   // Always leave this as last one,

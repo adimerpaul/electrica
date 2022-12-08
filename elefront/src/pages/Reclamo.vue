@@ -30,6 +30,8 @@
     </gmap-map>
   </div>
 
+<div>URL: {{url}}</div>
+<div>cedula: {{type}}</div>
     <q-table :data="puntos"  :columns="colums" :filter="filter">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
@@ -166,14 +168,18 @@
 
 import {date} from "quasar";
 import {Printd} from "printd";
-
+import { env } from "process";
+const QRCode = require('qrcode')
 export default {
   data () {
     return {
       modalpunto:false,
       filter:'',
+      url:'https://electrica.gamo.cf/#/consulta',
       poste:{},
       persona:{},
+      qrImage2:'',
+      qrImage:'',
       colums:[
         {name:"nroposte",label:"nroposte",field:"nroposte"},
         {name:"nombre",label:"nombre",field:"nombre"},
@@ -183,12 +189,35 @@ export default {
       puntos:[],
       puntostabla:[],
       punto:{},
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 13,
       center: {lat:-17.970310, lng:-67.111780},
-      markerLatLng: [-17.970310, -67.111780]
+      markerLatLng: [-17.970310, -67.111780],
+      opts : {
+        errorCorrectionLevel: 'M',
+        type: 'png',
+        quality: 0.95,
+        width: 100,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFF',
+        },
+      },
+      opts2 : {
+        errorCorrectionLevel: 'M',
+        type: 'png',
+        quality: 0.95,
+        width: 50,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFF',
+        },
+      }
+
     };
   },
   created() {
@@ -196,6 +225,8 @@ export default {
   },
   methods:{
     async printReclamo(recl) {
+      this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
+      this.qrImage = await QRCode.toDataURL(this.url+'/'+recl.persona.ci, this.opts)
       let cadena = "<style>\
       .titulo{\
       font-size: 10px;\
@@ -239,22 +270,32 @@ export default {
     font-family: sans-serif;\
   }</style>\
     <div id='myelement' style='background-image:url(logo3.png);background-repeat: no-repeat; background-size: 30px 60px;'>\
-      <div class='titulo2'>\
+      <div class='titulo2' >\
         GOBIERNO AUTONOMO MUNICIPAL DE ORURO<br>\
         UNIDAD DE ALUMBRADO PUBLICO <br>Y SERVICIOS ELECTRICOS<br>\
         Reclamo Nro: "+recl.id+"<br>\
         Oruro\
       </div>\
       <hr>\
+      <table><tr><td>\
       <table>\
         <tr><td class='titder'>FECHA REGISTRO:</td><td class='contenido'>" + recl.fecha + "</td></tr>\
         <tr><td class='titder'>CI:</td><td class='contenido'>" + recl.persona.ci + "</td></tr>\
         <tr><td class='titder'>NOMBRE:</td><td class='contenido'>" + recl.persona.nombre + "</td></tr>\
         <tr><td class='titder'>TELEFONO:</td><td class='contenido'>" + recl.persona.telefono + "</td></tr>\
-      </table>\
+      </table></<td> \
+      <td>\
+        <div style='display: flex;justify-content: center;'>\
+        <img src="+this.qrImage2+" >\
+        </div>\
+      </td></tr></table>\
       <hr>\
       <div class='titulo'>DETALLE RECLAMO</div>\
-      <div  class='contenido'>"+recl.reclamo+"</div></div>            "
+      <div  class='contenido'>"+recl.reclamo+"</div>\
+      <div style='display: flex;justify-content: center;'>\
+  <img src="+this.qrImage+" >\
+      </div>\
+      </div>            "
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )

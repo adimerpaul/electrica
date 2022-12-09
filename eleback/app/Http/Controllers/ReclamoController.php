@@ -6,6 +6,8 @@ use App\Models\Reclamo;
 use App\Models\Persona;
 use App\Http\Requests\StoreReclamoRequest;
 use App\Http\Requests\UpdateReclamoRequest;
+use Illuminate\Http\Request;
+
 use Mockery\Undefined;
 
 class ReclamoController extends Controller
@@ -28,6 +30,12 @@ class ReclamoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function reporteReclamo(Request $request){
+        return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
+        ->whereDate('fechaman','>=',$request->ini)
+        ->whereDate('fechaman','<=',$request->fin)->get();
     }
 
     public function listAtencion(){

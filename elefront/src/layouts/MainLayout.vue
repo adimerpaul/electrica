@@ -113,6 +113,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/reportereclamo" exact v-if="$store.state.login.boolreporte">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reporte Reclamos</q-item-label>
+                  <q-item-label caption>
+                    Reporte atencion
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 <!--
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>

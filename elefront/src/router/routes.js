@@ -11,6 +11,7 @@ import Reclamo from "pages/Reclamo";
 import User from "pages/User";
 import Tecnicos from "pages/Tecnicos";
 import Apublico from "pages/Apublico";
+import Reportereclamo from "pages/Reportereclamo";
 
 const routes = [
   {
@@ -28,6 +29,7 @@ const routes = [
       { path: 'usuarios', component: User ,meta: {requiresAuth: true}},
       { path: 'tecnicos', component: Tecnicos ,meta: {requiresAuth: true}},
       { path: 'apublico', component: Apublico ,meta: {requiresAuth: true}},
+      { path: 'reportereclamo', component: Reportereclamo ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]

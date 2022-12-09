@@ -26,14 +26,15 @@ Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
 Route::resource('/persona',\App\Http\Controllers\PersonaController::class);
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
-    Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
+        Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
         Route::resource('/user',\App\Http\Controllers\UserController::class);
         Route::resource('/tecnico',\App\Http\Controllers\TecnicoController::class);
         Route::put('/updatePassword/{user}',[\App\Http\Controllers\UserController::class,'updatePassword']);
         Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);
         Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
 
+    Route::post('reporteReclamo',[\App\Http\Controllers\ReclamoController::class,'reporteReclamo']);
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('upPoste',[\App\Http\Controllers\PosteController::class,'upPoste']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);

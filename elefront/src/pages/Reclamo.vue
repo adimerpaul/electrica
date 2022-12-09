@@ -31,7 +31,6 @@
   </div>
 
 <div>URL: {{url}}</div>
-<div>cedula: {{type}}</div>
     <q-table :data="puntos"  :columns="colums" :filter="filter">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
@@ -324,7 +323,7 @@ export default {
       this.punto.estado='ATENDIDO'
       //console.log(this.punto.id)
       this.modalpunto=false
-      this.$axios.put('reclamo/1',this.punto).then(res=>{
+      this.$axios.put('reclamo/'+this.punto.id,this.punto).then(res=>{
         console.log(res.data)
         this.mispuntos()
       })

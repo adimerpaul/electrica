@@ -87,7 +87,8 @@ class PosteController extends Controller
         $poste->potencia=$request->potencia;
         $poste->observacion=$request->observacion;
         $poste->color=$request->color;
-        $poste->junta='';
+        $poste->junta=$request->junta;
+        $poste->tipo='NUEVO';
         return $poste->save();
     }
 
@@ -140,9 +141,11 @@ class PosteController extends Controller
         $poste->cantidad=$request->cantidad;
         $poste->altura=$request->altura;
         $poste->distrito=$request->distrito;
+        $poste->junta=$request->junta;
         $poste->potencia=$request->potencia;
         $poste->observacion=$request->observacion;
         $poste->color=$request->color;
+        $poste->fechaplan=$request->fechaplan;
         return $poste->save();
     }
 
@@ -155,5 +158,15 @@ class PosteController extends Controller
     public function destroy(Poste $poste)
     {
         //
+    }
+
+    public function listplan(Request $request){
+        $anio=date("Y",strtotime($request->fecha));
+        $mes=date("m",strtotime($request->fecha));
+        //return $mes;
+        return Poste::
+        //whereYear('fechaplan',$anio)
+       whereMonth('fechaplan',$mes)
+        ->get();
     }
 }

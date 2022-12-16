@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Junta extends Model
+class Cronograma extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'nombre',
-        'distrito',
-        'zona',
-        'representante',
-        'celular'
+   'codigo',
+   'actividad',
+   'distrito',
+   'junta',
+   'zona',
+   'tipo',
+   'cantidad',
+   'fecha',
+   'descripcion',
+   'celular'
     ];
-
 }

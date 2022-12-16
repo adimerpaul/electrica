@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reclamo;
 use App\Models\Persona;
+use App\Models\Poste;
 use App\Http\Requests\StoreReclamoRequest;
 use App\Http\Requests\UpdateReclamoRequest;
 use Illuminate\Http\Request;
@@ -131,6 +132,11 @@ class ReclamoController extends Controller
         $reclamo->termico=$request->termico;
         $reclamo->soquet=$request->soquet;
         $reclamo->save();
+
+        if($request->fechaplan!=null && $request->fechaplan!=''){
+        $poste=Poste::find($reclamo->poste_id);
+        $poste->fechaplan=$request->fechaplan;
+        $poste->save();}
     }
 
     /**

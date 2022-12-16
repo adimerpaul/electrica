@@ -12,6 +12,7 @@ export default function () {
     booldistrito:false,
     booldenuncia:false,
     boolreporte:false,
+    boolcronograma:false,
     // boolmercadocambioactividad:false,
     // boolbuscararchivos:false,
     // boolusuarios:false,

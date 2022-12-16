@@ -16,6 +16,10 @@ return new class extends Migration
         Schema::create('juntas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('distrito')->nullable();
+            $table->string('zona')->nullable();
+            $table->string('representante')->nullable();
+            $table->string('celular')->nullable();
             $table->timestamps();
         });
     }

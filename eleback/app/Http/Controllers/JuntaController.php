@@ -16,6 +16,7 @@ class JuntaController extends Controller
     public function index()
     {
         //
+        return Junta::all();
     }
 
     /**
@@ -37,6 +38,13 @@ class JuntaController extends Controller
     public function store(StoreJuntaRequest $request)
     {
         //
+        $junta= new Junta();
+        $junta->nombre=$request->nombre;
+        $junta->distrito=$request->distrito;
+        $junta->zona=$request->zona;
+        $junta->representante=$request->representante;
+        $junta->celular=$request->celular;
+        $junta->save();
     }
 
     /**
@@ -71,6 +79,13 @@ class JuntaController extends Controller
     public function update(UpdateJuntaRequest $request, Junta $junta)
     {
         //
+        $junta=Junta::find($request->id);
+        $junta->nombre=$request->nombre;
+        $junta->distrito=$request->distrito;
+        $junta->zona=$request->zona;
+        $junta->representante=$request->representante;
+        $junta->celular=$request->celular;
+        $junta->save();
     }
 
     /**
@@ -82,5 +97,6 @@ class JuntaController extends Controller
     public function destroy(Junta $junta)
     {
         //
+        $junta->delete();
     }
 }

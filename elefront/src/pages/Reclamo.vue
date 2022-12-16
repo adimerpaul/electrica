@@ -30,7 +30,6 @@
     </gmap-map>
   </div>
 
-<div>URL: {{url}}</div>
     <q-table :data="puntos"  :columns="colums" :filter="filter">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
@@ -58,6 +57,7 @@
         </q-input>
       </template>
     </q-table>
+
     <q-dialog v-model="modalpunto" full-width>
       <q-card>
         <q-card-section>
@@ -110,7 +110,7 @@
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="Actividad" v-model="punto.actividad" />
               </div>
-              <div class="row">
+              <div class="row full-width">
                 <div class="col-md-3 col-xs-12">
                   <div class="text-h6">LAMPARA W</div>
                   <q-input outlined dense v-model="punto.l70" type="text" label="70W" />
@@ -143,11 +143,14 @@
                   <q-input outlined dense v-model="punto.soquet" type="text" label="SOQUET" />
                 </div>
               </div>
-              <div class="col-md-6 col-xs-6">
+              <div class="col-md-4 col-xs-4">
                 <q-input dense outlined type="date" label="Fecha Man" v-model="punto.fechaman" />
               </div>
-              <div class="col-md-6 col-xs-6">
+              <div class="col-md-4 col-xs-4">
                 <q-input dense outlined type="time" label="Hora Man" v-model="punto.horaman" />
+              </div>
+              <div class="col-md-4 col-xs-4">
+                <q-input dense outlined type="date" label="Fecha Proximo" v-model="fechaplan" />
               </div>
               <div class="col-12 flex flex-center">
                 <q-btn type="submit" label="Realizar mantenimiento" class="full-width" color="positive" icon="construction"/>
@@ -173,6 +176,7 @@ export default {
   data () {
     return {
       modalpunto:false,
+      fechaplan:date.formatDate(new Date(),'YYYY-MM-DD'),
       filter:'',
       url:'https://electrica.gamo.cf/#/consulta',
       poste:{},
@@ -317,15 +321,19 @@ export default {
       if(this.punto.termico!=''&&  this.punto.termico!=undefined && this.punto.termico!=null && this.punto.termico!='NO'){ this.punto.actividad+=' SI TERMICO,' }
       if(this.punto.soquet!=''&&  this.punto.soquet!=undefined && this.punto.soquet!=null){ this.punto.actividad+=' soquet COD '+ this.punto.soquet +',' }
     },
+
     updatedenuncia(){
       this.$q.loading.show()
       this.punto.supervisor=this.$store.state.login.user.name
       this.punto.estado='ATENDIDO'
+      if(this.fechaplan!=undefined && this.fechaplan!='')
+        this.punto.fechaplan=this.fechaplan
       //console.log(this.punto.id)
       this.modalpunto=false
       this.$axios.put('reclamo/'+this.punto.id,this.punto).then(res=>{
         console.log(res.data)
         this.mispuntos()
+        this.fechaplan=date.formatDate(new Date(),'YYYY-MM-DD')
       })
     },
     frmmodalpunto(p){

@@ -124,6 +124,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/cronograma" exact v-if="$store.state.login.boolcronograma">
+                <q-item-section avatar>
+                  <q-icon name="date_range" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Planificacion </q-item-label>
+                  <q-item-label caption>
+                    Actividad 
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 <!--
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>

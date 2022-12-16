@@ -34,6 +34,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
         Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);
         Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
 
+    Route::post('listplan',[\App\Http\Controllers\PosteController::class,'listplan']);
     Route::post('reporteReclamo',[\App\Http\Controllers\ReclamoController::class,'reporteReclamo']);
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('upPoste',[\App\Http\Controllers\PosteController::class,'upPoste']);
@@ -41,6 +42,11 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::get('listmtto',[\App\Http\Controllers\PosteController::class,'listmtto']);
     Route::get('listAtencion',[\App\Http\Controllers\ReclamoController::class,'listAtencion']);
     Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
+    Route::resource('/junta',\App\Http\Controllers\JuntaController::class);
+
+    Route::resource('/cronograma',\App\Http\Controllers\CronogramaController::class);
+    Route::post('listCrono',[\App\Http\Controllers\CronogramaController::class,'listCrono']);
+    Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
 
 });
 

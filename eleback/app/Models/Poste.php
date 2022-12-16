@@ -21,6 +21,7 @@ class Poste extends Model
     'potencia',
     'observacion',
     'color',
+    'fechaplan',
     'estado',
 ];
 

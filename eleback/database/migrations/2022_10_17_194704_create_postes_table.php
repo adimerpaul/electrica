@@ -23,10 +23,12 @@ return new class extends Migration
             $table->string('cantidad');
             $table->string('altura');
             $table->string('junta')->nullable();
+            $table->date('fechaplan')->nullable();
             $table->string('distrito');
             $table->string('potencia');
             $table->string('observacion')->nullable();
             $table->string('color');
+            $table->string('tipo')->nullable();
             $table->string('estado')->default('ACTIVO');
             $table->timestamps();
         });

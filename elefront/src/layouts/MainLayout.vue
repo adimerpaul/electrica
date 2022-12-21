@@ -45,7 +45,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="tecnicos" exact >
+        <q-item clickable to="tecnicos" exact v-if="$store.state.login.booltecnico">
           <q-item-section avatar>
             <q-icon name="engineering" />
           </q-item-section>
@@ -57,7 +57,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="juntavecinal" exact >
+        <q-item clickable to="juntavecinal" exact v-if="$store.state.login.booljunta">
           <q-item-section avatar>
             <q-icon name="real_estate_agent" />
           </q-item-section>
@@ -69,7 +69,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="apublico" exact >
+        <q-item clickable to="apublico" exact v-if="$store.state.login.boolgestionar">
           <q-item-section avatar>
             <q-icon name="engineering" />
           </q-item-section>
@@ -126,7 +126,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable to="/reclamos" exact v-if="$store.state.login.booldistrito">
+              <q-item clickable to="/reclamos" exact v-if="$store.state.login.boolreclamo">
                 <q-item-section avatar>
                   <q-icon name="handyman" />
                 </q-item-section>
@@ -226,7 +226,7 @@
           icon="warehouse"
           label="Almacen"
           caption="Inventario"
-
+          v-if="$store.state.login.boolalmacen"
         >
           <q-card>
             <q-card-section>

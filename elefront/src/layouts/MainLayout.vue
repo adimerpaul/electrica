@@ -45,6 +45,30 @@
           </q-item-section>
         </q-item>
 
+        <q-item clickable to="tecnicos" exact >
+          <q-item-section avatar>
+            <q-icon name="engineering" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Listado Tecnicos</q-item-label>
+            <q-item-label caption>
+              Gestion tecnicos
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="juntavecinal" exact >
+          <q-item-section avatar>
+            <q-icon name="real_estate_agent" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Juntas Vecinales</q-item-label>
+            <q-item-label caption>
+              Gestion JV
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item clickable to="apublico" exact >
           <q-item-section avatar>
             <q-icon name="engineering" />
@@ -131,7 +155,7 @@
                 <q-item-section>
                   <q-item-label>Planificacion </q-item-label>
                   <q-item-label caption>
-                    Actividad 
+                    Actividad
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -196,6 +220,45 @@
 
           </q-card>
         </q-expansion-item>
+
+        <q-expansion-item
+          expand-separator
+          icon="warehouse"
+          label="Almacen"
+          caption="Inventario"
+
+        >
+          <q-card>
+            <q-card-section>
+              <q-item clickable to="/materiales" exact >
+                <q-item-section avatar>
+                  <q-icon name="list_alt" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Listado Materiales</q-item-label>
+                  <q-item-label caption>
+                    Gestion Material
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable to="/compra" exact >
+                <q-item-section avatar>
+                  <q-icon name="shopping_cart" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Registro Compra</q-item-label>
+                  <q-item-label caption>
+                    Compras
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+
+            </q-card-section>
+
+          </q-card>
+        </q-expansion-item>
+
 
         <q-item v-if="$store.getters['login/isLoggedIn']" clickable @click="logout">
           <q-item-section avatar>

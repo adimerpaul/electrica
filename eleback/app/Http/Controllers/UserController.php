@@ -43,18 +43,16 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
-        $user=new User();
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->password=Hash::make($request->password);
+        $user = User::create($validated);
         $permisos= array();
         foreach ($request->permisos as $permiso){
 //            echo $permiso['estado'].'  ';
+            $permiso['user_id']=$user->id;
             if ($permiso['estado']==true)
                 $permisos[]=$permiso['id'];
         }
@@ -90,7 +88,7 @@ class UserController extends Controller
         $user->permisos()->attach($permiso);
     }
     public function destroy(User $user)
-{   
+{
         $user->delete();
     }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('unidad');
             $table->double('stock');
             $table->double('minimo');
+            $table->string('codificar')->default('NO');
             $table->timestamps();
         });
     }

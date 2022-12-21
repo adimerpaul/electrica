@@ -45,6 +45,10 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/junta',\App\Http\Controllers\JuntaController::class);
 
     Route::resource('/cronograma',\App\Http\Controllers\CronogramaController::class);
+    Route::resource('/tienda',\App\Http\Controllers\TiendaController::class);
+    Route::resource('/material',\App\Http\Controllers\MaterialController::class);
+    Route::resource('/compra',\App\Http\Controllers\CompraController::class);
+    Route::resource('/inventario',\App\Http\Controllers\InventarioController::class);
     Route::post('listCrono',[\App\Http\Controllers\CronogramaController::class,'listCrono']);
     Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
 

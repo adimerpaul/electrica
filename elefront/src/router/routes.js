@@ -15,6 +15,8 @@ import Reportereclamo from "pages/Reportereclamo";
 import Inspeccion from "pages/Inspeccion";
 import Cronograma from "pages/Cronograma";
 import Juntavecinal from "pages/Juntavecinal";
+import Materiales from "pages/Materiales";
+import Compras from "pages/Compras";
 
 const routes = [
   {
@@ -36,6 +38,8 @@ const routes = [
       { path: 'inspeccion', component: Inspeccion ,meta: {requiresAuth: true}},
       { path: 'cronograma', component: Cronograma ,meta: {requiresAuth: true}},
       { path: 'juntavecinal', component: Juntavecinal ,meta: {requiresAuth: true}},
+      { path: 'materiales', component: Materiales ,meta: {requiresAuth: true}},
+      { path: 'compras', component: Compras ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]

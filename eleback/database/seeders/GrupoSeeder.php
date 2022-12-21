@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-class MaterialSeeder extends Seeder
+class GrupoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +15,5 @@ class MaterialSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('material')->insert([
-            ['codigo'=>'','nombre'=>'','unidad'=>'','stock'=>'','minimo'=>'','codificar'=>'NO'],
-        ]);
     }
 }

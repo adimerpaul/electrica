@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Compra extends Model
 {
     use HasFactory;
+    protected $fillable=[
+    'nrocompra',
+    'fecha',
+    'tienda_id'
+    ];
+
+    public function tienda(){
+        return $this->belongsTo(Tienda::class);
+    }
+
+    public function contenidos(){
+        return $this->hasMany(Contenido::class)->with('material');
+    }
+
 }

@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Material extends Model
+class Inventario extends Model
 {
     use HasFactory;
     protected $fillable = [
+    'cantidad',
     'codigo',
-    'nombre',
-    'unidad',
-    'stock',
-    'minimo',
-    'codificar',
-];
+    'num',
+    'material_id',
+    'compra_id',
+    ];
 }

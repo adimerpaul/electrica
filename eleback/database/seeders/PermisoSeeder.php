@@ -16,7 +16,7 @@ class PermisoSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('users')->insert([
+        DB::table('permisos')->insert([
             ['nombre'=>'VER USUARIOS'],
             ['nombre'=>'EDITAR USUARIO'],
             ['nombre'=>'GESTIONAR PUNTOS'],

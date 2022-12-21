@@ -16,6 +16,7 @@ class MaterialController extends Controller
     public function index()
     {
         //
+        return Material::all();
     }
 
     /**
@@ -37,6 +38,14 @@ class MaterialController extends Controller
     public function store(StoreMaterialRequest $request)
     {
         //
+        $material=new Material();
+        $material->codigo=strtoupper($request->codigo);
+        $material->nombre=strtoupper($request->nombre);
+        $material->unidad=$request->unidad;
+        $material->stock=0;
+        $material->minimo=$request->minimo;
+        $material->codificar=$request->codificar;
+        $material->save();
     }
 
     /**
@@ -71,6 +80,13 @@ class MaterialController extends Controller
     public function update(UpdateMaterialRequest $request, Material $material)
     {
         //
+        $material=Material::find($request->id);
+        $material->codigo=strtoupper($request->codigo);
+        $material->nombre=strtoupper($request->nombre);
+        $material->unidad=$request->unidad;
+        $material->minimo=$request->minimo;
+        $material->codificar=$request->codificar;
+        $material->save();
     }
 
     /**
@@ -82,5 +98,6 @@ class MaterialController extends Controller
     public function destroy(Material $material)
     {
         //
+        $material->delete();
     }
 }

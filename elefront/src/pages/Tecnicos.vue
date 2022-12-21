@@ -40,8 +40,7 @@
                   v-model="dato.telefono"
                   label="Cel / Tel"
                   hint="numero de contacto"
-                  lazy-rules
-                  :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"
+     
                 />
 
             <div>
@@ -109,9 +108,7 @@
               v-model="dato2.telefono"
               label="Tel Cel"
               hint="Celular"
-              lazy-rules
-              :rules="[val => val.length > 0 || 'Por favor ingresa datos']"
-            />
+              />
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle" />
               <q-btn label="Cancelar" icon="delete" color="negative" v-close-popup />

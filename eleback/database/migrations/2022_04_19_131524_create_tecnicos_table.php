@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('ci')->unique();
             $table->string('nombre');
-            $table->string('telefono');
+            $table->string('telefono')->nullable();
             $table->timestamps();
         });
     }

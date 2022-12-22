@@ -39,11 +39,15 @@ class CronogramaController extends Controller
         return DB::SELECT("SELECT codigo,
         actividad,
         distrito,
+        junta,
         zona,
+        '100' valor1,
+        '100' valor2,
+        'Puntos de Iluminacion' unidad,
         tipo,
         sum(cantidad) total
                  from cronogramas where date(fecha)>='$request->ini' and date(fecha)<='$request->fin'
-        group by codigo,actividad,distrito,zona,tipo");
+        group by codigo,actividad,distrito,zona,junta,tipo");
     }
     /**
      * Store a newly created resource in storage.

@@ -11,13 +11,21 @@
       <q-dialog v-model="alert">
         <q-card style="max-width: 80%; width: 70%">
           <q-card-section class="bg-green-14 text-white">
-            <div class="text-h7"><q-icon name="add_circle" /> REGISTRO DE NUEVO</div>
+            <div class="text-h7"><q-icon name="add_circle" /> REGISTRO NUEVO</div>
           </q-card-section>
           <q-card-section class="q-pt-xs">
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                 <div class="row">
                     <div class="col-6"><q-select outlined v-model="dato.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito"  required/></div>
-                    <div class="col-6"><q-input outlined v-model="dato.junta" type="text" label="Junta Vecinal " lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
+                    <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >         <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select></div>
+
                     <div class="col-6"><q-input outlined v-model="dato.celular" type="text"  label="Celular" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select outlined v-model="dato.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']" label="Zona" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-input outlined v-model="dato.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
@@ -38,7 +46,7 @@
             <div class="col-3"><q-input dense outlined v-model="ini" type="date" label="Fecha Ini" /></div>
             <div class="col-3"><q-input dense outlined v-model="fin" type="date" label="Fecha Fin" /></div>
             <div class="col-3"><q-btn dense color="green" icon="search" label="Buscar" @click="Buscar" /></div>
-            <div class="col-3"><q-btn dense color="info" icon="print" label="Imprimir" @click="impresion" /></div>
+            <div class="col-3"><q-btn dense color="info" icon="file_download" label="Export Excel" @click="impresion" /></div>
         </div>
       <q-table :filter="filter" title="LISTA Cronograma" :data="data" :columns="columns" row-key="name" :rows-per-page-options="[50,100]">
         <template v-slot:top-right>
@@ -77,7 +85,14 @@
             <q-form @submit="onMod" class="q-gutter-md">
                 <div class="row">
                 <div class="col-6"><q-select outlined v-model="dato2.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito"  required/></div>
-                    <div class="col-6"><q-input outlined v-model="dato2.junta" type="text" label="Junta Vecinal " lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
+                <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >         <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select></div>
                     <div class="col-6"><q-input outlined v-model="dato2.celular" type="text"  label="Celular" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select outlined v-model="dato2.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']" label="Zona" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-input outlined v-model="dato2.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
@@ -127,6 +142,9 @@ import xlsx from "json-as-xlsx"
         filter:'',
         tipo:{},
         dato: {},
+        juntas:[],
+        jfilter:[],
+        junta:{},
         ini:date.formatDate(new Date(), "YYYY-MM-DD"),
         fin:date.formatDate(new Date(), "YYYY-MM-DD"),
         lista:[
@@ -163,9 +181,23 @@ import xlsx from "json-as-xlsx"
       // }
 
       this.Buscar();
-
+      this.listJunta();
+        this.tipo=this.lista[0]
     },
     methods: {
+      filterFn (val, update) {
+        if (val === '') {
+          update(() => {
+            this.juntas = this.jfilter
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.juntas = this.jfilter.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })
+      },
 
       Buscar() {
         this.$q.loading.show();
@@ -176,6 +208,20 @@ import xlsx from "json-as-xlsx"
         });
       },
 
+      listJunta() {
+        this.juntas=[]
+        this.$q.loading.show();
+        this.$axios.get("junta").then((res) => {
+          //console.log(res.data)
+          res.data.forEach(r => {
+            this.juntas.push(r.nombre)
+          });
+          this.$q.loading.hide();
+          this.jfilter=this.juntas
+          this.junta=''
+        });
+      },
+
       impresion() {
         this.$q.loading.show();
         this.$axios.post("datoImp",{ini:this.ini,fin:this.fin}).then((res) => {
@@ -183,12 +229,17 @@ import xlsx from "json-as-xlsx"
   {
     sheet: "Cronograma",
     columns: [
-      { label: "CODIGO", value: "codigo" }, // Top level data
-      { label: "ACTIVIDAD", value: "actividad" }, // Top level data
+      { label: "CAT PROD", value: "codigo" }, // Top level data
+      { label: "NOMBRE DE LA ACTIVIDAD", value: "actividad" }, // Top level data
       { label: "DISTRITO", value: "distrito" }, // Top level data
-      { label: "ZONA", value: "zona" }, // Top level data
-      { label: "TOTAL", value: "total" }, // Top level data
-      { label: "TIPO", value: "tipo" }, // Top level data
+      { label: "BENEFICIARIO", value: "junta" }, // Top level data
+      { label: "UBICACION", value: "zona" }, // Top level data
+      { label: "SUPERVISOR", value: "" }, // Top level data
+      { label: "AVANCE FISICO DEL PERIODO", value: "valor1" }, // Top level data
+      { label: "AVANCE FISICO ACUMULADO", value: "valor2" }, // Top level data
+      { label: "CANTIDAD", value: "total" }, // Top level data
+      { label: "UNIDAD", value: "unidad" }, // Top level data
+      { label: "DESCRIPCION", value: "tipo" }, // Top level data
     ],
     content: res.data
   },
@@ -209,6 +260,7 @@ xlsx(dataimp, settings) // Will download the excel file
       },
       editRow(item) {
         this.dato2 = item.row
+        this.junta=this.dato2.junta
         this.tipo=this.lista.find(t=>{return t.tipo==this.dato2.tipo})
         this.dialog_mod = true;
       },
@@ -221,6 +273,7 @@ xlsx(dataimp, settings) // Will download the excel file
         this.dato.codigo=this.tipo.codigo
         this.dato.actividad=this.tipo.actividad
         this.dato.tipo=this.tipo.tipo
+        this.dato.junta=this.junta
         this.$axios.post( "cronograma", this.dato).then((res) => {
           // console.log(res.data)
           this.$q.notify({

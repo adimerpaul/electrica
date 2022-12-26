@@ -25,6 +25,12 @@ class PermisoSeeder extends Seeder
             ['nombre'=>'VISTA DISTRITOS'],
             ['nombre'=>'LISTA DENUNCIAS'],
             ['nombre'=>'REPORTE DENUNCIAS'],
+            ['nombre'=>'PLANIFICACION'],
+            ['nombre'=>'TECNICOS'],
+            ['nombre'=>'JUNTAS VECINALES'],
+            ['nombre'=>'GESTIONAR POSTES'],
+            ['nombre'=>'RECLAMOS'],
+            ['nombre'=>'ALMACEN'],
         ]);
 
     }

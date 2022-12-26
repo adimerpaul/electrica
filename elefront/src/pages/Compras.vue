@@ -98,7 +98,8 @@
   </template>
 
   <script>
-  import { date } from 'quasar'
+  import { Console } from 'console';
+import { date } from 'quasar'
   const { addToDate } = date
   export default {
     data() {
@@ -191,10 +192,13 @@
 
         },
         agregarMaterial(){
-            if(this.reg.cantidad==undefined || this.reg.cantidad==''
+            if(this.reg.cantidad==undefined || this.reg.cantidad<=0
             || this.reg.unitario==undefined || this.reg.unitario==''
             || this.reg.material.id==undefined)
+            {
+            console.log('error2 ing')
             return false
+            }
             this.reg.total=parseFloat( this.reg.cantidad) * parseFloat( this.reg.unitario)
             this.listado.push(this.reg);
 
@@ -211,7 +215,7 @@
           this.materiales = res.data;
           this.$q.loading.hide();
           this.material=this.materiales[0]
-        });
+        })
       },
       mistiendas() {
         this.$q.loading.show();

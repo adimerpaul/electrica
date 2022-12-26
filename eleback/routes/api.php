@@ -51,6 +51,6 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/inventario',\App\Http\Controllers\InventarioController::class);
     Route::post('listCrono',[\App\Http\Controllers\CronogramaController::class,'listCrono']);
     Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
-
+    Route::get('valCompra/{nro}',[\App\Http\Controllers\CompraController::class,'valCompra']);
 });
 

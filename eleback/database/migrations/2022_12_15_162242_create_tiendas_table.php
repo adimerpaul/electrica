@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('tiendas', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");
-            $table->string("representante");
-            $table->string("direccion");
-            $table->string("telefono");
+            $table->string("representante")->nullable();
+            $table->string("direccion")->nullable();
+            $table->string("telefono")->nullable();
             $table->timestamps();
         });
     }

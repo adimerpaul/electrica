@@ -17,6 +17,7 @@ import Cronograma from "pages/Cronograma";
 import Juntavecinal from "pages/Juntavecinal";
 import Materiales from "pages/Materiales";
 import Compras from "pages/Compras";
+import Tiendas from "pages/Tiendas";
 
 const routes = [
   {
@@ -40,6 +41,7 @@ const routes = [
       { path: 'juntavecinal', component: Juntavecinal ,meta: {requiresAuth: true}},
       { path: 'materiales', component: Materiales ,meta: {requiresAuth: true}},
       { path: 'compras', component: Compras ,meta: {requiresAuth: true}},
+      { path: 'tiendas', component: Tiendas ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]

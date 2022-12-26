@@ -42,7 +42,7 @@ class TiendaController extends Controller
         $tienda->nombre=strtoupper($request->nombre);
         $tienda->representante=strtoupper($request->representante);
         $tienda->direccion=$request->direccion;
-        $tienda->telefono=$request->telfono;
+        $tienda->telefono=$request->telefono;
         $tienda->save();
     }
 
@@ -82,7 +82,7 @@ class TiendaController extends Controller
         $tienda->nombre=strtoupper($request->nombre);
         $tienda->representante=strtoupper($request->representante);
         $tienda->direccion=$request->direccion;
-        $tienda->telefono=$request->telfono;
+        $tienda->telefono=$request->telefono;
         $tienda->save();
     }
 

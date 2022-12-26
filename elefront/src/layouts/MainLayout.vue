@@ -241,7 +241,18 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item clickable to="/compra" exact >
+              <q-item clickable to="/tiendas" exact >
+                <q-item-section avatar>
+                  <q-icon name="storefront" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Listado Tienda/Proveedor</q-item-label>
+                  <q-item-label caption>
+                    Proveedores
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable to="/compras" exact >
                 <q-item-section avatar>
                   <q-icon name="shopping_cart" />
                 </q-item-section>

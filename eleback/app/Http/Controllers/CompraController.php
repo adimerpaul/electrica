@@ -20,7 +20,12 @@ class CompraController extends Controller
     public function index()
     {
         //
+        return Compra::with('contenidos')->with('tienda')->get();
 
+    }
+
+    public function valCompra($nro){
+        return Compra::where('nrocompra',$nro)->get();
     }
 
     public function listCompra(Request $request){
@@ -48,6 +53,7 @@ class CompraController extends Controller
     public function store(StoreCompraRequest $request)
     {
         //
+        //return $request->contenido[0]['material']['id'];
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
         $compra->fecha=$request->fecha;
@@ -58,16 +64,16 @@ class CompraController extends Controller
             # code...
             $cont=new Contenido();
             $cont->compra_id=$compra->id;
-            $cont->material_id=$c->material_id;
-            $cont->cantidad=$c->cantidad;
-            $cont->unitario=$c->unitario;
-            $cont->total=$c->total;
+            $cont->material_id=$c['material']['id'];
+            $cont->cantidad=$c['cantidad'];
+            $cont->unitario=$c['unitario'];
+            $cont->total=$c['total'];
             $cont->save();
-            $material=Material::find($c->material_id);
-            $material->cantidad=$material->cantidad + $cont->cantidad;
+            $material=Material::find($c['material']['id']);
+            $material->stock=$material->stock + $cont->cantidad;
             $material->save();
             if($material->codificar=='SI'){
-            for ($i=0; $i < $c->cantidad; $i++) {
+            for ($i=0; $i < $c['cantidad']; $i++) {
                 # code...
                 $invent=Inventario::where('material_id',$material->id)->get();
                 if(sizeof($invent)>0){ $numero=intval(Inventario::where('material_id',$material->id)->max('num')) + 1;}
@@ -83,7 +89,7 @@ class CompraController extends Controller
             }
             else{
                 $inv=new Inventario();
-                $inv->cantidad=$c->cantidad;
+                $inv->cantidad=$c['cantidad'];
                 $inv->codigo=$compra->nrocompra.'-'.$material->codigo;
                 $inv->num=0;
                 $inv->material_id=$material->id;

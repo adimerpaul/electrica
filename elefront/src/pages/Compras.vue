@@ -54,6 +54,11 @@
                         {{props.row.material.nombre }}
                     </q-td>
                 </template>
+                <template v-slot:body-cell-codificar="props">
+                    <q-td key="codificar" :props="props">
+                        {{props.row.material.codificar }}
+                    </q-td>
+                </template>
                     </q-table>
 
                 </div>
@@ -119,7 +124,7 @@ import { date } from 'quasar'
         dialog_del: false,
         listado:[],
         filter:'',
-        dato: {codificar:'NO'},
+        dato: {},
         model:'',
         dato2: {},
         options: [],
@@ -129,7 +134,7 @@ import { date } from 'quasar'
         materiales:[],
         tiendas:[],
         compras:[],
-        reg:{material:{label:''},codificar:'NO'},
+        reg:{material:{label:''}},
         modelpermiso:false,
         mensaje:'',
         uni:{},
@@ -215,7 +220,7 @@ import { date } from 'quasar'
             this.reg.total=parseFloat( this.reg.cantidad) * parseFloat( this.reg.unitario)
             this.listado.push(this.reg);
 
-            this.reg={material:{label:''},codificar:'NO'}
+            this.reg={material:{label:''}}
         },
 
       mismateriales() {
@@ -268,7 +273,7 @@ import { date } from 'quasar'
             icon: "cloud_done",
             message: "Creado correctamente",
           });
-          this.dato={codificar:'NO'}
+          this.dato={}
           this.alert = false;
           this.misdatos();
         }).catch(err=>{
@@ -304,7 +309,7 @@ import { date } from 'quasar'
         })
       },
       onReset() {
-        this.dato= {codificar:'NO'};
+        this.dato= {};
       },
     },
   };

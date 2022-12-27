@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Inventario;
 use App\Http\Requests\StoreInventarioRequest;
 use App\Http\Requests\UpdateInventarioRequest;
+use App\Models\Compra;
+use Illuminate\Http\Request;
 
 class InventarioController extends Controller
 {
@@ -24,6 +26,18 @@ class InventarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function buscarInv(Request $request ){
+        if($request->compra!=null && $request->compra!=''){
+        $compra=Compra::where('nrocompra',$request->compra)->get();
+        if(sizeof($compra)>0)
+            return Inventario::with('material')->with('compra')->where('compra_id',$compra[0]->id)->get();
+        else
+            return [];
+        }
+        else{
+        return Inventario::with('material')->with('compra')->where('material_id',$request->material_id)->get();
+        }
+    }
     public function create()
     {
         //

@@ -15,4 +15,13 @@ class Inventario extends Model
     'material_id',
     'compra_id',
     ];
+
+    public function material(){
+        return $this->belongsTo(Material::class);
+    }
+
+    public function compra(){
+        return $this->belongsTo(Compra::class);
+    }
+
 }

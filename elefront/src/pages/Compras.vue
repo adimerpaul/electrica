@@ -35,7 +35,7 @@
                 <div class="col-12">
                     <q-table
                         title="Lista de Compra "
-                        :data="compras"
+                        :data="listado"
                         :columns="columna2"
                         row-key="name"
                     >
@@ -44,6 +44,16 @@
                             <q-btn  dense color="red" icon="delete" @click="eliminar(props)"    />
                         </q-td>
                     </template>
+                    <template v-slot:body-cell-unidad="props">
+                      <q-td key="unidad" :props="props">
+                          {{props.row.material.unidad }}
+                      </q-td>
+                  </template>
+                  <template v-slot:body-cell-material="props">
+                    <q-td key="material" :props="props">
+                        {{props.row.material.nombre }}
+                    </q-td>
+                </template>
                     </q-table>
 
                 </div>
@@ -133,7 +143,7 @@ import { date } from 'quasar'
             {name:'opcion',label:'opcion',field:'opcion'},
             {name:'cantidad',label:'CANTIDAD',field:'cantidad'},
             {name:'unidad',label:'UNIDAD',field:'unidad'},
-            {name:'nombre',label:'MATERIAL',field:'nombre'},
+            {name:'material',label:'MATERIAL',field:'material'},
             {name:'unitario',label:'P UNIT',field:'unitario'},
             {name:'codificar',label:'Cod',field:'codificar'},
             {name:'total',label:'TOTAL',field:'total'},
@@ -173,6 +183,7 @@ import { date } from 'quasar'
             this.dato.tienda_id=this.tienda.id
             this.$axios.post("compra",this.dato).then((res) => {
                 console.log(res.data)
+                this.misdatos()
                 //return false
                 this.$q.notify({
             color: "green-4",
@@ -192,6 +203,7 @@ import { date } from 'quasar'
 
         },
         agregarMaterial(){
+            console.log(this.listado)
             if(this.reg.cantidad==undefined || this.reg.cantidad<=0
             || this.reg.unitario==undefined || this.reg.unitario==''
             || this.reg.material.id==undefined)
@@ -199,6 +211,7 @@ import { date } from 'quasar'
             console.log('error2 ing')
             return false
             }
+
             this.reg.total=parseFloat( this.reg.cantidad) * parseFloat( this.reg.unitario)
             this.listado.push(this.reg);
 

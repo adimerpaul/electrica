@@ -12,29 +12,30 @@
   "dependencies": {
     "@coderstm/quasar-google-maps": "^1.0.4",
     "@fawmi/vue-google-maps": "^0.9.79",
-    "@googlemaps/js-api-loader": "^1.14.3",
-    "@quasar/extras": "^1.0.0",
+    "@googlemaps/js-api-loader": "^1.15.1",
+    "@quasar/extras": "^1.15.8",
     "axios": "^0.21.1",
-    "core-js": "^3.6.5",
+    "console": "^0.7.2",
+    "core-js": "^3.27.0",
     "geojson": "^0.5.0",
     "gmap-vue": "^3.5.4",
     "json-as-xlsx": "^2.5.3",
     "jspdf": "^2.5.1",
-    "leaflet": "^1.7.1",
+    "leaflet": "^1.9.3",
     "printd": "^1.5.1",
     "qrcode": "^1.5.1",
-    "quasar": "^1.0.0",
-    "vue2-gmap-custom-marker": "^6.0.1",
+    "quasar": "^1.22.3",
+    "vue2-gmap-custom-marker": "^6.1.1",
     "vue2-google-maps": "^0.10.7",
     "vue2-leaflet": "^2.7.1"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0",
+    "@quasar/app": "^2.4.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^7.7.0",
-    "eslint-webpack-plugin": "^2.4.0"
+    "eslint-webpack-plugin": "^2.7.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

@@ -24,16 +24,18 @@ Route::post('login',[\App\Http\Controllers\UserController::class,'login']);
 Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
 Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
 Route::resource('/persona',\App\Http\Controllers\PersonaController::class);
+Route::get('qrFile', [\App\Http\Controllers\InventarioController::class, 'qrFile']);
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
+    Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
+    Route::get('/recuperaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'recuperaInv']);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
-        Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
         Route::resource('/user',\App\Http\Controllers\UserController::class);
         Route::resource('/tecnico',\App\Http\Controllers\TecnicoController::class);
         Route::put('/updatePassword/{user}',[\App\Http\Controllers\UserController::class,'updatePassword']);
         Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);
+        Route::get('/listUser',[\App\Http\Controllers\UserController::class,'listUser']);
         Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
-
     Route::post('listplan',[\App\Http\Controllers\PosteController::class,'listplan']);
     Route::post('reporteReclamo',[\App\Http\Controllers\ReclamoController::class,'reporteReclamo']);
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
@@ -53,6 +55,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
     Route::get('valCompra/{nro}',[\App\Http\Controllers\CompraController::class,'valCompra']);
     Route::post('buscarInv',[\App\Http\Controllers\InventarioController::class,'buscarInv']);
+    Route::post('generatePdf',[\App\Http\Controllers\InventarioController::class,'generatePdf']);
 
 });
 

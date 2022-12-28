@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->unsignedBigInteger('tecnico_id');
-            $table->foreign('tecnico_id')->references('id')->on('tecnicos');
+            $table->foreign('tecnico_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

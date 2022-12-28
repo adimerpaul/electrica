@@ -4,6 +4,7 @@
       <div class="col-3"><q-input outlined v-model="nrocompra" type="text" label="NRO COMPRA" /></div>
       <div class="col-3"><q-select outlined  v-model="material" :options="materiales" label="MATERIALES" /></div>
       <div class="col-3"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
+      <div class="col-3"><q-btn color="info" icon="print"  @click="printfull" /></div>
     </div>
 
     <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns" row-key="name" :rows-per-page-options="[50,100]">
@@ -16,6 +17,7 @@
       </template>
       <template v-slot:body-cell-opcion="props">
           <q-td key="opcion" :props="props">
+            <q-btn color="info" icon="qr_code_2" dense @click="qrPrinttodo(props.row)" />
           </q-td>
 
       </template>
@@ -26,12 +28,15 @@
 
       </template>
     </q-table>
+    <div id="myelement" class="hidden"></div>
 
   </div>
 </template>
 
 <script>
 import { date } from 'quasar'
+import QRCode from 'qrcode'
+import {Printd} from "printd";
 const { addToDate } = date
 export default {
   data() {
@@ -47,6 +52,7 @@ export default {
       options: [],
       props: [],
       modelpermiso:false,
+      imgqr:{},
       uni:{},
       columns: [
       {name: "codigo", align: "left", label: "CODIGO ", field: "codigo", sortable: true,},
@@ -57,8 +63,20 @@ export default {
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
       ],
       materiales:[],
+      url: process.env.API,
       material:{},
       data: [],
+      opts : {
+        errorCorrectionLevel: 'M',
+        type: 'png',
+        quality: 0.95,
+        width: 100,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#FFF',
+        },
+      }
     };
   },
   created() {
@@ -71,6 +89,49 @@ export default {
 
   },
   methods: {
+    qrPrint(row){
+      // console.log(row)
+      QRCode.toDataURL(row.codigo)
+        .then(url => {
+          this.$q.dialog({
+            title: 'Codigo QR',
+            message: `<div style="text-align: center"><img src="${url}" /></div>`,
+            html: true,
+            ok: false,
+            // persistent: true,
+            cancel: {
+              label: 'Cerrar',
+              color: 'primary',
+              flat: true,
+              noDismiss: true
+            }
+          })
+          // console.log(url)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    async qrPrinttodo(row){
+      // console.og(row)
+    let cadena=''
+        this.imgqr= await QRCode.toDataURL(row.codigo,this.opts)
+          cadena="<div><img src="+this.imgqr+" /></div>"
+
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+    },
+   printfull(){
+      this.$axios.post("generatePdf",this.data).then(response => {
+        console.log(response.data);
+        window.open(this.url+'qrFile', '_blank');})
+    },
+   async cadenatexto(row){
+      this.imgqr= await QRCode.toDataURL(row.codigo,this.opts)
+          return "<div><img src="+this.imgqr+" /></div>"
+    },
+
     mismateriales() {
         this.$q.loading.show();
         this.$axios.get("material").then((res) => {

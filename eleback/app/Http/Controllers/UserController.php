@@ -7,11 +7,12 @@ use App\Models\Permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function login(Request $request){
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->where('estado','ACTIVO')->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -27,7 +28,7 @@ class UserController extends Controller
     }
     public function me(Request $request){
         $user=User::where('id',$request->user()->id)
-        //            ->with('unid')
+                    ->where('estado','ACTIVO')
                     ->with('permisos')
                     ->firstOrFail();
                 return $user;
@@ -90,5 +91,9 @@ class UserController extends Controller
     public function destroy(User $user)
 {
         $user->delete();
+    }
+
+    public function listUser(){
+        return DB::table('users')->select('id','name')->where('estado','ACTIVO')->where('id','!=',1)->get();
     }
 }

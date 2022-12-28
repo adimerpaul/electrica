@@ -37,6 +37,8 @@ class SalidaController extends Controller
     public function store(StoreSalidaRequest $request)
     {
         //
+        $salida=new Salida();
+        
     }
 
     /**

@@ -8,4 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Salida extends Model
 {
     use HasFactory;
+    protected $fillable=[
+    'destino',
+    'motivo',
+    'carro',
+    'fecha',
+    'hora',
+    'tecnico_id',
+    'user_id'
+    ];
+
+    public function tecnico()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

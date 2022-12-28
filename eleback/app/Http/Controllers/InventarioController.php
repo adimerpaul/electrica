@@ -7,6 +7,9 @@ use App\Http\Requests\StoreInventarioRequest;
 use App\Http\Requests\UpdateInventarioRequest;
 use App\Models\Compra;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Intervention\Image\ImageManagerStatic as Image;
+use Dompdf\Dompdf;
 
 class InventarioController extends Controller
 {
@@ -39,25 +42,31 @@ class InventarioController extends Controller
         }
     }
 
-    public function credencialPdf(Request $request){
+    public function generatePdf(Request $request){
         $data=[];
-        $generator = new BarcodeGeneratorPNG();
-        foreach ($request->lista as $value) {
+        foreach ($request->all() as $value) {
 //            $png = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($value['ci'], $generator::TYPE_CODE_128)) . '">';
-            $value['qr']=base64_encode($generator->getBarcode($value['codigo']==null?'123':$value['codigo'], $generator::TYPE_CODE_128));
+            $png = QrCode::format('png')->size(1000)->generate($value['codigo']);
+            $png = base64_encode($png);
+            $value['qr']=$png;
             $data[]=$value;
         }
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('generar', ['inventarios' => $data]);
-        $pdf->setPaper('letter', 'landscape');
-        $pdf->save('inventarios.pdf')->stream();
+        $pdf->setPaper('letter', 'P');
+        $pdf->save('qrs.pdf')->stream();
     }
-
+    public function qrFile(){
+        return response()->file('qrs.pdf');
+    }
     public function create()
     {
         //
     }
 
+    public function recuperaInv($cod){
+        return Inventario::with('material')->with('compra')->where('codigo',$cod)->first();
+    }
     /**
      * Store a newly created resource in storage.
      *

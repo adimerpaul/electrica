@@ -38,6 +38,21 @@ class InventarioController extends Controller
         return Inventario::with('material')->with('compra')->where('material_id',$request->material_id)->get();
         }
     }
+
+    public function credencialPdf(Request $request){
+        $data=[];
+        $generator = new BarcodeGeneratorPNG();
+        foreach ($request->lista as $value) {
+//            $png = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($value['ci'], $generator::TYPE_CODE_128)) . '">';
+            $value['qr']=base64_encode($generator->getBarcode($value['codigo']==null?'123':$value['codigo'], $generator::TYPE_CODE_128));
+            $data[]=$value;
+        }
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('generar', ['inventarios' => $data]);
+        $pdf->setPaper('letter', 'landscape');
+        $pdf->save('inventarios.pdf')->stream();
+    }
+
     public function create()
     {
         //

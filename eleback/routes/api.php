@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
+
+Route::get('buscarPoste/{nro}',[\App\Http\Controllers\PosteController::class,'buscarPoste']);
 Route::post('buscarPersona/{ci}',[\App\Http\Controllers\PersonaController::class,'buscarPersona']);
 Route::post('consultaReclamo/{ci}',[\App\Http\Controllers\PersonaController::class,'consultaReclamo']);
 Route::post('calcularArea',[\App\Http\Controllers\PosteController::class,'calcularArea']);

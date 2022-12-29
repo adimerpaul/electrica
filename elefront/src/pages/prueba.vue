@@ -21,9 +21,11 @@
 
     </div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.ci"
-          label="Cedula de Identidad" @change="buscar"/></div>
-        <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.nombre" type="text" label="Nombre Completo" /></div>
-        <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.telefono" type="text" label="Celular" /></div>
+          label="Cedula de Identidad *" @change="buscar"/></div>
+        <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.nombre" type="text" label="Nombre Completo *" /></div>
+        <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.telefono" type="text" label="Celular *" /></div>
+        <div class="q-pa-xs row"><div class="col-10"><q-input bg-color="blue-grey-1" dense outlined rounded v-model="nposte" type="text" label="Nro Poste" /></div> <q-btn color="green"  icon="search" @click="buscarPoste" /></div>
+
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
         <gmap-map
@@ -109,6 +111,7 @@ export default {
       persona:{},
       punto:{},
       denuncia:{},
+      nposte:'',
       dialogReclamo:false,
       zoom: 16,
       marker:{},
@@ -270,7 +273,8 @@ export default {
         })
       })
       this.denuncia.reclamo=''
-
+      this.denuncia={}
+      this.nposte=''
     },
     seleccionar(){
         if(this.persona.ci==undefined ||
@@ -303,6 +307,19 @@ export default {
       }
 
     this.$q.loading.hide()
+
+    },
+    buscarPoste(){
+      this.datos=[]
+      this.$axios.get('buscarPoste/'+this.nposte).then(res=>{
+        if(res.data.length>0){
+
+          this.datos.push(res.data[0])
+          this.ubicacion={lat:res.data[0].lat,lng:res.data[0].lng};
+          this.center=this.ubicacion
+          this.zoom=18;
+        }
+      })
 
     },
     buscar(){

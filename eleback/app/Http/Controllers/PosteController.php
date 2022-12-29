@@ -160,6 +160,10 @@ class PosteController extends Controller
         //
     }
 
+    public function buscarPoste($nro){
+        return Poste::where('nroposte',$nro)->get();
+    }
+
     public function listplan(Request $request){
         $anio=date("Y",strtotime($request->fecha));
         $mes=date("m",strtotime($request->fecha));

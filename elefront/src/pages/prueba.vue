@@ -156,7 +156,7 @@ export default {
   },
   methods:{
     async printReclamo(recl) {
-      this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
+      //this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
       this.qrImage = await QRCode.toDataURL(this.urlbase+'/'+recl.persona.ci, this.opts)
       let cadena = "<style>\
       .titulo{\
@@ -175,7 +175,7 @@ export default {
       width:70%;\
       }\
             .contenido{\
-      font-size: 9px;\
+      font-size: 10px;\
       text-align: left;\
       }\
       .conte2{\
@@ -208,18 +208,12 @@ export default {
         Oruro\
       </div>\
       <hr>\
-      <table><tr><td>\
       <table>\
         <tr><td class='titder'>FECHA REGISTRO:</td><td class='contenido'>" + recl.fecha + "</td></tr>\
         <tr><td class='titder'>CI:</td><td class='contenido'>" + recl.persona.ci + "</td></tr>\
         <tr><td class='titder'>NOMBRE:</td><td class='contenido'>" + recl.persona.nombre + "</td></tr>\
         <tr><td class='titder'>TELEFONO:</td><td class='contenido'>" + recl.persona.telefono + "</td></tr>\
-      </table></<td> \
-      <td>\
-        <div style='display: flex;justify-content: center;'>\
-        <img src="+this.qrImage2+" >\
-        </div>\
-      </td></tr></table>\
+      </table> \
       <hr>\
       <div class='titulo'>DETALLE RECLAMO</div>\
       <div  class='contenido'>"+recl.reclamo+"</div>\

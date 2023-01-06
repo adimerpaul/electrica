@@ -32,7 +32,7 @@ class CronogramaController extends Controller
     }
 
     public function listCrono(Request $request){
-        return Cronograma::whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
+        return Cronograma::whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->orderBy('fecha','asc')->get();
     }
 
     public function datoImp(Request $request){

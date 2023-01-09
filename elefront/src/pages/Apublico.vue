@@ -22,7 +22,7 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-3">
-                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w',
+                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w',
                   ,'36w','30w','20w','24w','18w','15w','12w','0']" v-on:click="cargarcolor" />
                   <q-btn color="primary" icon="check"  @click="cargarcolor" />
               </div>
@@ -80,7 +80,7 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-3">
-                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w',
+                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w',
                   ,'36w','30w','20w','24w','18w','15w','12w','0']" v-on:click="cargarcolor" />
                   <q-btn color="primary" icon="check"  @click="cargarcolor" />
               </div>
@@ -222,25 +222,27 @@ export default {
       d5e:[],
       colors:[],
       poten:[
+       {'potencia':'1000w','colores':['p1000.png']},
        {'potencia':'400w','colores':['l400.png','p400.png']},
-       {'potencia':'360w','colores':['l360.png']},
+       {'potencia':'360w','colores':['l360.png','p360.png']},
        {'potencia':'300w','colores':['l300.png']},
        {'potencia':'250w','colores':['l250.png','p250.png']},
-       {'potencia':'240w','colores':['l240.png']},
-       {'potencia':'200w','colores':['l200.png']},
+       {'potencia':'240w','colores':['l240.png','p240.png']},
+       {'potencia':'200w','colores':['l200.png','p200.png']},
        {'potencia':'196w','colores':['l196.png']},
        {'potencia':'150w','colores':['l150.png','p150.png']},
        {'potencia':'136w','colores':['l136.png']},
-       {'potencia':'125w','colores':['l125.png']},
+       {'potencia':'125w','colores':['l125.png','p125.png']},
        {'potencia':'120w','colores':['l120.png']},
        {'potencia':'100w','colores':['l100.png']},
-       {'potencia':'85w','colores':['l85.png']},
-       {'potencia':'75w','colores':['l75.png']},
+       {'potencia':'85w','colores':['l85.png','p85.png']},
+       {'potencia':'75w','colores':['l75.png','p75.png']},
        {'potencia':'70w','colores':['l70.png','p70.png']},
        {'potencia':'60w','colores':['l60.png']},
        {'potencia':'58w','colores':['l58.png','p58.png']},
        {'potencia':'50w','colores':['l50.png','p50.png']},
-       {'potencia':'40w','colores':['l40.png']},
+       {'potencia':'40w','colores':['l40.png','p40.png']},
+       {'potencia':'38w','colores':['l38.png']},
       {'potencia':'36w','colores':['l36.png']},
       {'potencia':'30w','colores':['l30.png']},
       {'potencia':'20w','colores':['l20.png']},

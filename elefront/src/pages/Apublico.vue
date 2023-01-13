@@ -22,8 +22,8 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-3">
-                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w',
-                  ,'36w','30w','20w','24w','18w','15w','12w','0']" v-on:click="cargarcolor" />
+                <q-select dense outlined label="Potencia"  v-model="potencia"
+                :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w','36w','30w','20w','24w','18w','15w','12w','0']" @input-value="cargarcolor()" />
                   <q-btn color="primary" icon="check"  @click="cargarcolor" />
               </div>
               <div class="col-3">
@@ -80,8 +80,7 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-3">
-                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w',
-                  ,'36w','30w','20w','24w','18w','15w','12w','0']" v-on:click="cargarcolor" />
+                <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w','36w','30w','20w','24w','18w','15w','12w','0']" @change.native="cargarcolor" />
                   <q-btn color="primary" icon="check"  @click="cargarcolor" />
               </div>
               <div class="col-3">
@@ -196,7 +195,7 @@ export default {
     return {
       datos:[],
       dialogRegistro:false,
-
+      potencia:'',
       mantenimiento:'',
         distritos:[
           {label:'Distrito 1',value:'D1'},
@@ -277,14 +276,14 @@ export default {
     this.mispuntos()
   },
   methods:{
-      cargarcolor:function(event){
+      cargarcolor(){
         console.log('sdfds')
-        if(this.punto.potencia=='')
+        if(this.potencia=='')
           this.colors=[]
-          console.log(this.punto.potencia)
+          //console.log(this.punto.potencia)
 
         this.poten.forEach(r=>{
-          if(r.potencia==this.punto.potencia)
+          if(r.potencia==this.potencia)
           {this.colors=r.colores
           this.punto.color=this.colors[0]}
         })

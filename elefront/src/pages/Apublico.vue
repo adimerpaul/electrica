@@ -22,9 +22,8 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-3">
-                <q-select dense outlined label="Potencia"  v-model="potencia"
-                :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w','36w','30w','20w','24w','18w','15w','12w','0']" @input-value="cargarcolor()" />
-                  <q-btn color="primary" icon="check"  @click="cargarcolor" />
+                <q-select dense outlined label="Potencia"  v-model="punto.potencia"
+                :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w','36w','30w','20w','24w','18w','15w','12w','0']" @change="cargarcolor()" />
               </div>
               <div class="col-3">
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
@@ -41,9 +40,7 @@
               <div class="col-3">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
-              <div class="col-3">
-                <q-select :options="colors" dense outlined label="Color" v-model="punto.color" required/>
-              </div>
+
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" required />
               </div>
@@ -81,7 +78,6 @@
               </div>
               <div class="col-3">
                 <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="['1000w','400w','360w','300w','250w','240w','200w','196w','150w','136w','125w','120w','100w','85w','75w','70w','60w','58w','50w','40w','38w','36w','30w','20w','24w','18w','15w','12w','0']" @change.native="cargarcolor" />
-                  <q-btn color="primary" icon="check"  @click="cargarcolor" />
               </div>
               <div class="col-3">
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
@@ -98,9 +94,7 @@
               <div class="col-3">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
-              <div class="col-3">
-                <q-select :options="colors" dense outlined label="Color" v-model="punto.color" required/>
-              </div>
+
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" required />
               </div>
@@ -278,17 +272,23 @@ export default {
   methods:{
       cargarcolor(){
         console.log('sdfds')
-        if(this.potencia=='')
-          this.colors=[]
+        if(this.punto.potencia=='')
+          this.punto.color=[]
           //console.log(this.punto.potencia)
 
         this.poten.forEach(r=>{
-          if(r.potencia==this.potencia)
+          if(r.potencia==this.punto.potencia)
           {this.colors=r.colores
           this.punto.color=this.colors[0]}
         })
       },
       regPoste(){
+        this.poten.forEach(r=>{
+          if(r.potencia==this.punto.potencia)
+          {this.colors=r.colores
+          this.punto.color=this.colors[0]}
+        })
+        console.log(this.punto)
       this.$axios.post('poste',this.punto).then(res=>{
         this.dialogRegistro=false
         this.mispuntos
@@ -298,6 +298,11 @@ export default {
 updatePoste(){
   console.log(this.punto)
   //return false
+  this.poten.forEach(r=>{
+          if(r.potencia==this.punto.potencia)
+          {this.colors=r.colores
+          this.punto.color=this.colors[0]}
+        })
     this.$axios.post('upPoste',this.punto).then(res=>{
     //this.mispuntos()
     this.modalpunto=false

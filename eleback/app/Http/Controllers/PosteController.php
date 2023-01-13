@@ -87,7 +87,7 @@ class PosteController extends Controller
         $poste->potencia=$request->potencia;
         $poste->observacion=$request->observacion;
         $poste->color=$request->color;
-        $poste->junta=$request->junta;
+        $poste->junta='';
         $poste->tipo='NUEVO';
         return $poste->save();
     }

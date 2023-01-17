@@ -13,10 +13,10 @@
         <q-card-section class="q-pt-none">
             <div class="row">
               <div class="col-3">
-                <q-input dense outlined label="latitud" v-model="punto.lat" required type="number" step="0.000001"/>
+                <q-input dense outlined label="latitud" v-model="punto.lat" required type="number"  step="0.00000000001" />
               </div>
               <div class="col-3">
-                <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.000001"  />
+                <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.00000000001"  />
               </div>
               <div class="col-3">
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
@@ -120,6 +120,7 @@
     :center="center"
     :zoom="zoom"
     style="width: 100%; height: 500px"
+    @click="handleMarkerDrag"
     :options="{
    zoomControl: true,
    mapTypeControl: true,
@@ -130,7 +131,17 @@
    disableDefaultUi: false
  }">
     <!-- use the default slot to pass markers to it -->
-
+    <gmap-marker
+    :position="ubicacion"
+    :draggable="true"
+    :clickable="true"
+    @drag="updateCoordinates"
+    @click="registropunto()"
+    title="Usted esta Aqui"
+    :optimized=true
+    icon="http://maps.google.com/mapfiles/ms/icons/purple-pushpin.png"
+  >
+  </gmap-marker>
     <gmap-marker
       v-for="m in datos" :key="m.id"
       :position="{'lat':m.lat,'lng':m.lng}"
@@ -262,14 +273,69 @@ export default {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 16,
       center: {lat:-17.970310, lng:-67.111780},
-      markerLatLng: [-17.970310, -67.111780]
+      markerLatLng: [-17.970310, -67.111780],
+      ubicacion:{lat:-17.970310, lng:-67.111780},
+      marker:{},
     };
   },
   created() {
 
     this.mispuntos()
+    this.geolocate()
   },
   methods:{
+    handleMarkerDrag(e) {
+      this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    },
+    updateCoordinates(location) {
+            this.ubicacion = {
+                lat: location.latLng.lat(),
+                lng: location.latLng.lng(),
+            };
+
+        },
+    registropunto(){
+      //alert(this.ubicacion.lat)
+      this.punto.lat=this.ubicacion.lat
+      this.punto.lng=this.ubicacion.lng
+      this.dialogRegistro=true
+    },
+    async geolocate() {
+      this.ubicacion= {lat:0, lng:0}
+      // check if API is supported
+
+      if (navigator.geolocation) {
+
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position)
+
+        this.marker.position = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        this.ubicacion=this.marker.position;
+        this.center=this.ubicacion
+        this.zoom=18;
+
+      },function(error){
+// El segundo parámetro es la función de error
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("El usuario denegó el permiso para la Geolocalización")
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log("La ubicación no está disponible.")
+            break;
+        case error.TIMEOUT:
+            console.log("Se ha excedido el tiempo para obtener la ubicación")
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log(" Un error desconocido.")
+            break;
+    }
+  });}regPoste
+
+    },
       cargarcolor(){
         console.log('sdfds')
         if(this.punto.potencia=='')
@@ -291,6 +357,7 @@ export default {
         console.log(this.punto)
       this.$axios.post('poste',this.punto).then(res=>{
         this.dialogRegistro=false
+        this.punto={}
         this.mispuntos
       })
 

@@ -333,7 +333,7 @@ export default {
             console.log(" Un error desconocido.")
             break;
     }
-  });}regPoste
+  });}
 
     },
       cargarcolor(){

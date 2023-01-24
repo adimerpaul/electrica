@@ -67,6 +67,32 @@
 </gmap-map>
       </div>
     </div>
+    <div class="col-12">
+      <q-table
+        :data="lista"
+        :columns="colmlist"
+        row-key="name"
+      />
+    </div>
+    <q-dialog v-model="agregar" persistent>
+      <q-card style="width: 300px">
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm">AGREGAR A LISTA RECLAMO</span>
+        </q-card-section>
+        <q-card-section>
+            <div class="col-md-3 col-xs-12"><b>MATERIAL :</b> {{punto.material}}</div>
+            <div class="col-md-3 col-xs-12"><b>LUMINARIA :</b> {{punto.luminaria}}</div>
+            <div class="col-md-3 col-xs-12"><b>ALTURA :</b> {{punto.altura}}</div>
+            <div class="col-md-3 col-xs-12"><b>POTENCIA :</b> {{punto.potencia}}</div>
+            <div class="col-12"><b>OBSERVACION : </b>{{punto.observacion}}</div>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="CANCEL" color="red" v-close-popup />
+          <q-btn flat label="AGREGAR" color="green" @click="addPunto" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <q-dialog v-model="dialogReclamo" full-width>
       <q-card >
         <q-card-section>
@@ -108,9 +134,17 @@ export default {
   name: 'PageIndex',
   data(){
     return {
+      colmlist:[
+        {label:'nro',field:'nroposte',name:'nroposte'},
+        {label:'luminaria',field:'luminaria',name:'luminaria'},
+        {label:'potencia',field:'potencia',name:'potencia'},
+        {label:'material',field:'material',name:'material'},
+      ],
       persona:{},
+      agregar:false,
       punto:{},
       denuncia:{},
+      lista:[],
       nposte:'',
       dialogReclamo:false,
       zoom: 16,
@@ -155,6 +189,12 @@ export default {
     //this.mispuntos()
   },
   methods:{
+    addPunto(){
+      if(!this.lista.find(x=> x.id==this.punto.id)){
+      this.lista.push(this.punto)
+     }
+     this.agregar=false
+    },
     async printReclamo(recl) {
       //this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
       this.qrImage = await QRCode.toDataURL(this.urlbase+'/'+recl.persona.ci, this.opts)
@@ -265,15 +305,8 @@ export default {
           color: 'green',
           icon:'info'
         })
-      }).catch(err=>{
-        this.$q.notify({
-          message:err.response.data.message,
-          icon:'error',
-          color:'red'
-        })
       })
       this.denuncia.reclamo=''
-      this.persona={}
       this.denuncia={}
       this.nposte=''
     },
@@ -290,7 +323,7 @@ export default {
         return false
         }
         this.zoom=19
-        this.dialogReclamo=true
+        this.agregar=true
     },
     cargar(dist){
 

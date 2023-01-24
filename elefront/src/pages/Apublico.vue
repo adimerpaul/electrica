@@ -296,8 +296,8 @@ export default {
         },
     registropunto(){
       //alert(this.ubicacion.lat)
-      this.punto.lat=this.ubicacion.lat
-      this.punto.lng=this.ubicacion.lng
+      this.punto.lat=this.ubicacion.lat.toFixed(8)
+      this.punto.lng=this.ubicacion.lng.toFixed(8)
       this.dialogRegistro=true
     },
     async geolocate() {

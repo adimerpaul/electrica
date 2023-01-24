@@ -30,6 +30,7 @@ Route::get('qrFile', [\App\Http\Controllers\InventarioController::class, 'qrFile
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
     Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::get('/recuperaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'recuperaInv']);
+    Route::get('/consultaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'consultaInv']);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::resource('/user',\App\Http\Controllers\UserController::class);

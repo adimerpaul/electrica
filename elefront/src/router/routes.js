@@ -7,6 +7,7 @@ import Alumbrado from "pages/Alumbrado";
 import Informacion from "pages/Informacion";
 import prueba from "pages/prueba";
 import prueba2 from "pages/prueba2";
+import Registroreclamo from "pages/Registroreclamo";
 import Reclamo from "pages/Reclamo";
 import User from "pages/User";
 import Tecnicos from "pages/Tecnicos";
@@ -20,6 +21,7 @@ import Inventarios from "pages/Inventarios";
 import Datomaterial from "pages/Datomaterial";
 import Compras from "pages/Compras";
 import Tiendas from "pages/Tiendas";
+import Salidas from "pages/Salidas";
 
 const routes = [
   {
@@ -46,11 +48,13 @@ const routes = [
       { path: 'tiendas', component: Tiendas ,meta: {requiresAuth: true}},
       { path: 'inventarios', component: Inventarios ,meta: {requiresAuth: true}},
       { path: 'materialinfo', component: Datomaterial ,meta: {requiresAuth: true}},
+      { path: 'salidas', component: Salidas ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]
   },
   {path:'/reclamoalumbrado',component:prueba},
+  {path:'/registroreclamo',component:Registroreclamo},
   {path:'/consulta/:cedula',component:prueba2},
   {path:'/consulta',component:prueba2},
 

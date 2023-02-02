@@ -24,7 +24,9 @@
           label="Cedula de Identidad *" @change="buscar"/></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.nombre" type="text" label="Nombre Completo *" /></div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.telefono" type="text" label="Celular *" /></div>
+        <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="reclamo" type="textarea" label="Detalle de Reclamo *" /></div>
         <div class="q-pa-xs row"><div class="col-10"><q-input bg-color="blue-grey-1" dense outlined rounded v-model="nposte" type="text" label="Nro Poste" /></div> <q-btn color="green"  icon="search" @click="buscarPoste" /></div>
+        <div class="q-pa-xs"><q-btn color="green-8" label="REGISTRAR" @click="registrarReclamo"/></div>
 
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
@@ -65,14 +67,22 @@
     >
     </gmap-marker>
 </gmap-map>
-      </div>
+      </div>put
     </div>
-    <div class="col-12">
+    <div class="col-12 q-pa-xs">
       <q-table
         :data="lista"
         :columns="colmlist"
+        dense
         row-key="name"
-      />
+      >
+      <template v-slot:body-cell-opcion="props">
+          <q-td key="opcion" :props="props">
+            <q-btn color="red" icon="delete" size="xs" round @click="delreclamo(props)" />
+          </q-td>
+
+      </template>
+      </q-table>
     </div>
     <q-dialog v-model="agregar" persistent>
       <q-card style="width: 300px">
@@ -135,15 +145,17 @@ export default {
   data(){
     return {
       colmlist:[
-        {label:'nro',field:'nroposte',name:'nroposte'},
-        {label:'luminaria',field:'luminaria',name:'luminaria'},
-        {label:'potencia',field:'potencia',name:'potencia'},
-        {label:'material',field:'material',name:'material'},
+        {label:'OPC',field:'opcion',name:'opcion'},
+        {label:'NRO',field:'nroposte',name:'nroposte'},
+        {label:'LUMINARIA',field:'luminaria',name:'luminaria'},
+        {label:'POTENCIA',field:'potencia',name:'potencia'},
+        {label:'MATERIAL',field:'material',name:'material'},
       ],
       persona:{},
       agregar:false,
       punto:{},
       denuncia:{},
+      reclamo:'',
       lista:[],
       nposte:'',
       dialogReclamo:false,
@@ -189,6 +201,10 @@ export default {
     //this.mispuntos()
   },
   methods:{
+    delreclamo(indice){
+      console.log(indice)
+      this.lista.splice(indice.rowIndex,1)
+    },
     addPunto(){
       if(!this.lista.find(x=> x.id==this.punto.id)){
       this.lista.push(this.punto)
@@ -282,7 +298,8 @@ export default {
             };
 
         },
-    registrarReclamo(){
+
+    /*registrarReclamo(){
       if(this.denuncia.reclamo==undefined || this.denuncia.reclamo==''){
         this.$q.notify({
           message: 'Ingrese su Reclamo',
@@ -307,6 +324,47 @@ export default {
         })
       })
       this.denuncia.reclamo=''
+      this.denuncia={}
+      this.nposte=''
+    },*/
+    registrarReclamo(){
+      if(this.reclamo==undefined || this.reclamo==''){
+        this.$q.notify({
+          message: 'Ingrese su Reclamo',
+          color: 'red',
+          icon:'info'
+        })
+        return false
+      }
+      if(this.persona.ci==undefined || this.persona.ci=='' ||
+         this.persona.nombre==undefined || this.persona.nombre=='' ||
+         this.persona.telefono==undefined || this.persona.telefono==''
+         ){
+          this.$q.notify({
+          message: 'Registre sus datos',
+          color: 'red',
+          icon:'info'
+        })
+        return false
+         }
+      if(this.persona.id==undefined) this.persona.id=''
+      this.denuncia.persona=this.persona
+      this.denuncia.fecha=date.formatDate(new Date(),'YYYY-MM-DD')
+      this.denuncia.hora=date.formatDate(new Date(),'HH:mm')
+      this.denuncia.listado=this.lista
+      this.denuncia.reclamo=this.reclamo
+      this.$axios.post('registroMultiple',this.denuncia).then(res=>{
+        console.log(res.data)
+        //this.printReclamo(res.data)
+        this.dialogReclamo=false
+        this.$q.notify({
+          message: 'Su Reclamo fue Registrado',
+          color: 'green',
+          icon:'info'
+        })
+      })
+      this.reclamo=''
+      this.persona={}
       this.denuncia={}
       this.nposte=''
     },

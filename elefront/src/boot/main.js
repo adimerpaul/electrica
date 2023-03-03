@@ -4,7 +4,7 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
 const app = createApp(App);
 app.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyCmOdLL-xpg_9JWBByO-KhaaK6WShc11LI',
+        key: 'AIzaSyAf47yQQOBeabQgDXNQo5Ba2MTbJNtS-JU',
         // language: 'de',
     },
 }).mount('#app')

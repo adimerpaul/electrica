@@ -65,92 +65,89 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-form @submit="updatedenuncia">
+          <q-form @submit="regmatto">
             <div class="row">
               <div class="col-xs-12 col-md-6">
-                <q-input dense outlined :disable="true" label="Nombre" v-model="persona.nombre" />
+                <b>Nombre: </b>{{ persona.nombre }}
               </div>
               <div class="col-xs-12 col-md-3">
-                <q-input dense outlined :disable="true" label="CI" v-model="persona.ci" />
+                <b>CI: </b> {{ persona.ci }}
               </div>
               <div class="col-xs-12 col-md-3">
-                <q-input dense outlined :disable="true" label="Telefono" v-model="persona.telefono" />
+                <b>Telefono: </b>{{ persona.telefono }}
               </div>
 
-              <div class="col-xs-12 col-md-6">
-                <q-input dense outlined :disable="true" type="textarea" label="Reclamo" v-model="punto.reclamo" />
+              <div class="col-xs-9">
+                <b>Reclamo: </b>{{ punto.reclamo }}
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" label="Fecha" v-model="punto.fecha" />
+                <b>Fecha Hora:</b> {{ punto.fecha }} {{ punto.hora }}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-md-3 col-xs-6">
+                <b>Luminaria: </b> {{ poste.luminaria }}
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" label="Hora" v-model="punto.hora" />
+                <b>Material: </b>{{ poste.material }}
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" v-model="poste.luminaria" type="text" label="Luminaria" />
+                <b>Altura: </b>{{ poste.altura }}
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" v-model="poste.material" type="text" label="Material" />
+                <b>Potencia: </b>{{ poste.potencia }}
               </div>
-              <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" v-model="poste.altura" type="text" label="Altura" />
+              <div class="col-md-12">
+                <b>Observacion: </b>{{ poste.observacion }}
               </div>
-              <div class="col-md-3 col-xs-6">
-                <q-input dense outlined :disable="true" v-model="poste.potencia" type="text" label="Potencia" />
-              </div>
-              <div class="col-6">
-                <q-input dense outlined :disable="true" label="Estado" v-model="punto.estado" />
               </div>
               <div class="col-12 flex flex-center">
                 <q-btn label="Generar Ruta" class="full-width" color="primary" icon="map" type="a" target="_blank" :href="'https://www.google.com.bo/maps/place/'+poste.lat+','+poste.lng+'/@'+poste.lat+','+poste.lng+',17z/data=!3m1!4b1!4m6!3m5!1s0x0:0xeda9371aeb8c1574!7e2!8m2!3d-17.981432!4d-67.1061122?hl=es'"/>
               </div>
-              <div class="col-12">
-                <q-input required dense outlined label="Tecnico" v-model="punto.tecnico" />
-              </div>
+
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="Actividad" v-model="punto.actividad" />
               </div>
-              <div class="row full-width">
-                <div class="col-md-3 col-xs-12">
-                  <div class="text-h6">LAMPARA W</div>
-                  <q-input outlined dense v-model="punto.l70" type="text" label="70W" />
-                  <q-input outlined dense v-model="punto.l150" type="text" label="150W" />
-                  <q-input outlined dense v-model="punto.l250" type="text" label="250W" />
-                  <q-btn dense color="yellow" icon="check" @click="regActividad" />
+              <div class="row ">
+                <div class="col-md-3 col-xs-6">
+                  <q-select dense v-model="material" :options="listMaterial" label="Materiales" outlined @input="buscar()" />
                 </div>
-                <div class="col-md-3 col-xs-12">
-
-                <div class="text-h6">REACTOR W</div>
-                  <q-input outlined dense v-model="punto.r70" type="text" label="70W" />
-                  <q-input outlined dense v-model="punto.r150" type="text" label="150W" />
-                  <q-input outlined dense v-model="punto.r250" type="text" label="250W" />
+                <div class="col-md-3 col-xs-6">
+                  <q-select dense v-model="codigo" :options="codigos" label="Codigo" outlined />
                 </div>
-                <div class="col-md-3 col-xs-12">
-
-                <div class="text-h6">FOTOCELULA</div>
-                  <q-input outlined dense v-model="punto.foto" type="text" label="Foto" />
-                  <q-input outlined dense v-model="punto.base" type="text" label="Base" />
+                <div class="col-md-3 col-xs-6">
+                  <b>Disponible:</b>{{ codigo.saldo }}
                 </div>
-                <div class="col-md-3 col-xs-12">
-
-                <div class="text-h6">VARIOS</div>
-                  <q-input outlined dense v-model="punto.ignitor" type="text" label="IGNITOR" />
-                  <q-input outlined dense v-model="punto.cable" type="number" step="0.01" label="CABLE M/L" />
-                  <div class="row">
-                    <q-toggle false-value="NO"  :label="`Contactor ${punto.contactor}`" true-value="SI" color="green" v-model="punto.contactor" />
-                  <q-toggle false-value="NO"  :label="`Termico ${punto.termico}`" true-value="SI" color="green" v-model="punto.termico" />
+                <div class="col-md-2 col-xs-4">
+                  <q-input v-model="cantidad" type="number" label="Cantidad" required outlined dense/>
                 </div>
-                  <q-input outlined dense v-model="punto.soquet" type="text" label="SOQUET" />
+                <div class="col-md-1 col-xs-2 q-pa-xs">
+                  <q-btn color="green" icon="add_circle" dense @click="agregar" />
+                </div>
+                <div class="col-12">
+                  <q-table
+                    title="DETALLE"
+                    :data="detalle"
+                    :columns="coldetalle"
+                    row-key="name"
+                    dense
+                  >
+                  <template v-slot:body-cell-opcion="props">
+                    <q-td :props="props" >
+                      <q-btn color="red" icon="delete"  size="xs" round @click="delDetalle(props.rowIndex)" />
+                    </q-td>
+                  </template>
+                  </q-table>
                 </div>
               </div>
-              <div class="col-md-4 col-xs-4">
+              <div class="row">
+              <div class="col-md-6 col-xs-6">
                 <q-input dense outlined type="date" label="Fecha Man" v-model="punto.fechaman" />
               </div>
-              <div class="col-md-4 col-xs-4">
+              <div class="col-md-6 col-xs-6">
                 <q-input dense outlined type="time" label="Hora Man" v-model="punto.horaman" />
-              </div>
-              <div class="col-md-4 col-xs-4">
-                <q-input dense outlined type="date" label="Fecha Proximo" v-model="fechaplan" />
               </div>
               <div class="col-12 flex flex-center">
                 <q-btn type="submit" label="Realizar mantenimiento" class="full-width" color="positive" icon="construction"/>
@@ -176,12 +173,17 @@ export default {
   data () {
     return {
       modalpunto:false,
+      detalle:[],
+      material:{},
+      codigo:{},
+      codigos:[],
       fechaplan:date.formatDate(new Date(),'YYYY-MM-DD'),
       filter:'',
       url:'https://electrica.gamo.cf/#/consulta',
       poste:{},
       persona:{},
       qrImage2:'',
+      cantidad:1,
       qrImage:'',
       colums:[
         {name:"nroposte",label:"nroposte",field:"nroposte"},
@@ -189,8 +191,15 @@ export default {
         // {name:"potencia",label:"potencia",field:"potencia"},
         {name:"ubicacion",label:"ubicacion",field:"ubicacion"},
       ],
+      coldetalle:[
+        {label:'OP',field:'opcion',name:'opcion'},
+        {label:'MATERIAL',field:'material',name:'material'},
+        {label:'CODIGO',field:row=>row.inventario.codigo,name:'codigo'},
+        {label:'CANT',field:'uso',name:'uso'}
+      ],
       puntos:[],
       puntostabla:[],
+      listMaterial:[],
       punto:{},
      // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
@@ -225,8 +234,66 @@ export default {
   },
   created() {
     this.mispuntos()
+    this.cargarMaterial()
   },
   methods:{
+    regmatto(){
+      this.$axios.post('reclamofin',{punto:this.punto,detalle:this.detalle}).then(res=>{
+        console.log(res.data)
+        this.modalpunto=false
+        this.mispuntos()
+        this.cargarMaterial()
+
+      })
+    },
+    delDetalle(ind){
+      this.detalle.splice(ind,1)
+    },
+    agregar(){
+      if(this.cantidad==undefined || this.cantidad=='' || this.cantidad<=0){
+        this.cantidad=1
+        return false
+      }
+
+      if(this.cantidad>this.codigo.saldo)
+      {
+        this.cantidad=this.codigo.saldo
+      }
+      if(!this.detalle.find(x=> x.id=== this.codigo.id)){
+        this.codigo.uso=this.cantidad
+        this.detalle.push(this.codigo)
+
+      }
+
+    },
+    buscar(){
+      this.codigos=this.material.lista
+      this.codigo=this.material.lista[0]
+          this.cantidad=1
+
+    },
+    cargarMaterial(){
+      this.$axios.post('disponible').then(res=>{
+
+        res.data.forEach(r => {
+          r.label=r.inventario.codigo
+          let p=this.listMaterial.find(x=>x.id===r.material_id)
+          if(! p)
+          {this.listMaterial.push({'id':r.material_id,label:r.material,lista:[r]})}
+          else{
+              p.lista.push(r)
+          }
+        });
+        console.log(this.listMaterial)
+        if(this.listMaterial.length>0){
+        this.material=this.listMaterial[0]
+        this.codigo=this.material.lista[0]
+        this.codigos=this.material.lista
+          this.cantidad=1
+        }
+      })
+
+    },
     async printReclamo(recl) {
       this.qrImage2 = await QRCode.toDataURL(''+recl.persona.ci, this.opts2)
       this.qrImage = await QRCode.toDataURL(this.url+'/'+recl.persona.ci, this.opts)
@@ -341,6 +408,7 @@ export default {
        this.modalpunto=true
 
         this.punto=p
+        this.detalle=[]
         this.persona=p.persona
         this.poste=p.poste
     },

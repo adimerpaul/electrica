@@ -108,6 +108,26 @@
         </q-card>
       </q-dialog>
 
+      <q-dialog v-model="dialogDetalle">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="shopping_cart" color="red" text-color="white" />
+            <span class="q-ml-sm">DETALLE DE COMPRA</span>
+          </q-card-section>
+          <q-card-section>
+            <table>
+              <tr><th>MATERIAL</th><th>CANTIDAD</th><th>PRECIO</th><th>SUBTOTAL</th></tr>
+              <tr v-for="d in detalle" :key="d.id">
+              <td>{{ d.material.nombre }}</td><td>{{ d.cantidad }}</td><td>{{ d.unitario }}</td><td>{{ d.total }}</td>
+              </tr>
+            </table>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
 
     </div>
   </template>
@@ -122,6 +142,7 @@ import { date } from 'quasar'
         alert: false,
         dialog_mod: false,
         dialog_del: false,
+        dialogDetalle:false,
         listado:[],
         filter:'',
         dato: {},
@@ -134,6 +155,7 @@ import { date } from 'quasar'
         materiales:[],
         tiendas:[],
         compras:[],
+        detalle:[],
         reg:{material:{label:''}},
         modelpermiso:false,
         mensaje:'',
@@ -180,6 +202,8 @@ import { date } from 'quasar'
         },
         viewRow(comp){
             console.log(comp.contenidos)
+            this.detalle=comp.contenidos
+            this.dialogDetalle=true
         },
         registrar(){
             if(this.listado.length==0)

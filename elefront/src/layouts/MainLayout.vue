@@ -275,6 +275,18 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-item clickable to="/salidas" exact >
+                <q-item-section avatar>
+                  <q-icon name="category" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Entrega Material</q-item-label>
+                  <q-item-label caption>
+                    Inventario
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
             </q-card-section>
 
           </q-card>

@@ -67,7 +67,7 @@
     >
     </gmap-marker>
 </gmap-map>
-      </div>put
+      </div>
     </div>
     <div class="col-12 q-pa-xs">
       <q-table

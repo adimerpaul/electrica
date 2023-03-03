@@ -16,12 +16,12 @@ class Reclamo extends Model
     'horaman',
     "estado",
     "tecnico",
-    "supervisor",
+   // "supervisor",
     "actividad",
     'tipo',
     'persona_id',
     'poste_id',
-    "l70",
+    /*"l70",
     "l150",
     "l250",
     "r70",
@@ -33,7 +33,7 @@ class Reclamo extends Model
     "cable",
     "contactor",
     "termico",
-    "soquet",
+    "soquet",*/
     ];
 
     public function poste()
@@ -44,5 +44,15 @@ class Reclamo extends Model
     public function persona()
     {
         return $this->belongsTo(Persona::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function detalles()
+    {
+        return $this->hasMany(Detalle::class);
     }
 }

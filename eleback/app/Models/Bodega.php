@@ -5,19 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Elemento extends Model
+class Bodega extends Model
 {
     use HasFactory;
     protected $fillable=[
-    'cantidad',
-    'material_id',
     'material',
-    'salida_id',
-    'inventario_id'
+    'cantidad',
+    'saldo',
+    'estado',
+    'material_id',
+    'inventario_id',
+    'user_id'
     ];
 
-    public function inventario()
-    {
+    public function material(){
+        return $this->belongsTo(Material::class);
+    }
+
+    public function inventario(){
         return $this->belongsTo(Inventario::class);
     }
 }

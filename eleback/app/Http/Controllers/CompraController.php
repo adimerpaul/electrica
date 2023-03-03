@@ -8,7 +8,7 @@ use App\Models\Material;
 use App\Http\Requests\StoreCompraRequest;
 use App\Http\Requests\UpdateCompraRequest;
 use App\Models\Inventario;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class CompraController extends Controller
 {
@@ -54,6 +54,9 @@ class CompraController extends Controller
     {
         //
         //return $request->contenido[0]['material']['id'];
+        /*if(Compra::where('nrocompra',$request->nrocompra)->count()>0)
+            return false;
+*/
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
         $compra->fecha=$request->fecha;

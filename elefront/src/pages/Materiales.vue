@@ -120,6 +120,7 @@
         {name: "unidad", align: "left", label: "UNIDAD ", field: "unidad", sortable: true,},
         {name: "stock", align: "left", label: "STOCK ", field: "stock", sortable: true,},
           {name: "minimo", align: "left", label: "MINIMO", field: "minimo", sortable: true,},
+          {name: "codificar", align: "left", label: "codificar", field: "codificar", sortable: true,},
           { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
         ],
         data: [],

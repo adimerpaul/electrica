@@ -6,8 +6,13 @@
       <div class="col-3"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
       <div class="col-3"><q-btn color="info" icon="print"  @click="printfull" /></div>
     </div>
+    <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns"
+    row-key="id" :rows-per-page-options="[50,100]"
+    :selected-rows-label="getSelectedString"
+    selection="multiple"
+    :selected.sync="selected"
+     >
 
-    <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns" row-key="name" :rows-per-page-options="[50,100]">
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <template v-slot:append>
@@ -41,6 +46,7 @@ const { addToDate } = date
 export default {
   data() {
     return {
+      selected:[],
       alert: false,
       dialog_mod: false,
       dialog_del: false,
@@ -60,7 +66,7 @@ export default {
       {name: "cantidad", align: "left", label: "cantidad ", field: "cantidad", sortable: true,},
       {name: "num", align: "left", label: "num ", field: "num", sortable: true,},
       {name: "estado", align: "left", label: "estado ", field: "estado", sortable: true,},
-        { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
+      { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
       ],
       materiales:[],
       url: process.env.API,
@@ -89,13 +95,16 @@ export default {
 
   },
   methods: {
+    getSelectedString () {
+      return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
+    },
     qrPrint(row){
       // console.log(row)
       QRCode.toDataURL(row.codigo)
         .then(url => {
           this.$q.dialog({
             title: 'Codigo QR',
-            message: `<div style="text-align: center"><img src="${url}" /></div>`,
+            message: `<div style="text-align: center"><img src="${url}" style='width:50px;height:50px;'/></div>`,
             html: true,
             ok: false,
             // persistent: true,
@@ -116,20 +125,20 @@ export default {
       // console.og(row)
     let cadena=''
         this.imgqr= await QRCode.toDataURL(row.codigo,this.opts)
-          cadena="<div><img src="+this.imgqr+" /></div>"
+          cadena="<div style=''><img src="+this.imgqr+" style='width:50px;height:50px;padding:5px 0 0 0;margin:0 '/></div> <div style='font-size:4px; padding:0;margin:0;'>"+row.codigo+"</div>"
 
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )
     },
    printfull(){
-      this.$axios.post("generatePdf",this.data).then(response => {
+      this.$axios.post("generatePdf",this.selected).then(response => {
         console.log(response.data);
         window.open(this.url+'qrFile', '_blank');})
     },
    async cadenatexto(row){
       this.imgqr= await QRCode.toDataURL(row.codigo,this.opts)
-          return "<div><img src="+this.imgqr+" /></div>"
+          return "<div><img src="+this.imgqr+" style='width:50px;height:50px;'/></div>"
     },
 
     mismateriales() {

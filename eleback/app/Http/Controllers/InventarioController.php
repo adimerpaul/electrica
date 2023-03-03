@@ -46,7 +46,7 @@ class InventarioController extends Controller
         $data=[];
         foreach ($request->all() as $value) {
 //            $png = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($value['ci'], $generator::TYPE_CODE_128)) . '">';
-            $png = QrCode::format('png')->size(1000)->generate($value['codigo']);
+            $png = QrCode::format('png')->size(250)->generate($value['codigo']);
             $png = base64_encode($png);
             $value['qr']=$png;
             $data[]=$value;
@@ -66,6 +66,10 @@ class InventarioController extends Controller
 
     public function recuperaInv($cod){
         return Inventario::with('material')->with('compra')->where('codigo',$cod)->first();
+    }
+
+    public function consultaInv($cod){
+        return Inventario::with('material')->where('codigo',$cod)->where('estado','ACTIVO')->first();
     }
     /**
      * Store a newly created resource in storage.

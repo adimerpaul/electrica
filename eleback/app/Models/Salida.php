@@ -27,4 +27,9 @@ class Salida extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function elementos()
+    {
+        return $this->hasMany(Elemento::class)->with('inventario');
+    }
 }

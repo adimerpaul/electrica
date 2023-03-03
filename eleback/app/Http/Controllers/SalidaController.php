@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Salida;
 use App\Http\Requests\StoreSalidaRequest;
 use App\Http\Requests\UpdateSalidaRequest;
+use App\Models\Elemento;
+use App\Models\Inventario;
+use App\Models\Material;
+use App\Models\Bodega;
+use Illuminate\Http\Request;
 
 class SalidaController extends Controller
 {
@@ -23,6 +28,11 @@ class SalidaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function listsalida(Request $request){
+        return Salida::with('elementos')->with('tecnico')->whereDate('fecha',$request->fecha)->get();
+    }
+
     public function create()
     {
         //
@@ -37,8 +47,48 @@ class SalidaController extends Controller
     public function store(StoreSalidaRequest $request)
     {
         //
+        //return $request->detalle[0];
         $salida=new Salida();
-        
+        $salida->destino=$request->destino;
+        $salida->motivo=$request->motivo;
+        $salida->carro=$request->carro;
+        $salida->fecha=date('Y-m-d');
+        $salida->hora=date('H:s:i');
+        $salida->tecnico_id=$request->tecnico;
+        $salida->user_id=$request->user_id;
+        $salida->save();
+
+        foreach ($request->detalle as $val) {
+            # code...
+            $elemento=new Elemento();
+            $elemento->cantidad=$val['cant'];
+            $elemento->material_id=$val['material_id'];
+            $elemento->material=$val['material']['nombre'];
+            $elemento->salida_id=$salida->id;
+            $elemento->inventario_id=$val['id'];
+            $elemento->save();
+
+            $material=Material::find($val['material_id']);
+            $material->stock=floatval($material->stock) - floatval($val['cant']);
+            $material->save();
+
+            $inventario=Inventario::find($val['id']);
+            $inventario->cantidad = floatval($inventario->cantidad) - floatval($val['cant']);
+            if($inventario->cantidad==0){
+                $inventario->estado='AGOTADO';
+            }
+            $inventario->save();
+            $bodega=new Bodega;
+            $bodega->material=$elemento->material;
+            $bodega->cantidad=$elemento->cantidad;
+            $bodega->saldo=$elemento->cantidad;
+            $bodega->material_id=$elemento->material_id;
+            $bodega->inventario_id=$elemento->inventario_id;
+            $bodega->user_id=$salida->tecnico_id;
+            $bodega->save();
+        }
+
+        return Salida::with('tecnico')->with('elementos')->where('id',$salida->id)->first();
     }
 
     /**

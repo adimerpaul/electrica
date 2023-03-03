@@ -145,7 +145,7 @@ export default {
   },
   created() {
     if (this.$store.getters["login/isLoggedIn"]){
-      this.$router.push('/')
+      this.$router.push('/home')
     }
     // this.$q.loading.show()
     // this.$axios.get(process.env.API+'/unit').then(res=>{

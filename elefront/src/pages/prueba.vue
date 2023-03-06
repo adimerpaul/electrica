@@ -28,6 +28,27 @@
 
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
+        <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto ">
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+                      layer-type="base"
+                      name="OpenStreetMap"></l-tile-layer>
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui"
+        >
+        <l-icon
+          icon-url="http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png"
+        />
+      </l-marker>
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;seleccionar(); ">        <l-icon
+          icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        /></l-marker>
+
+        <l-control position="topright" >
+                      <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
+                    </l-control>
+    </l-map>
+    </div>
+   <!--
+      <div class="q-pa-md   col-md-6 col-xs-12">
         <gmap-map
     :center="center"
     :zoom="zoom"
@@ -65,7 +86,7 @@
     >
     </gmap-marker>
 </gmap-map>
-      </div>
+      </div>-->
     </div>
     <q-dialog v-model="dialogReclamo" full-width>
       <q-card >
@@ -108,19 +129,28 @@ export default {
   name: 'PageIndex',
   data(){
     return {
+      styleMap: true,
+
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url2: 'https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+      attribution:
+        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      zoom: 16,
+      markerLatLng: [-17.970310, -67.111780],
       persona:{},
       punto:{},
       denuncia:{},
       nposte:'',
       dialogReclamo:false,
-      zoom: 16,
+      lat:0,
+      lng:0,
       marker:{},
       postes:[],
       urlbase:'https://electrica.gamo.cf/#/consulta',
 
       datos:[],
-      ubicacion:{lat:-17.970310, lng:-67.111780},
-      center: {lat:-17.970310, lng:-67.111780},
+      ubicacion:[-17.970310, -67.111780],
+      center: [-17.970310, -67.111780],
       backgroundDiv : {
         backgroundImage : 'url(bg.jpg)',
         backgroundRepeat : 'no-repeat',
@@ -230,16 +260,24 @@ export default {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
     cargarUbicacion(){
-      this.$axios.post('calcularArea',{lat:this.ubicacion.lat,lng:this.ubicacion.lng,distancia:200}).then(res=>{
+      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })
     },
-    updateCoordinates(location) {
-            this.ubicacion = {
-                lat: location.latLng.lat(),
-                lng: location.latLng.lng(),
-            };
+    cargarpunto(value){
+      console.log(value.latlng)
+          //return false
+          this.lat= value.latlng.lat
+              this.lng= value.latlng.lng
+            this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
+    },
+    updateCoordinates(l) {
+              this.lat= l.target._latlng.lat
+              this.lng= l.target._latlng.lng
+            this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
 
         },
     registrarReclamo(){
@@ -339,22 +377,20 @@ export default {
     },
 
     async geolocate() {
-      this.ubicacion= {lat:0, lng:0}
+      this.ubicacion= [0, 0]
       // check if API is supported
-
+      console.log(navigator.geolocation)
       if (navigator.geolocation) {
 
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position)
+        this.lat=position.coords.latitude
+          this.lng=position.coords.longitude
 
-        this.marker.position = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        this.ubicacion=this.marker.position;
+        this.ubicacion=[this.lat,this.lng];
         this.center=this.ubicacion
         this.zoom=18;
-        this.$axios.post('calcularArea',{lat:this.ubicacion.lat,lng:this.ubicacion.lng,distancia:200}).then(res=>{
+        this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })

@@ -4,7 +4,7 @@ import GmapVue from 'gmap-vue'
 Vue.use(GmapVue, {
   load: {
     // [REQUIRED] This is the unique required value by Google Maps API
-    key: 'AIzaSyCmOdLL-xpg_9JWBByO-KhaaK6WShc11LI',
+    key: 'AIzaSyDtDisHrUQNc_iS4YcvBS5onSB3f0fcoHs',
     //AIzaSyCmOdLL-xpg_9JWBByO-KhaaK6WShc11LI
     // [OPTIONAL] This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
@@ -66,7 +66,7 @@ Vue.use(GmapVue, {
   })
 import axios from 'axios'
 // import Vue from 'vue';
-import { LMap, LTileLayer, LMarker,LIcon } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker,LIcon,LControl } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
@@ -87,6 +87,7 @@ Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
 Vue.component('l-icon', LIcon);
+Vue.component('l-control', LControl);
 
 
 // const token = localStorage.getItem('tokenelec')

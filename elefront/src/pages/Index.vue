@@ -19,7 +19,7 @@
       </template>
       <template v-slot:body-cell-potencia="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
-          {{props.row.potencia}} W
+          {{props.row.potencia}} 
         </q-td>
       </template>
       <template v-slot:body-cell-nroposte="props">

@@ -55,7 +55,7 @@
     </gmap-map>
   </div>-->
 
-    <q-table :data="puntos" :columns="colums" :filter="filter">
+    <q-table :data="datos" :columns="colums" :filter="filter">
 
       <template v-slot:body-cell-potencia="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
@@ -119,15 +119,15 @@
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" readonly/>
               </div>
-              <div class="col-12">
+             <!-- <div class="col-12">
                 <q-input dense outlined  v-model="mantenimiento" type="text" label="Motivo Mantenimiento" />
-              </div>
+              </div>-->
             </div>
           </q-form>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat label="Mantenimiento" color="accent" />
+          <!--<q-btn flat label="Mantenimiento" color="accent" />-->
           <q-btn flat label="cerrar" color="green" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -202,7 +202,7 @@ export default {
   },
   methods:{
 
-    onClick(){
+    async onClick(){
       console.log(this.distrito.value)
       switch (this.distrito.value) {
         case 'D1': this.datos=this.d1;break;
@@ -236,10 +236,10 @@ export default {
       this.modalpunto=true
       this.punto=p
     },
-    clickclientes(c){
+  async  clickclientes(c){
       // console.log(c)
       this.center = [c.lat, c.lng]
-      this.zoom= 18
+      this.zoom= 17
     },
     cambioestado(){
       console.log(this.punto)

@@ -178,7 +178,7 @@
     </gmap-map>
   </div>
 -->
-    <q-table :data="puntos" :columns="colums" :filter="filter">
+    <q-table :data="datos" :columns="colums" :filter="filter">
       <template v-slot:top-right>
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>

@@ -1,6 +1,21 @@
 <template>
   <q-page>
-    <div>
+    <div class="col-12">
+      <l-map style="height: 50vh" :zoom="zoom" :center="center" >
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+                      layer-type="base"
+                      name="OpenStreetMap"></l-tile-layer>
+
+        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">        <l-icon
+          icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+        /></l-marker>
+
+        <l-control position="topright" >
+                      <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
+                    </l-control>
+    </l-map>
+    </div>
+  <!--  <div>
     <gmap-map
     :center="center"
     :zoom="zoom"
@@ -15,7 +30,7 @@
    disableDefaultUi: false
  }"
   >
-    <!-- use the default slot to pass markers to it -->
+     use the default slot to pass markers to it -
 
     <gmap-marker
       v-for="m in puntos" :key="m.id"
@@ -29,7 +44,7 @@
     </gmap-marker>
     </gmap-map>
   </div>
-
+-->
     <q-table :data="puntos"  :columns="colums" :filter="filter">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
@@ -173,6 +188,7 @@ export default {
   data () {
     return {
       modalpunto:false,
+      styleMap: true,
       detalle:[],
       material:{},
       codigo:{},

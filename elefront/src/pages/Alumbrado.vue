@@ -11,7 +11,22 @@
       <div class="col-9 "><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
       <div class="col-3"><q-btn color="green" icon="search" @click="onClick" /></div>
     </div>
-    <div>
+    <div class="col-12">
+      <l-map style="height: 50vh" :zoom="zoom" :center="center" >
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+                      layer-type="base"
+                      name="OpenStreetMap"></l-tile-layer>
+
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; ">        <l-icon
+          :icon-url="'img/'+m.color"
+        /></l-marker>
+
+        <l-control position="topright" >
+                      <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
+                    </l-control>
+    </l-map>
+    </div>
+    <!--    <div>
     <gmap-map
     :center="center"
     :zoom="zoom"
@@ -26,9 +41,7 @@
    disableDefaultUi: false
  }"
   >
-    <!-- use the default slot to pass markers to it -->
-
-    <gmap-marker
+     use the default slot to pass markers to it --   <gmap-marker
       v-for="m in datos" :key="m.id"
       :position="{'lat':m.lat,'lng':m.lng}"
       :clickable="true"
@@ -40,7 +53,8 @@
     >
     </gmap-marker>
     </gmap-map>
-  </div>
+  </div>-->
+
     <q-table :data="puntos" :columns="colums" :filter="filter">
 
       <template v-slot:body-cell-potencia="props">
@@ -132,6 +146,7 @@ export default {
   data () {
     return {
       datos:[],
+      styleMap:true,
       mantenimiento:'',
         distritos:[
           {label:'Distrito 1',value:'D1'},
@@ -183,7 +198,7 @@ export default {
        this.$router.replace({ path: '/' })
     }
     this.mispuntos()
-    this.cargar
+    //this.cargar
   },
   methods:{
 
@@ -223,7 +238,7 @@ export default {
     },
     clickclientes(c){
       // console.log(c)
-      this.center = {lat:c.lat, lng:c.lng}
+      this.center = [c.lat, c.lng]
       this.zoom= 18
     },
     cambioestado(){
@@ -236,14 +251,17 @@ export default {
       this.$axios.get('poste').then(res=>{
         this.puntos=res.data
         res.data.forEach(r => {
+          if(r.distrito=='D1') this.d1.push(r)
+          if(r.distrito=='D1 EXT') this.d1.push(r)
           if(r.distrito=='D2') this.d2.push(r)
           if(r.distrito=='D2 EXT') this.d2.push(r)
           if(r.distrito=='D3') this.d3.push(r)
+          if(r.distrito=='D3 EXT') this.d3.push(r)
           if(r.distrito=='D4') this.d4.push(r)
           if(r.distrito=='D4 EXT') this.d4.push(r)
           if(r.distrito=='D5') this.d5.push(r)
           if(r.distrito=='D5 EXT') this.d5.push(r)
-        });
+        })
         this.$q.loading.hide()
          console.log(this.puntos)
       })

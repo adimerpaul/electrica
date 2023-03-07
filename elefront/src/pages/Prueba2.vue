@@ -19,7 +19,7 @@
         <q-form @submit.prevent="buscar">
           <div class="row">
             <div class="col-12 col-md-8 q-pa-xs">
-              <q-input  outlined dense label="Ingrese numero de carnet" v-model="codigo" autofocus />
+              <q-input  outlined dense label="Ingrese numero de carnet / nro Poste" v-model="codigo" autofocus />
             </div>
             <div class="col-12 col-md-2 q-pa-xs flex flex-center">
               <q-btn class="full-width" label="Buscar" color="primary" icon="send" type="submit" />
@@ -112,11 +112,9 @@ export default {
       // console.log(this.codigo)
       this.$axios.post(process.env.API+'consultaReclamo/'+this.codigo).then(res=>{
         console.log(res.data)
-        this.persona=res.data
-        this.datos=res.data.reclamos
+        this.datos=res.data
         // if (res.data.length>0)
           // this.email=res.data[0]
-          console.log(this.datos)
         this.$q.loading.hide()
       })
         .catch(err=>{

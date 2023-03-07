@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
+use App\Models\Poste;
+use App\Models\Reclamo;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdatePersonaRequest;
 use Illuminate\Support\Facades\Request;
@@ -23,6 +25,7 @@ class PersonaController extends Controller
     public function buscarPersona($ci){
         return Persona::where('ci',$ci)->first();
     }
+
     public function buscarReclamos(Request $request){
         return Persona::with('reclamos')->where('ci',$request->ci)->first();
     }
@@ -63,7 +66,15 @@ class PersonaController extends Controller
         //
     }
     public function consultaReclamo($ci){
-        return Persona::where('ci',$ci)->with('reclamos')->first();
+        if(Persona::where('ci',$ci)->with('reclamos')->count()>0){
+            $persona=Persona::where('ci',$ci)->first();
+            return Reclamo::with('persona')->with('poste')->where('persona_id',$persona->id)->get();
+        }else{
+            if(Poste::where('nroposte',$ci)->count()>0)
+            {$poste=Poste::where('nroposte',$ci)->first();
+                return Reclamo::with('persona')->with('poste')->where('poste_id',$poste->id)->get();
+            }
+        }
     }
     /**
      * Show the form for editing the specified resource.

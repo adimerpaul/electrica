@@ -115,6 +115,28 @@
       <div class="col-3"><q-btn color="green" icon="search" @click="onClick" /></div>
       <div class="col-3"><q-btn color="teal" icon="add_circle_outline" @click="punto={}; dialogRegistro=true" /></div>
     </div>
+    <div class="col-12">
+      <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+                      layer-type="base"
+                      name="OpenStreetMap"></l-tile-layer>
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" title="Usted esta Aqui"
+        >
+        <l-icon
+          icon-url="http://maps.google.com/mapfiles/ms/icons/purple-pushpin.png"
+        />
+      </l-marker>
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true ">        <l-icon
+          :icon-url="'img/'+m.color"
+        /></l-marker>
+
+        <l-control position="topright" >
+                      <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
+                    </l-control>
+    </l-map>
+    </div>
+
+  <!--
     <div>
     <gmap-map
     :center="center"
@@ -130,7 +152,7 @@
    fullscreenControl: true,
    disableDefaultUi: false
  }">
-    <!-- use the default slot to pass markers to it -->
+     use the default slot to pass markers to it
     <gmap-marker
     :position="ubicacion"
     :draggable="true"
@@ -155,6 +177,7 @@
     </gmap-marker>
     </gmap-map>
   </div>
+-->
     <q-table :data="puntos" :columns="colums" :filter="filter">
       <template v-slot:top-right>
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
@@ -199,6 +222,9 @@ export default {
   data () {
     return {
       datos:[],
+      styleMap:true,
+      lat:0,
+      lng:0,
       dialogRegistro:false,
       potencia:'',
       mantenimiento:'',
@@ -284,6 +310,14 @@ export default {
     this.geolocate()
   },
   methods:{
+    cargarpunto(value){
+      console.log(value.latlng)
+          //return false
+          this.lat= value.latlng.lat
+              this.lng= value.latlng.lng
+            this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
+    },
     handleMarkerDrag(e) {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
@@ -296,12 +330,12 @@ export default {
         },
     registropunto(){
       //alert(this.ubicacion.lat)
-      this.punto.lat=this.ubicacion.lat.toFixed(8)
-      this.punto.lng=this.ubicacion.lng.toFixed(8)
+      this.punto.lat=this.lat.toFixed(8)
+      this.punto.lng=this.lng.toFixed(8)
       this.dialogRegistro=true
     },
     async geolocate() {
-      this.ubicacion= {lat:0, lng:0}
+      this.ubicacion= [0, 0]
       // check if API is supported
 
       if (navigator.geolocation) {
@@ -309,11 +343,11 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position)
 
-        this.marker.position = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        this.ubicacion=this.marker.position;
+
+          this.lat= position.coords.latitude,
+          this.lng= position.coords.longitude,
+
+        this.ubicacion=[this.lat,this.lng];
         this.center=this.ubicacion
         this.zoom=18;
 
@@ -376,7 +410,7 @@ updatePoste(){
   })
 
 },
-    onClick(){
+    async onClick(){
       console.log(this.distrito.value)
       switch (this.distrito.value) {
         case 'D1': this.datos=this.d1;break;

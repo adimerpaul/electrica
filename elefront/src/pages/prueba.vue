@@ -28,7 +28,11 @@
 
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
-        <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto ">
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Puede arrastrar su ubicacion o hacer click en cualquier parte del mapa</div>
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;" > * Hacer click al punto de su ubicacion para cargar los postes cercanos</div>
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Click sobre alguno de los postes para registrar su reclamo</div>
+<br>
+        <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
                       name="OpenStreetMap"></l-tile-layer>
@@ -389,7 +393,7 @@ export default {
 
         this.ubicacion=[this.lat,this.lng];
         this.center=this.ubicacion
-        this.zoom=18;
+        this.zoom=17;
         this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data

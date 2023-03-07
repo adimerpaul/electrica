@@ -70,10 +70,14 @@
       </div>
       -->
       <div class="q-pa-md   col-md-6 col-xs-12">
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Puede arrastrar su ubicacion o hacer click en cualquier parte del mapa</div>
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;" > * Hacer click al punto de su ubicacion para cargar los postes cercanos</div>
+        <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Click sobre alguno de los postes para registrar su reclamo</div>
+<br>
         <l-map style="height: 70vh" :zoom="zoom" :center="center" @click="cargarpunto ">
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
-                      name="OpenStreetMap"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui"
         >
         <l-icon
@@ -166,6 +170,8 @@ export default {
   data(){
     return {
       styleMap:true,
+      attribution:
+        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       colmlist:[
         {label:'OPC',field:'opcion',name:'opcion'},
         {label:'NRO',field:'nroposte',name:'nroposte'},

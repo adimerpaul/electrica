@@ -4,7 +4,7 @@
       <l-map style="height: 50vh" :zoom="zoom" :center="center" >
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
-                      name="OpenStreetMap"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
         <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">        <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"

@@ -12,10 +12,10 @@
       <div class="col-3"><q-btn color="green" icon="search" @click="onClick" /></div>
     </div>
     <div class="col-12">
-      <l-map style="height: 50vh" :zoom="zoom" :center="center" >
+      <l-map style="height: 50vh" :zoom="zoom" :center="center"  >
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
-                      name="OpenStreetMap"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; ">        <l-icon
           :icon-url="'img/'+m.color"
@@ -151,9 +151,13 @@ export default {
         distritos:[
           {label:'Distrito 1',value:'D1'},
           {label:'Distrito 2',value:'D2'},
+          {label:'Distrito 2 Ext',value:'D2 EXT'},
           {label:'Distrito 3',value:'D3'},
+          {label:'Distrito 3 Ext',value:'D3 EXT'},
           {label:'Distrito 4',value:'D4'},
+          {label:'Distrito 4 Ext',value:'D4 EXT'},
           {label:'Distrito 5',value:'D5'},
+          {label:'Distrito 5 Ext',value:'D5 EXT'},
         ],
       distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
@@ -189,7 +193,7 @@ export default {
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 16,
-      center: {lat:-17.970310, lng:-67.111780},
+      center: [-17.970310, -67.111780],
       markerLatLng: [-17.970310, -67.111780]
     };
   },
@@ -206,10 +210,15 @@ export default {
       console.log(this.distrito.value)
       switch (this.distrito.value) {
         case 'D1': this.datos=this.d1;break;
+        case 'D1 EXT': this.datos=this.d1e;break;
         case 'D2': this.datos=this.d2;break;
+        case 'D2 EXT': this.datos=this.d2e;break;
         case 'D3': this.datos=this.d3;break;
+        case 'D3 EXT': this.datos=this.d3e;break;
         case 'D4': this.datos=this.d4;break;
+        case 'D4 EXT': this.datos=this.d4e;break;
         case 'D5': this.datos=this.d5;break;
+        case 'D5 EXT': this.datos=this.d5e;break;
 
         default:
           this.datos=[]
@@ -239,7 +248,7 @@ export default {
   async  clickclientes(c){
       // console.log(c)
       this.center = [c.lat, c.lng]
-      this.zoom= 17
+      this.zoom= 18
     },
     cambioestado(){
       console.log(this.punto)
@@ -252,15 +261,15 @@ export default {
         this.puntos=res.data
         res.data.forEach(r => {
           if(r.distrito=='D1') this.d1.push(r)
-          if(r.distrito=='D1 EXT') this.d1.push(r)
+          if(r.distrito=='D1 EXT') this.d1e.push(r)
           if(r.distrito=='D2') this.d2.push(r)
-          if(r.distrito=='D2 EXT') this.d2.push(r)
+          if(r.distrito=='D2 EXT') this.d2e.push(r)
           if(r.distrito=='D3') this.d3.push(r)
-          if(r.distrito=='D3 EXT') this.d3.push(r)
+          if(r.distrito=='D3 EXT') this.d3e.push(r)
           if(r.distrito=='D4') this.d4.push(r)
-          if(r.distrito=='D4 EXT') this.d4.push(r)
+          if(r.distrito=='D4 EXT') this.d4e.push(r)
           if(r.distrito=='D5') this.d5.push(r)
-          if(r.distrito=='D5 EXT') this.d5.push(r)
+          if(r.distrito=='D5 EXT') this.d5e.push(r)
         })
         this.$q.loading.hide()
          console.log(this.puntos)

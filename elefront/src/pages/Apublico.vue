@@ -119,7 +119,7 @@
       <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
-                      name="OpenStreetMap"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" title="Usted esta Aqui"
         >
         <l-icon

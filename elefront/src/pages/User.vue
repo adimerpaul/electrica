@@ -225,7 +225,7 @@
     },
     created() {
       if (!this.$store.state.login.boolusuario){
-        this.$router.replace({ path: '/' })
+        this.$router.replace({ path: '/home' })
       }
 
       this.misdatos();

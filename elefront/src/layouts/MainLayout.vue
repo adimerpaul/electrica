@@ -33,6 +33,18 @@
           Opciones de menu
         </q-item-label>
 
+        <q-item clickable to="home" exact >
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Principal</q-item-label>
+            <q-item-label caption>
+              Home
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item clickable to="usuarios" exact v-if="$store.state.login.boolusuario">
           <q-item-section avatar>
             <q-icon name="people" />

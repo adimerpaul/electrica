@@ -103,7 +103,7 @@ export default {
   },
   created(){
     if (!this.$store.state.login.boolreporte){
-       this.$router.replace({ path: '/' })
+       this.$router.replace({ path: '/home' })
     }
   },
   methods:{

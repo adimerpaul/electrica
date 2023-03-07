@@ -205,7 +205,7 @@ export default {
       this.$q.loading.show()
       this.$store.dispatch('login/login', { email:this.email, password:this.password }).then((res) =>{
         this.$q.loading.hide()
-        this.$router.push('/reclamos')
+        this.$router.push('/home')
       })
         .catch(err => {
           this.$q.loading.hide();

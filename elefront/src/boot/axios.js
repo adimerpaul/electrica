@@ -66,7 +66,7 @@ Vue.use(GmapVue, {
   })
 import axios from 'axios'
 // import Vue from 'vue';
-import { LMap, LTileLayer, LMarker,LIcon,LControl } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker,LIcon,LControl,LPopup } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
@@ -88,6 +88,7 @@ Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
 Vue.component('l-icon', LIcon);
 Vue.component('l-control', LControl);
+Vue.component('l-popup', LPopup);
 
 
 // const token = localStorage.getItem('tokenelec')

@@ -36,11 +36,9 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
-        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui"
-        >
-        <l-icon
-          icon-url="http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png"
-        />
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui">
+        <l-icon icon-url="http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png" />
+        
       </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;seleccionar(); ">        <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"

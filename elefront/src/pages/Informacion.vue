@@ -1,8 +1,8 @@
 <template>
   <q-page>
-
-<iframe src="https://www.google.com/maps/d/embed?mid=1p-L6PAC7LgRAPOhdxNBScFUvJfL3iAU&ehbc=2E312F" width="100%" height="100%" style="position:absolute; "></iframe>
-
+    <div style="width: 100%;" class="col-12">
+    <iframe src="https://www.google.com/maps/d/embed?mid=1p-L6PAC7LgRAPOhdxNBScFUvJfL3iAU&ehbc=2E312F" width="100%" height="480"></iframe>
+    </div>
   </q-page>
 </template>
 
@@ -18,7 +18,6 @@ export default {
 
       modalpunto:false,
 
-      kmlLayers:[{url:'colegio.kml'}],
       estados:['ACTIVO','MANTENIMIENTO'],
       postes:[],
       d1:[],
@@ -57,9 +56,7 @@ export default {
   },
   created() {
       //console.log(this.$store.state.login.boolpuntos)
-    if (!this.$store.state.login.boolpuntos){
-       this.$router.replace({ path: '/' })
-    }
+
   },
   methods:{
     cargar(){

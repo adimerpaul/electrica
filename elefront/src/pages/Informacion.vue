@@ -1,14 +1,8 @@
 <template>
   <q-page>
-    <div style="width: 100%;" class="col-12">
-    <iframe src="https://www.google.com/maps/d/embed?mid=1p-L6PAC7LgRAPOhdxNBScFUvJfL3iAU&ehbc=2E312F" width="100%" height="480"></iframe>
-    </div>
-    <div style="width: 100%;" class="col-12">
+      <iframe src="https://www.google.com/maps/d/embed?mid=1p-L6PAC7LgRAPOhdxNBScFUvJfL3iAU&ehbc=2E312F" width="100%" height="480"></iframe>
       <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1OXQlfLi5c9u-UVoyMmRKXUQ9Tom3Kb4&ehbc=2E312F" width="100%" height="480"></iframe>
-    </div>
-    <div style="width: 100%;" class="col-12">
       <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1uhvCU2-Vex489UDhTOdwqlUQuYNy7h0&ehbc=2E312F" width="100%" height="480"></iframe>
-    </div>
   </q-page>
 </template>
 

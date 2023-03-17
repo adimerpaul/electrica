@@ -7,7 +7,7 @@ use App\Http\Requests\StoreInventarioRequest;
 use App\Http\Requests\UpdateInventarioRequest;
 use App\Models\Compra;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+//use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\ImageManagerStatic as Image;
 use Dompdf\Dompdf;
 
@@ -46,9 +46,9 @@ class InventarioController extends Controller
         $data=[];
         foreach ($request->all() as $value) {
 //            $png = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($value['ci'], $generator::TYPE_CODE_128)) . '">';
-            $png = QrCode::format('png')->size(250)->generate($value['codigo']);
-            $png = base64_encode($png);
-            $value['qr']=$png;
+           // $png = QrCode::format('png')->size(250)->generate($value['codigo']);
+            //$png = base64_encode($png);
+            //$value['qr']=$png;
             $data[]=$value;
         }
         $pdf = app('dompdf.wrapper');

@@ -327,10 +327,9 @@ export default {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
     updateCoordinates(location) {
-            this.ubicacion = {
-                lat: location.latLng.lat(),
-                lng: location.latLng.lng(),
-            };
+        this.lat= location.latLng.lat(),
+        this.lng= location.latLng.lng(),
+            this.ubicacion = [this.lat,this.lng];
 
         },
     registropunto(){

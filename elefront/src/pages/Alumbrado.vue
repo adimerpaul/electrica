@@ -17,10 +17,14 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
-        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; ">        <l-icon
-          :icon-url="'img/'+m.color"
-        /></l-marker>
-
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; mantenimiento='';">
+          <l-icon>
+          <img :src="'img/'+m.color" />
+          <div class="headline">
+            {{ m.nroposte }}
+          </div>
+          </l-icon>/>
+          </l-marker>
         <l-control position="topright" >
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
@@ -119,15 +123,15 @@
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" readonly/>
               </div>
-             <!-- <div class="col-12">
-                <q-input dense outlined  v-model="mantenimiento" type="text" label="Motivo Mantenimiento" />
-              </div>-->
+             <div class="col-12">
+                <q-input dense outlined  v-model="mantenimiento"  label="Motivo Mantenimiento" />
+              </div>
             </div>
           </q-form>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <!--<q-btn flat label="Mantenimiento" color="accent" />-->
+          <q-btn flat label="Mantenimiento" color="accent" @click="registroMtto"/>
           <q-btn flat label="cerrar" color="green" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -139,8 +143,9 @@
 
 
 <script>
-import { QBadge } from 'quasar';
+import { Notify, QBadge } from 'quasar';
 import { components } from "gmap-vue";
+import {date} from "quasar";
 
 export default {
   data () {
@@ -161,7 +166,7 @@ export default {
         ],
       distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
-
+      plan:{},
       kmlLayers:[{url:'colegio.kml'}],
       estados:['ACTIVO','MANTENIMIENTO'],
       postes:[],
@@ -205,7 +210,37 @@ export default {
     //this.cargar
   },
   methods:{
+    registroMtto(){
+        if(this.mantenimiento=='' || this.mantenimiento==undefined)
+        {
+          this.$q.notify({
+          message: 'Debe ingresar Motivo',
+          color: 'red',
+          icon:'alert'
+        })
+          return false
+        }
+        this.plan.fecha=date.formatDate(new Date(),'YYYY-MM-DD')
+        this.plan.hora=date.formatDate(new Date(),'HH:mm')
+        this.plan.punto=this.punto
+        this.plan.reclamo=this.mantenimiento
+        this.$axios.post('matto',this.plan).then(res=>{
+        this.modalpunto=false
+        this.mantenimiento=''
+        this.$q.notify({
+          message: 'Su Reclamo fue Registrado',
+          color: 'green',
+          icon:'info'
+        })
+      }).catch(err=>{
+        this.$q.notify({
+          message:err.response.data.message,
+          icon:'error',
+          color:'red'
+        })
+      })
 
+    },
     async onClick(){
       console.log(this.distrito.value)
       switch (this.distrito.value) {
@@ -244,6 +279,7 @@ export default {
       // console.log('a')
       this.modalpunto=true
       this.punto=p
+      this.mantenimiento=''
     },
   async  clickclientes(c){
       // console.log(c)

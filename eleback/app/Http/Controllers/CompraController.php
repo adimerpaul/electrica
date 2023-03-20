@@ -60,6 +60,8 @@ class CompraController extends Controller
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
         $compra->fecha=$request->fecha;
+        $gestion=date("Y",strtotime($request->fecha))   ;
+        $compra->gestion=$gestion;
         $compra->tienda_id= $request->tienda_id;
         $compra->save();
 
@@ -78,13 +80,15 @@ class CompraController extends Controller
             if($material->codificar=='SI'){
             for ($i=0; $i < $c['cantidad']; $i++) {
                 # code...
-                $invent=Inventario::where('material_id',$material->id)->get();
-                if(sizeof($invent)>0){ $numero=intval(Inventario::where('material_id',$material->id)->max('num')) + 1;}
+                $invent=Inventario::where('material_id',$material->id)->where('gestion',$gestion)->get();
+                if(sizeof($invent)>0){
+                    $numero=intval(Inventario::where('material_id',$material->id)->where('gestion',$gestion)->max('num')) + 1;}
                 else{ $numero=1;}
                 $inv=new Inventario();
                 $inv->cantidad=1;
                 $inv->codigo=$compra->nrocompra.'-'.$material->codigo.'-'.$numero;
                 $inv->num=$numero;
+                $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
                 $inv->compra_id=$compra->id;
                 $inv->save();
@@ -95,6 +99,7 @@ class CompraController extends Controller
                 $inv->cantidad=$c['cantidad'];
                 $inv->codigo=$compra->nrocompra.'-'.$material->codigo;
                 $inv->num=0;
+                $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
                 $inv->compra_id=$compra->id;
                 $inv->save();

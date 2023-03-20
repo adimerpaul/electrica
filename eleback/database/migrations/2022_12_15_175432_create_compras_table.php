@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('nrocompra');
             $table->date('fecha');
-            $table->string('gestion');
             $table->unsignedBigInteger('tienda_id');
             $table->foreign('tienda_id')->references('id')->on('tiendas');
             $table->timestamps();

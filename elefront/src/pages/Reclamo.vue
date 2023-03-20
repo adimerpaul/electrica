@@ -264,7 +264,6 @@ export default {
     },
     delDetalle(ind){
       this.detalle.splice(ind,1)
-      this.llenarActividad()
     },
     agregar(){
       if(this.cantidad==undefined || this.cantidad=='' || this.cantidad<=0){
@@ -279,16 +278,9 @@ export default {
       if(!this.detalle.find(x=> x.id=== this.codigo.id)){
         this.codigo.uso=this.cantidad
         this.detalle.push(this.codigo)
-        this.llenarActividad()
+
       }
 
-    },
-    llenarActividad(){
-      let cadena='Cambio o instalacion materiales: '
-      this.detalle.forEach(x => {
-        cadena+=' '+x.material+' Cod: '+ x.inventario.codigo+', '
-      });
-      this.punto.actividad= cadena
     },
     buscar(){
       this.codigos=this.material.lista

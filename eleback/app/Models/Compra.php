@@ -11,7 +11,6 @@ class Compra extends Model
     protected $fillable=[
     'nrocompra',
     'fecha',
-    'gestion',
     'tienda_id'
     ];
 

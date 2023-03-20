@@ -69,7 +69,7 @@ class ReclamoController extends Controller
             $persona->save();
         }
 
-        if(Reclamo::where('poste_id',$request->punto['id'])->where('estado','EN ESPERA')->where('tipo','RECLAMO')->count()>0){
+        if(Reclamo::where('poste_id',$request->punto['id'])->where('estado','EN ESPERA')->count()>0){
             return response()->json(['message' => 'Ya Existe un reclamo a este poste'], 400);
         }
         else{
@@ -83,26 +83,6 @@ class ReclamoController extends Controller
 
         return Reclamo::with('persona')->where('id',$reclamo->id)->first();
         }
-    }
-
-    public function matto(Request $request)
-    {
-        //
-        //return $request->persona['id'];
-        if(Reclamo::where('poste_id',$request->punto['id'])->where('estado','EN ESPERA')->where('tipo','MTTO')->count()>0){
-            return response()->json(['message' => 'Ya Existe un reclamo a este poste'], 400);
-        }
-        else{
-        $reclamo=new Reclamo();
-        $reclamo->reclamo=$request->reclamo;
-        $reclamo->fecha=$request->fecha;
-        $reclamo->hora=$request->hora;
-        $reclamo->tipo="MTTO";
-        $reclamo->persona_id=null;
-        $reclamo->poste_id=$request->punto['id'];
-        $reclamo->save();
-    }
-
     }
 
     public function registroMultiple(Request $request)

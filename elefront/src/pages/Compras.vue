@@ -163,10 +163,11 @@ import { date } from 'quasar'
         columns: [
         {name: "codigo", align: "left", label: "NRO COMPRA ", field: "nrocompra", sortable: true,},
         {name: "fecha", align: "left", label: "FECHA", field: "fecha", sortable: true,},
-        {name: "gestion", align: "left", label: "Gestion", field: "gestion", sortable: true,},
+        {name: "gestion", align: "left", label: "gestion", field: "gestion", sortable: true,},
         {name: "tienda", align: "left", label: "TIENDA/PROV", field: row=>row.tienda.nombre, sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
-        ],
+          { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
+          ],
         columna2:[
             {name:'opcion',label:'opcion',field:'opcion'},
             {name:'cantidad',label:'CANTIDAD',field:'cantidad'},

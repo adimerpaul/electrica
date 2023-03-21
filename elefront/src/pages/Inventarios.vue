@@ -63,9 +63,10 @@ export default {
       columns: [
       {name: "codigo", align: "left", label: "CODIGO ", field: "codigo", sortable: true,},
       {name: "nombre", align: "left", label: "NOMBRE ", field: "nombre", sortable: true,},
-      {name: "cantidad", align: "left", label: "cantidad ", field: "cantidad", sortable: true,},
-      {name: "num", align: "left", label: "num ", field: "num", sortable: true,},
-      {name: "estado", align: "left", label: "estado ", field: "estado", sortable: true,},
+      {name: "cantidad", align: "left", label: "CANTIDAD ", field: "cantidad", sortable: true,},
+      {name: "num", align: "left", label: "NUMERO ", field: "num", sortable: true,},
+      {name: "gestion", align: "left", label: "GESTION ", field: "gestion", sortable: true,},
+      {name: "estado", align: "left", label: "ESTADO ", field: "estado", sortable: true,},
       { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
       ],
       materiales:[],

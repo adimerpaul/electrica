@@ -264,7 +264,7 @@ export default {
     },
     delDetalle(ind){
       this.detalle.splice(ind,1)
-      this.llenarActividad()
+      this.llenarActividad
     },
     agregar(){
       if(this.cantidad==undefined || this.cantidad=='' || this.cantidad<=0){

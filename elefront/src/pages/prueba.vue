@@ -353,7 +353,7 @@ export default {
     buscarPoste(){
       this.datos=[]
       this.$axios.get('buscarPoste/'+this.nposte).then(res=>{
-        console.log(res.data)
+        console.log()
         if(res.data.length>0){
 
           this.datos.push(res.data[0])

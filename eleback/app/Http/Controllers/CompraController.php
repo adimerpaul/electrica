@@ -60,7 +60,7 @@ class CompraController extends Controller
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
         $compra->fecha=$request->fecha;
-        $gestion=date("Y",strtotime($request->fecha))   ;
+        $gestion=date("Y",strtotime($request->fecha));
         $compra->gestion=$gestion;
         $compra->tienda_id= $request->tienda_id;
         $compra->save();

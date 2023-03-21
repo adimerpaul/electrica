@@ -94,6 +94,7 @@
         </q-input>
       </template>
     </q-table>
+
     <q-dialog v-model="modalpunto" full-width>
       <q-card>
         <q-card-section>
@@ -101,7 +102,6 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-form>
             <div class="row">
 
               <div class="col-4">
@@ -127,7 +127,6 @@
                 <q-input dense outlined  v-model="mantenimiento"  label="Motivo Mantenimiento" />
               </div>
             </div>
-          </q-form>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -143,8 +142,6 @@
 
 
 <script>
-import { Notify, QBadge } from 'quasar';
-import { components } from "gmap-vue";
 import {date} from "quasar";
 
 export default {
@@ -167,7 +164,6 @@ export default {
       distrito:{label:'Distrito 1',value:'D1'},
       modalpunto:false,
       plan:{},
-      kmlLayers:[{url:'colegio.kml'}],
       estados:['ACTIVO','MANTENIMIENTO'],
       postes:[],
       d1:[],
@@ -260,21 +256,7 @@ export default {
           break;
       }
     },
-    cargar(){
-  // The location of Uluru
-  let uluru = { lat: -17.970310, lng: -67.111780 };
-  // The map, centered at Uluru
-  this.map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
-    center: uluru,
-  });
-  // The marker, positioned at Uluru
-  const marker = new google.maps.Marker({
-    position: uluru,
-    map: this.map,
-  });
 
-    },
     frmmodalpunto(p){
       // console.log('a')
       this.modalpunto=true

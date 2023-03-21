@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poste;
-use App\Models\reclamo;
+use App\Models\Reclamo;
 use App\Http\Requests\StorePosteRequest;
 use App\Http\Requests\UpdatePosteRequest;
 use Illuminate\Http\Request;

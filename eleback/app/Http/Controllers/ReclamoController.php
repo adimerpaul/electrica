@@ -42,7 +42,7 @@ class ReclamoController extends Controller
     }
 
     public function listAtencion(){
-        return Reclamo::where('estado','EN ESPERA')->with('poste')->with('persona')->get();
+        return Reclamo::where('estado','EN ESPERA')->where('tipo','RECLAMO')->with('poste')->with('persona')->get();
     }
     /**
      * Store a newly created resource in storage.

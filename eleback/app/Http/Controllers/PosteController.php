@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poste;
+use App\Models\reclamo;
 use App\Http\Requests\StorePosteRequest;
 use App\Http\Requests\UpdatePosteRequest;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class PosteController extends Controller
     return (round($distance,2));
   }
     public function listmtto(){
-        return Poste::where('estado','MANTENIMIENTO')->get();
+        return Reclamo::with('poste')->where('tipo','MTTO')->where('estado','EN ESPERA')->get();
     }
 
     /**

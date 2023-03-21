@@ -48,7 +48,7 @@
     <q-table :data="puntos"  :columns="colums" :filter="filter">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
-          {{props.row.persona.nombre}}-{{props.row.persona.telefono}}
+          {{props.row.persona.nombre}} - {{props.row.persona.telefono}}
         </q-td>
       </template>
       <template v-slot:body-cell-nroposte="props">
@@ -314,6 +314,11 @@ export default {
         this.codigo=this.material.lista[0]
         this.codigos=this.material.lista
           this.cantidad=1
+        }
+        else{
+          this.material={label:''}
+        this.codigo={label:''}
+          this.cantidad=0
         }
       })
 

@@ -17,7 +17,7 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
-        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; mantenimiento='';">
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; recmtto='';">
           <l-icon>
           <img :src="'img/'+m.color" />
           <div class="headline">
@@ -123,9 +123,7 @@
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" readonly/>
               </div>
-             <div class="col-12">
-                <q-input dense outlined  v-model="mantenimiento"  label="Motivo Mantenimiento" />
-              </div>
+
             </div>
         </q-card-section>
 
@@ -142,14 +140,15 @@
 
 
 <script>
-import {date} from "quasar";
+import {date} from "quasar"
 
 export default {
   data () {
     return {
       datos:[],
+      prueba:'',
       styleMap:true,
-      mantenimiento:'',
+      recmtto:'',
         distritos:[
           {label:'Distrito 1',value:'D1'},
           {label:'Distrito 2',value:'D2'},
@@ -207,22 +206,20 @@ export default {
   },
   methods:{
     registroMtto(){
-        if(this.mantenimiento=='' || this.mantenimiento==undefined)
-        {
-          this.$q.notify({
-          message: 'Debe ingresar Motivo',
-          color: 'red',
-          icon:'alert'
-        })
-          return false
-        }
+        this.$q.dialog({
+        title: 'Enviar a Mantenimiento',
+        message: 'Esta Seguro?',
+        cancel: true,
+        persistent: false
+      }).onOk(() => {
+        // console.log('>>>> OK')
         this.plan.fecha=date.formatDate(new Date(),'YYYY-MM-DD')
         this.plan.hora=date.formatDate(new Date(),'HH:mm')
         this.plan.punto=this.punto
-        this.plan.reclamo=this.mantenimiento
+        this.plan.reclamo='MANTENIMIENTO '
         this.$axios.post('matto',this.plan).then(res=>{
         this.modalpunto=false
-        this.mantenimiento=''
+        this.recmtto=''
         this.$q.notify({
           message: 'Su Reclamo fue Registrado',
           color: 'green',
@@ -234,6 +231,15 @@ export default {
           icon:'error',
           color:'red'
         })
+      })
+
+
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
       })
 
     },
@@ -261,7 +267,7 @@ export default {
       // console.log('a')
       this.modalpunto=true
       this.punto=p
-      this.mantenimiento=''
+      this.recmtto=''
     },
   async  clickclientes(c){
       // console.log(c)

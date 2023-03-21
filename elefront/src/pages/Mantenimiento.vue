@@ -50,7 +50,6 @@
       <template v-slot:body-cell-ubicacion="props">
         <q-td :props="props">
           <q-btn :color="props.row.estado=='ACTIVO'?'primary':'negative'" @click="clickclientes(props.row)"  icon="place" size="xs" />
-          <q-btn color="info" icon="print" dense  @click="printReclamo(props.row)" />
         </q-td>
       </template>
       <template v-slot:top-right>
@@ -268,6 +267,8 @@ export default {
     },
     llenarActividad(){
       let cadena='Cambio o instalacion materiales: '
+      if(this.detalle.length==0)
+        { cadena=''}
       this.detalle.forEach(x => {
         cadena+=' '+x.material+' Cod: '+ x.inventario.codigo+', '
       });

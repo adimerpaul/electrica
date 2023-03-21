@@ -285,6 +285,8 @@ export default {
     },
     llenarActividad(){
       let cadena='Cambio o instalacion materiales: '
+      if(this.detalle.length==0)
+        { cadena=''}
       this.detalle.forEach(x => {
         cadena+=' '+x.material+' Cod: '+ x.inventario.codigo+', '
       });

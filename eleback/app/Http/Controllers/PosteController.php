@@ -22,6 +22,10 @@ class PosteController extends Controller
         return Poste::all();
     }
 
+    public function listaposte(Request $request){
+        return Poste::where('distrito',$request->distrito)->get();
+    }
+
     public function calcularArea(Request $request){
         $distancia=$request->distancia;
         $lat1=$request->lat;

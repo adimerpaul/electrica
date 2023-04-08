@@ -35,7 +35,8 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('/registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
     Route::resource('/poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
-        Route::resource('/user',\App\Http\Controllers\UserController::class);
+    Route::post('/listaposte',[\App\Http\Controllers\PosteController::class],'listaposte');
+    Route::resource('/user',\App\Http\Controllers\UserController::class);
         Route::resource('/tecnico',\App\Http\Controllers\TecnicoController::class);
         Route::put('/updatePassword/{user}',[\App\Http\Controllers\UserController::class,'updatePassword']);
         Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);

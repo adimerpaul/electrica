@@ -452,7 +452,7 @@ updatePoste(){
       this.postes=[]
       this.puntos=[]
       this.$q.loading.show()
-      this.$axios.post('listaposte',{'distrito':this.distrito.value}).then(res=>{
+      this.$axios.get('listaposte',{'distrito':this.distrito.value}).then(res=>{
         this.datos=res.data
         //this.puntos=res.data
         /*res.data.forEach(r => {

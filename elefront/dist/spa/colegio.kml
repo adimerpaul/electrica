@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Ed Colegios</name>
+    <description>Revsion coelgios Kuas</description>
+    <Style id="icon-1664-880E4F-nodesc-normal">
+      <IconStyle>
+        <color>ff4f0e88</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1664-880E4F-nodesc-highlight">
+      <IconStyle>
+        <color>ff4f0e88</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1664-880E4F-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1664-880E4F-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1664-880E4F-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1664-9C27B0-nodesc-normal">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1664-9C27B0-nodesc-highlight">
+      <IconStyle>
+        <color>ffb0279c</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1664-9C27B0-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1664-9C27B0-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1664-9C27B0-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1664-F57C00-nodesc-normal">
+      <IconStyle>
+        <color>ff007cf5</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1664-F57C00-nodesc-highlight">
+      <IconStyle>
+        <color>ff007cf5</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1664-F57C00-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1664-F57C00-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1664-F57C00-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1664-FF5252-nodesc-normal">
+      <IconStyle>
+        <color>ff5252ff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1664-FF5252-nodesc-highlight">
+      <IconStyle>
+        <color>ff5252ff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1664-FF5252-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1664-FF5252-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1664-FF5252-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Colegios Centro</name>
+      <Placemark>
+        <name>Liceo Técnico Humanístico ADOLFO BALLIVIAN</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1150846,-17.9724738,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Antonio José de Sainz</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1123993,-17.9766105,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Simón Bolívar</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1154738,-17.9719164,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Donato Vásquez</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1126914,-17.9676353,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Jorge Oblitas</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1169108,-17.9707986,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Comibol Oruro</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1128986,-17.9698328,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>colegio genoveva Jiménez</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1155191,-17.9704162,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Escuela Maria Quiroz</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1131608,-17.9691335,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Juana Azurduy de Padilla</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1156238,-17.9687387,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Nacional Mariscal Sucre</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1155437,-17.9678893,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Nuestra Señora Del Socavon</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1193677,-17.9679598,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Liceo Oruro</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.110554,-17.9694247,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Ignacio León</name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1105968,-17.9696835,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Colegio Nacional "Juan Misael Saracho"]]></name>
+        <styleUrl>#icon-1664-FF5252-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1094801,-17.9660264,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Col Norte</name>
+      <Placemark>
+        <name><![CDATA[Colegio Nacional "Aniceto Arce"]]></name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1095011,-17.9574499,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>COLEGIO MARISCAL ANDRES DE SANTA CRUZ</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1138129,-17.9583312,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Liceo Antofagasta</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1109577,-17.9588636,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Liceo Pantaleón Dalence</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1099366,-17.9597017,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Jesús Maria</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1078213,-17.9598294,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Virgen del Mar</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1052588,-17.9629335,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Ferroviaria Secundaria</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1047306,-17.9650474,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Nacional San Jose</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1067154,-17.9672155,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Sebastían Pagador</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.104639,-17.9670295,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>John Fitzgerald Kennedy 3</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1103917,-17.950232,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Guido Villagomez</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1236978,-17.9573872,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Ejército Nacional</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1146929,-17.9473756,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Francisco Fajardo 2</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1097024,-17.9512852,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Oscar Unzaga de la Vega</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1141453,-17.9425123,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Unidad Educativa "La Kantuta 3"]]></name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1043028,-17.9479775,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>U. E. Avelino Siñani Magisterio</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1068975,-17.9417662,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Nacional Mixto Huajara</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0917759,-17.9481693,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Don Bosco y J. F. Kennedy</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1170202,-17.9508855,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>U.E. Marcelo Quiroga Santa Cruz</name>
+        <styleUrl>#icon-1664-9C27B0-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1201894625563,-17.9239599079601,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>ColEste</name>
+      <Placemark>
+        <name><![CDATA[Escuela "Dios Es Amor"]]></name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0978812,-17.9892898,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Quirquincho</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0899208,-17.9793728,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa VALLE HERMOSO</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0569044,-18.0029551,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Bolivia Vinto</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0500125,-17.979686,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Santa María Magdalena Postel 2</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0863866,-17.9690997,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Avelino Siñani</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0887378,-17.948378,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>U. E. Avelino Siñani Magisterio</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1068975,-17.9417662,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Fred Nuñez Gonzales</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0798163,-17.99677,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Juan Lechin Oquendo</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0795869,-17.9775351,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Ildefonso Murguia 2</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1087739,-17.9760452,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>U E Sierra Galvarro</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1075469,-17.9759573,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Oruro Ottawa Secundaria</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0972707,-17.9743261,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Jesús de Nazareth</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0984019,-17.9795794,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>San Ignacio De Loyola</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.103029,-17.9775059,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Santa Claudina Thevenet</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1032222,-17.9772151,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Carmen Guzmán de Mier</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0976572,-17.9700826,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Escuela Misael Pacheco Loma</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0998785,-17.9642408,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>T.H.Maria de Nazareth</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0948366,-17.9841171,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Unidad Educativa "Los Angeles de Nazaria Ignacia"]]></name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0612771,-17.9687833,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Santa Rosa</name>
+        <styleUrl>#icon-1664-880E4F-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.0797585,-17.9714354,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>col sud</name>
+      <Placemark>
+        <name>colegio Mejillones 2</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1342158,-17.9982225,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Hijos del Sol 2</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1376939,-17.9831142,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Nacional Bolivia</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1165601,-17.980429,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Juan Pablo</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1384443,-17.9712715,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio La Salle</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1276041,-17.9827074,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Insco</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1239553,-17.9806816,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Marcos Beltrán Ávila</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1241883,-17.9800761,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidad Educativa Alcira Cardona</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1376051,-17.9830988,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Colegio Luis Mario Careaga</name>
+        <styleUrl>#icon-1664-F57C00-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -67.1153159,-17.9865085,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

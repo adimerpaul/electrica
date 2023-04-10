@@ -9,7 +9,7 @@
     </l-map>-->
     <div class="row col-12">
       <div class="col-9 "><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
-      <div class="col-3"><q-btn color="green" icon="search" @click="onClick" /></div>
+      <div class="col-3"><q-btn color="green" icon="search" @click="mispuntos" /></div>
     </div>
     <div class="col-12">
       <l-map style="height: 50vh" :zoom="zoom" :center="center"  >
@@ -201,7 +201,7 @@ export default {
     if (!this.$store.state.login.boolgeneral){
        this.$router.replace({ path: '/' })
     }
-    this.mispuntos()
+   // this.mispuntos()
     //this.cargar
   },
   methods:{
@@ -281,9 +281,9 @@ export default {
     mispuntos(){
       this.postes=[]
       this.$q.loading.show()
-      this.$axios.get('poste').then(res=>{
-        this.puntos=res.data
-        res.data.forEach(r => {
+      this.$axios.post('listaposte',{'distrito':this.distrito.value}).then(res=>{
+        this.datos=res.data
+        /*res.data.forEach(r => {
           if(r.distrito=='D1') this.d1.push(r)
           if(r.distrito=='D1 EXT') this.d1e.push(r)
           if(r.distrito=='D2') this.d2.push(r)
@@ -294,9 +294,9 @@ export default {
           if(r.distrito=='D4 EXT') this.d4e.push(r)
           if(r.distrito=='D5') this.d5.push(r)
           if(r.distrito=='D5 EXT') this.d5e.push(r)
-        })
+        })*/
         this.$q.loading.hide()
-         console.log(this.puntos)
+         console.log(this.datos)
       })
     }
   },

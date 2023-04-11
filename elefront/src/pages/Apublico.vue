@@ -111,9 +111,11 @@
     </q-dialog>
 
     <div class="row col-12">
-      <div class="col-6 "><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
-      <div class="col-3"><q-btn color="green" icon="search" @click="mispuntos" /></div>
-      <div class="col-3"><q-btn color="teal" icon="add_circle_outline" @click="punto={}; dialogRegistro=true" /></div>
+      <div class="col-md-3 col-xs-8"><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
+      <div class="col-2"><q-btn color="green" icon="search" @click="mispuntos" /></div>
+      <div class="col-2"><q-btn color="teal" icon="add_circle_outline" @click="punto={}; dialogRegistro=true" /></div>
+      <div class="col-md-3 col-xs-10"><q-input dense outlined v-model="numeroposte" type="text" label="Numero Poste"/></div>
+      <div class="col-1"><q-btn color="info" icon="place" @click="searchPlace" /></div>
     </div>
     <div class="col-12">
       <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
@@ -222,6 +224,7 @@ export default {
   data () {
     return {
       datos:[],
+      numeroposte:'',
       styleMap:true,
       lat:0,
       lng:0,
@@ -322,6 +325,24 @@ export default {
     this.geolocate()
   },
   methods:{
+    searchPlace(){
+      if(this.numeroposte=='' || this.numeroposte==undefined)
+      {
+        this.datos=[]
+        return false
+      }
+      this.datos=[]
+      this.$axios.get('buscarPoste/'+this.numeroposte).then(res=>{
+        console.log(res.data)
+        if(res.data.length>0){
+
+          this.datos.push(res.data[0])
+          this.ubicacion={lat:res.data[0].lat,lng:res.data[0].lng};
+          this.center=this.ubicacion
+          this.zoom=18;
+        }
+      })
+    },
     cargarpunto(value){
       console.log(value.latlng)
           //return false

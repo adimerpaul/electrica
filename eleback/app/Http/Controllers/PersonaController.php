@@ -68,11 +68,11 @@ class PersonaController extends Controller
     public function consultaReclamo($ci){
         if(Persona::where('ci',$ci)->with('reclamos')->count()>0){
             $persona=Persona::where('ci',$ci)->first();
-            return Reclamo::with('persona')->with('poste')->where('persona_id',$persona->id)->get();
+            return Reclamo::with('persona')->with('poste')->where('persona_id',$persona->id)->orderBy('fecha','DESC')->get();
         }else{
             if(Poste::where('nroposte',$ci)->count()>0)
             {$poste=Poste::where('nroposte',$ci)->first();
-                return Reclamo::with('persona')->with('poste')->where('poste_id',$poste->id)->get();
+                return Reclamo::with('persona')->with('poste')->where('poste_id',$poste->id)->orderBy('fecha','DESC')->get();
             }
         }
     }

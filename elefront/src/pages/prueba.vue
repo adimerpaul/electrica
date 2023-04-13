@@ -5,7 +5,14 @@
 
 
       <q-toolbar-title>
-        <q-img src="logo.png" style="width: 30px"/>
+        <div class="text-center full-width text-h6 text-bold" style="font-size:14px">
+          <q-img
+            src="logo.png"
+            spinner-color="white"
+            style="height: 40px; max-width: 50px; "
+          />
+          Gobierno Autonomo Municipal de Oruro <br>Unidad de Alumbrado Publico y Servicios Electricos
+        </div>
       </q-toolbar-title>
       <div>
       </div>
@@ -15,9 +22,9 @@
     <q-page >
     <div class="row" :style="backgroundDiv">
       <div class="q-pa-md col-md-6 col-xs-12">
-        <div  style="width:100%;">
+        <div  style="width:100%;" align="center">
         <!--q-banner rounded class="bg-green text-white text-h5" style="width:100%; text-align: center; ">-->
-         <q-btn class="text-h6" color='green' @click="$router.replace({ path: '/consulta' })">IR CONSULTA RECLAMOS</q-btn>
+         <q-btn dense class="text-h6" color='green' @click="$router.replace({ path: '/consulta' })">IR CONSULTA RECLAMOS</q-btn>
 
     </div>
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.ci"
@@ -26,12 +33,11 @@
         <div class="q-pa-xs"><q-input bg-color="blue-grey-1" outlined rounded v-model="persona.telefono" type="text" label="Celular *" /></div>
         <div class="q-pa-xs row"><div class="col-10"><q-input bg-color="blue-grey-1" dense outlined rounded v-model="nposte" type="text" label="Nro Poste" /></div> <q-btn color="green"  icon="search" @click="buscarPoste" /></div>
 
-      </div>
-      <div class="q-pa-md   col-md-6 col-xs-12">
         <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Puede arrastrar su ubicacion o hacer click en cualquier parte del mapa</div>
         <div style="color:white; font-weight: bold; background: gray; font-size: 10px;" > * Hacer click al punto de su ubicacion para cargar los postes cercanos</div>
         <div style="color:white; font-weight: bold; background: gray; font-size: 10px;"> * Click sobre alguno de los postes para registrar su reclamo</div>
-<br>
+      </div>
+      <div class="q-pa-md   col-md-6 col-xs-12">
         <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"

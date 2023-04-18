@@ -66,6 +66,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('generatePdf',[\App\Http\Controllers\InventarioController::class,'generatePdf']);
     Route::post('reclamofin',[\App\Http\Controllers\ReclamoController::class,'reclamofin']);
     Route::post('matto',[\App\Http\Controllers\ReclamoController::class,'matto']);
+    Route::post('bajaInv',[\App\Http\Controllers\BajaController::class,'bajaInv']);
 
 
 });

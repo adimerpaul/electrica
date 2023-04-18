@@ -166,7 +166,6 @@ import { date } from 'quasar'
         {name: "gestion", align: "left", label: "gestion", field: "gestion", sortable: true,},
         {name: "tienda", align: "left", label: "TIENDA/PROV", field: row=>row.tienda.nombre, sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
-          { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
           ],
         columna2:[
             {name:'opcion',label:'opcion',field:'opcion'},

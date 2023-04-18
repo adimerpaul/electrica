@@ -3,8 +3,9 @@
     <div class="row">
       <div class="col-3"><q-input outlined v-model="nrocompra" type="text" label="NRO COMPRA" /></div>
       <div class="col-3"><q-select outlined  v-model="material" :options="materiales" label="MATERIALES" /></div>
-      <div class="col-3"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
-      <div class="col-3"><q-btn color="info" icon="print"  @click="printfull" /></div>
+      <div class="col-2"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
+      <div class="col-2"><q-btn color="info" icon="print"  @click="printfull" /></div>
+      <div class="col-2"><q-btn color="red" icon="delete_sweep"  @click="baja" /></div>
     </div>
     <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns"
     row-key="id" :rows-per-page-options="[50,100]"
@@ -133,9 +134,37 @@ export default {
       d.print( document.getElementById('myelement') )
     },
    printfull(){
+     if(this.selected.length==0)
+     return false
       this.$axios.post("generatePdf",this.selected).then(response => {
         console.log(response.data);
         window.open(this.url+'qrFile', '_blank');})
+    },
+    baja(){
+      console.log(this.selected)
+      if(this.selected.length==0)
+     return false
+     this.$q.dialog({
+        title: 'Baja Inventario',
+        message: 'Cual es el motivo?',
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        // console.log('>>>> OK, received', data)
+        this.$axios.post("bajaInv",{motivo:data,datos:this.selected}).then(response => {
+          console.log(response.data)
+          this.misdatos()
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+
     },
    async cadenatexto(row){
       this.imgqr= await QRCode.toDataURL(row.codigo,this.opts)

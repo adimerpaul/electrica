@@ -163,6 +163,10 @@ export default {
 
     },
     printSalida(salida){
+      let contenido=''
+      salida.elementos.forEach(r => {
+        contenido+='<tr><td>'+r.cantidad+'</td><td>'+r.material+'</td><td>'+r.inventario.codigo+'</td></tr>'
+      });
       let cadena="<style>\
       table{\
         width:100%;\
@@ -173,17 +177,26 @@ export default {
       }\
       </style>\
       <div id='myelement'>\
+        <table style='padding:5px'><tr><td>\
       <div class='titulo'>SALIDA DE ALMACEN</div>\
+      <div><b>FECHA: </b>"+salida.fecha+" "+salida.hora+"</div>\
       <div><b>TECNICO: </b>"+salida.tecnico.name+"</div>\
       <div><b>CARRO: </b>"+salida.carro+"</div>\
       <div><b>DESTINO: </b>"+salida.destino+"</div>\
-      <div><b>MOTIVO: </b>"+salida.motivo+"</div>\
+      <div><b>MOTIVO: </b>"+salida.motivo+"</div><hr>\
       <div class='titulo'><b>DETALLE </b></div>\
-      <table><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"
+      <table style='padding:10px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"+contenido+"</table>\
+        </td><td>\
+          <div class='titulo'>SALIDA DE ALMACEN</div>\
+      <div><b>FECHA: </b>"+salida.fecha+" "+salida.hora+"</div>\
+      <div><b>TECNICO: </b>"+salida.tecnico.name+"</div>\
+      <div><b>CARRO: </b>"+salida.carro+"</div>\
+      <div><b>DESTINO: </b>"+salida.destino+"</div>\
+      <div><b>MOTIVO: </b>"+salida.motivo+"</div><hr>\
+      <div class='titulo'><b>DETALLE </b></div>\
+      <table style='padding:10px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"+contenido+"</table></td></tr>"
 
-      salida.elementos.forEach(r => {
-        cadena+='<tr><td>'+r.cantidad+'</td><td>'+r.material+'</td><td>'+r.inventario.codigo+'</td></tr>'
-      });
+
       cadena+=`</table></div>
       `
       document.getElementById('myelement').innerHTML = cadena

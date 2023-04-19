@@ -16,6 +16,7 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                   <q-input outlined v-model="dato.nombre" type="text" label="Nombre"  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
+                  <q-input outlined v-model="dato.codigo" type="text" label="Codigo"  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato.representante" type="text" label="Representante"  />
                   <q-input outlined v-model="dato.direccion" type="text" label="Direccion"  />
                   <q-input outlined v-model="dato.telefono" type="text" label="Telefono"  />
@@ -64,6 +65,7 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onMod" class="q-gutter-md">
                   <q-input outlined v-model="dato2.nombre" type="text" label="Nombre "  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
+                  <q-input outlined v-model="dato2.codigo" type="text" label="Codigo "  lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']"/>
                   <q-input outlined v-model="dato2.representante" type="text" label="Representante "  />
                   <q-input outlined v-model="dato2.direccion" type="text" label="Direccion"   />
                   <q-input outlined v-model="dato2.telefono" type="text" label="Telefono"   />
@@ -114,6 +116,7 @@
         uni:{},
         columns: [
         {name: "nombre", align: "left", label: "NOMBRE", field: "nombre", sortable: true,},
+        {name: "codigo", align: "left", label: "CODIGO", field: "codigo", sortable: true,},
         {name: "representante", align: "left", label: "REPRESENTANTE ", field: "representante", sortable: true,},
         {name: "direccion", align: "left", label: "DIRECCION", field: "direccion", sortable: true,},
           {name: "telefono", align: "left", label: "TELEFONO", field: "telefono", sortable: true,},

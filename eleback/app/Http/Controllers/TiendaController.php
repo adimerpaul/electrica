@@ -40,6 +40,7 @@ class TiendaController extends Controller
         //
         $tienda=new Tienda();
         $tienda->nombre=strtoupper($request->nombre);
+        $tienda->codigo=strtoupper($request->codigo);
         $tienda->representante=strtoupper($request->representante);
         $tienda->direccion=$request->direccion;
         $tienda->telefono=$request->telefono;
@@ -80,6 +81,7 @@ class TiendaController extends Controller
         //
         $tienda=Tienda::find($request->id);
         $tienda->nombre=strtoupper($request->nombre);
+        $tienda->codigo=strtoupper($request->codigo);
         $tienda->representante=strtoupper($request->representante);
         $tienda->direccion=$request->direccion;
         $tienda->telefono=$request->telefono;

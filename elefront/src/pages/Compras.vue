@@ -23,10 +23,10 @@
                     <div class="col-4">
                         <q-input dense outlined v-model="dato.fecha" type="date" label="Fecha" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" required/>
                     </div>
-                    <div class="col-4"><q-select  dense v-model="tienda" :options="tiendas" label="Tienda/Proveedor" outlined required /></div>
+                    <div class="col-4"><q-select use-input input-debounce="0" @filter="filterTienda" dense v-model="tienda" :options="tiendas" label="Tienda/Proveedor" outlined  /></div>
                 </div>
                 <div class="row q-md-pd">
-                    <div class="col-4"><q-select dense v-model="reg.material" :options="materiales" label="Material" outlined /></div>
+                    <div class="col-4"><q-select use-input @filter="filterMat" dense v-model="material" :options="materiales" label="Material" outlined /></div>
                     <div class="col-3"><q-input dense v-model="reg.cantidad" type="number" label="Cantidad" outlined/></div>
                     <div class="col-3"><q-input dense v-model="reg.unitario" type="number" step="0.01" label="P Unitario" outlined/></div>
                     <div class="col-2"><q-btn dense color="green" icon="control_point" @click="agregarMaterial" /></div>
@@ -153,7 +153,9 @@ import { date } from 'quasar'
         material:{},
         tienda:{},
         materiales:[],
+        filterMateriales:[],
         tiendas:[],
+        filtertiendas:[],
         compras:[],
         detalle:[],
         reg:{material:{label:''}},
@@ -191,6 +193,38 @@ import { date } from 'quasar'
 
     },
     methods: {
+      filterTienda (val, update) {
+        if (val === '') {
+          update(() => {
+            this.tiendas = this.filtertiendas
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.tiendas = this.filtertiendas.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+      filterMat (val, update) {
+        if (val === '') {
+          update(() => {
+            this.materiales = this.filterMateriales
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.materiales = this.filterMateriales.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
         validarCompra(){
             this.$axios.get("valCompra/"+this.dato.nrocompra).then((res) => {
                 if(res.data.length>0){
@@ -209,6 +243,9 @@ import { date } from 'quasar'
         registrar(){
             if(this.listado.length==0)
             return false
+            if(this.tienda.id==undefined)
+              return false
+          this.$q.loading.show();
             this.dato.contenido=this.listado
             this.dato.tienda_id=this.tienda.id
             this.$axios.post("compra",this.dato).then((res) => {
@@ -223,6 +260,7 @@ import { date } from 'quasar'
           this.alert=false
           this.dato={}
             this.listado=[]
+          this.$q.loading.hide();
 
         })
 
@@ -236,29 +274,31 @@ import { date } from 'quasar'
             console.log(this.listado)
             if(this.reg.cantidad==undefined || this.reg.cantidad<=0
             || this.reg.unitario==undefined || this.reg.unitario==''
-            || this.reg.material.id==undefined)
+            || this.material.id==undefined)
             {
             console.log('error2 ing')
             return false
             }
-
+            this.reg.material=this.material
             this.reg.total=parseFloat( this.reg.cantidad) * parseFloat( this.reg.unitario)
             this.listado.push(this.reg);
 
-            this.reg={material:{label:''}}
+            this.material={label:''}
         },
 
       mismateriales() {
         this.$q.loading.show();
+        this.materiales=[]
         this.$axios.get("material").then((res) => {
           console.log(res.data)
           res.data.forEach(r => {
             r.label=r.nombre
+            this.materiales.push(r)
           });
-          this.materiales = res.data;
+          this.filterMateriales=this.materiales
+          this.material={label:''}
           this.$q.loading.hide();
-          this.material=this.materiales[0]
-        })
+                })
       },
       mistiendas() {
         this.$q.loading.show();
@@ -268,6 +308,7 @@ import { date } from 'quasar'
             r.label=r.nombre
           });
           this.tiendas = res.data;
+          this.filtertiendas=this.tiendas
           this.$q.loading.hide();
           this.tienda={label:''}
         });

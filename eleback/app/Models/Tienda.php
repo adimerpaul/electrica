@@ -10,6 +10,7 @@ class Tienda extends Model
     use HasFactory;
     protected $fillable = [
     "nombre",
+    "codigo",
     "representante",
     "direccion",
     "telefono",

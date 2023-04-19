@@ -10,7 +10,7 @@
     <div class="row col-12">
       <div class="col-md-3 col-xs-8"><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
       <div class="col-2"><q-btn color="green" icon="search" @click="mispuntos" /></div>
-      <div class="col-2"><q-btn color="teal" icon="add_circle_outline" @click="punto={}; dialogRegistro=true" /></div>
+      
       <div class="col-md-3 col-xs-10"><q-input dense outlined v-model="numeroposte" type="text" label="Numero Poste"/></div>
       <div class="col-1"><q-btn color="info" icon="place" @click="searchPlace" /></div>
     </div>

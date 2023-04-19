@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Compra;
 use App\Models\Contenido;
 use App\Models\Material;
+use App\Models\Tienda;
 use App\Http\Requests\StoreCompraRequest;
 use App\Http\Requests\UpdateCompraRequest;
 use App\Models\Inventario;
@@ -65,6 +66,7 @@ class CompraController extends Controller
         $compra->tienda_id= $request->tienda_id;
         $compra->save();
 
+        $tienda=Tienda::find($request->tienda_id);
         foreach ($request->contenido as $c) {
             # code...
             $cont=new Contenido();
@@ -86,7 +88,7 @@ class CompraController extends Controller
                 else{ $numero=1;}
                 $inv=new Inventario();
                 $inv->cantidad=1;
-                $inv->codigo=$compra->nrocompra.'-'.$material->codigo.'-'.$numero;
+                $inv->codigo=$compra->nrocompra.'-'.$material->codigo.'-'.$numero.$tienda->codigo;
                 $inv->num=$numero;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;

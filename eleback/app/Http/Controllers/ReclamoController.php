@@ -178,9 +178,9 @@ class ReclamoController extends Controller
         $reclamo->horaman=$request->horaman;
         $reclamo->estado=$request->estado;
         $reclamo->tecnico=$request->tecnico;
-        $reclamo->supervisor=$request->supervisor;
+        //$reclamo->supervisor=$request->supervisor;
         $reclamo->actividad=$request->actividad;
-        $reclamo->l70=$request->l70;
+        /*$reclamo->l70=$request->l70;
         $reclamo->l150=$request->l150;
         $reclamo->l250=$request->l250;
         $reclamo->r70=$request->r70;
@@ -193,7 +193,7 @@ class ReclamoController extends Controller
         $reclamo->contactor=$request->contactor;
         $reclamo->termico=$request->termico;
         $reclamo->soquet=$request->soquet;
-        $reclamo->save();
+        */$reclamo->save();
 
         if($request->fechaplan!=null && $request->fechaplan!=''){
         $poste=Poste::find($reclamo->poste_id);
@@ -223,6 +223,7 @@ class ReclamoController extends Controller
         $reclamo->contactor=$request->contactor;
         $reclamo->termico=$request->termico;
         $reclamo->soquet=$request->soquet;*/
+        $reclamo->user_id=$request->user()->id;
         $reclamo->save();
 
         foreach ($request->detalle as $d) {

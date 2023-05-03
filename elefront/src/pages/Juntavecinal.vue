@@ -17,7 +17,7 @@
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                   <q-input outlined v-model="dato.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
 
-                  <q-select v-model="dato.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito" outlined />
+                  <q-select v-model="dato.distrito" :options="['D1','D2','D3','D4','D5','D6']" label="Distrito" outlined />
                   <q-select v-model="dato.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']"  label="Zona" outlined />
 
                   <q-input outlined v-model="dato.representante" type="text" label="Representante" hint="nombre completo"  />
@@ -70,7 +70,7 @@
             <q-form @submit="onMod" class="q-gutter-md">
                 <q-input outlined v-model="dato2.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
 
-                <q-select v-model="dato2.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito" outlined />
+                <q-select v-model="dato2.distrito" :options="['D1','D2','D3','D4','D5','D6']" label="Distrito" outlined />
                 <q-select v-model="dato2.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']"  label="Zona" outlined />
 
                 <q-input outlined v-model="dato2.representante" type="text" label="Representante" hint="nombre completo"  />

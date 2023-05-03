@@ -1,12 +1,44 @@
 <template>
     <div class="q-pa-md">
       <q-btn
-        label="Nuevo"
+        label="Registro"
         color="positive"
         @click="alert = true"
         icon="add_circle"
         class="q-mb-xs"
       />
+      <q-btn
+        label="Registrar Junta V"
+        color="accent"
+        @click="junta2={}; jvDialog = true"
+        icon="add_circle"
+        class="q-mb-xs"
+      />
+
+      <q-dialog v-model="jvDialog">
+        <q-card style="max-width: 80%; width: 70%">
+          <q-card-section class="bg-green-14 text-white">
+            <div class="text-h7"><q-icon name="add_circle" /> REGISTRO DE Junta Vecinal</div>
+          </q-card-section>
+          <q-card-section class="q-pt-xs">
+            <q-form @submit="regJV" @reset="onReset" class="q-gutter-md">
+                  <q-input outlined v-model="junta2.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
+
+                  <q-select v-model="junta2.distrito" :options="['D1','D2','D3','D4','D5','D6']" label="Distrito" outlined />
+                  <q-select v-model="junta2.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']"  label="Zona" outlined />
+
+                  <q-input outlined v-model="junta2.representante" type="text" label="Representante" hint="nombre completo"  />
+
+                  <q-input outlined v-model="junta2.celular" label="Celular" hint="numero de contacto"  />
+
+              <div>
+                <q-btn label="Crear" type="submit" color="positive" icon="add_circle" />
+                <q-btn label="Cancelar" icon="delete" color="negative" v-close-popup />
+              </div>
+            </q-form>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
 
       <q-dialog v-model="alert">
         <q-card style="max-width: 80%; width: 70%">
@@ -16,18 +48,22 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                 <div class="row">
-                    <div class="col-6"><q-select outlined v-model="dato.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito"  required/></div>
-                    <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >         <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select></div>
+                    <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
+                        <template v-slot:no-option>
+                                <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+                    <div class="col-6"><q-input outlined v-model="junta.distrito" label="Distrito"  /></div>
 
-                    <div class="col-6"><q-input outlined v-model="dato.celular" type="text"  label="Celular" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
-                    <div class="col-6"><q-select outlined v-model="dato.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']" label="Zona" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
+
+                    <div class="col-6"><q-input outlined v-model="junta.celular" type="text"  label="Celular"  /></div>
+                    <div class="col-6"><q-input outlined v-model="junta.zona"  label="Zona" /></div>
+
                     <div class="col-6"><q-input outlined v-model="dato.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select v-model="tipo" :options="lista" label="Actividad" outlined required/></div>
                     <div class="col-6"><q-input outlined v-model="dato.cantidad" label="Cantidad" type='number' lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
@@ -45,8 +81,9 @@
         <div class="row">
             <div class="col-3"><q-input dense outlined v-model="ini" type="date" label="Fecha Ini" /></div>
             <div class="col-3"><q-input dense outlined v-model="fin" type="date" label="Fecha Fin" /></div>
-            <div class="col-3"><q-btn dense color="green" icon="search" label="Buscar" @click="Buscar" /></div>
-            <div class="col-3"><q-btn dense color="info" icon="file_download" label="Export Excel" @click="impresion" /></div>
+            <div class="col-2"><q-btn dense color="green" icon="search" label="Buscar" @click="Buscar" /></div>
+            <div class="col-2"><q-btn dense color="info" icon="file_download" label="Excel Report" @click="impresion" /></div>
+            <div class="col-2"><q-btn dense color="accent" icon="file_download" label="Excel Plan" @click="exportExcel" /></div>
         </div>
       <q-table :filter="filter" title="LISTA Cronograma" :data="data" :columns="columns" row-key="name" :rows-per-page-options="[50,100]">
         <template v-slot:top-right>
@@ -84,17 +121,22 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onMod" class="q-gutter-md">
                 <div class="row">
-                <div class="col-6"><q-select outlined v-model="dato2.distrito" :options="['D1','D2','D3','D4','D5']" label="Distrito"  required/></div>
-                <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >         <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
-          </q-item>
-        </template>
-      </q-select></div>
-                    <div class="col-6"><q-input outlined v-model="dato2.celular" type="text"  label="Celular" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
-                    <div class="col-6"><q-select outlined v-model="dato2.zona" :options="['ZONA NORTE','ZONA ESTE','ZONA CENTRAL','ZONA OESTE','ZONA SUD','ZONA NOR ESTE','ZONA NOR OESTE','ZONA SUD ESTE','ZONA SUD OESTE']" label="Zona" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
+                  <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
+                        <template v-slot:no-option>
+                                <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+                    <div class="col-6"><q-input outlined v-model="junta.distrito" label="Distrito"  /></div>
+
+
+                    <div class="col-6"><q-input outlined v-model="junta.celular" type="text"  label="Celular"  /></div>
+                    <div class="col-6"><q-input outlined v-model="junta.zona"  label="Zona" /></div>
+
                     <div class="col-6"><q-input outlined v-model="dato2.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select v-model="tipo" :options="lista" label="Actividad" outlined required/></div>
                     <div class="col-6"><q-input outlined v-model="dato2.cantidad" label="Cantidad" type='number' lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
@@ -137,6 +179,8 @@ import xlsx from "json-as-xlsx"
     data() {
       return {
         alert: false,
+        junta2:{},
+        jvDialog:false,
         dialog_mod: false,
         dialog_del: false,
         filter:'',
@@ -161,9 +205,9 @@ import xlsx from "json-as-xlsx"
         columns: [
             {name: "codigo", align: "left", label: "Codigo ", field: "codigo", sortable: true,},
             {name: "actividad", align: "left", label: "actividad ", field: "actividad", sortable: true,},
-            {name: "distrito", align: "left", label: "distrito ", field: "distrito", sortable: true,},
-            {name: "junta", align: "left", label: "junta ", field: "junta", sortable: true,},
-            {name: "zona", align: "left", label: "zona ", field: "zona", sortable: true,},
+            {name: "distrito", align: "left", label: "distrito ", field: row=>row.junta.distrito, sortable: true,},
+            {name: "junta", align: "left", label: "junta ", field: row=>row.junta.nombre, sortable: true,},
+            {name: "zona", align: "left", label: "zona ", field: row=>row.junta.zona, sortable: true,},
             {name: "tipo", align: "left", label: "tipo ", field: "tipo", sortable: true,},
             {name: "cantidad", align: "left", label: "cantidad ", field: "cantidad", sortable: true,},
             {name: "fecha", align: "left", label: "fecha ", field: "fecha", sortable: true,},
@@ -185,6 +229,29 @@ import xlsx from "json-as-xlsx"
         this.tipo=this.lista[0]
     },
     methods: {
+      regJV() {
+        this.$q.loading.show();
+        this.$axios.post( "junta", this.junta2).then((res) => {
+          // console.log(res.data)
+          this.$q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "JV Agregado",
+          });
+          this.junta2={}
+          this.jvDialog = false;
+          this.listJunta();
+        }).catch(err=>{
+          console.log(err.response.data);
+          this.$q.notify({
+            message:err.response.data.message,
+            icon:'close',
+            color:'red'
+          })
+          this.$q.loading.hide()
+        })
+      },
       filterFn (val, update) {
         if (val === '') {
           update(() => {
@@ -195,7 +262,7 @@ import xlsx from "json-as-xlsx"
 
         update(() => {
           const needle = val.toLowerCase()
-          this.juntas = this.jfilter.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          this.juntas = this.jfilter.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
       },
 
@@ -214,15 +281,16 @@ import xlsx from "json-as-xlsx"
         this.$axios.get("junta").then((res) => {
           //console.log(res.data)
           res.data.forEach(r => {
-            this.juntas.push(r.nombre)
+            r.label=r.nombre+' ' +r.distrito
+            this.juntas.push(r)
           });
           this.$q.loading.hide();
           this.jfilter=this.juntas
-          this.junta=''
+          this.junta={label:''}
         });
       },
 
-      impresion() {
+  impresion() {
         this.$q.loading.show();
         this.$axios.post("datoImp",{ini:this.ini,fin:this.fin}).then((res) => {
         let dataimp = [
@@ -240,6 +308,7 @@ import xlsx from "json-as-xlsx"
       { label: "CANTIDAD", value: "total" }, // Top level data
       { label: "UNIDAD", value: "unidad" }, // Top level data
       { label: "DESCRIPCION", value: "tipo" }, // Top level data
+      { label: "OBSERVACION", value: "detalle" }, // Top level data
     ],
     content: res.data
   },
@@ -258,9 +327,40 @@ xlsx(dataimp, settings) // Will download the excel file
           this.$q.loading.hide();
         });
       },
+      exportExcel() {
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Cronograma",
+    columns: [
+      { label: "DISTRITO", value: row=>row.junta.distrito }, // Top level data
+      { label: "BENEFICIARIO", value: row=>row.junta.nombre }, // Top level data
+      { label: "CELULAR", value: row=>row.junta.celular }, // Top level data
+      { label: "UBICACION", value: row=>row.junta.zona }, // Top level data
+      { label: "CANTIDAD", value: "cantidad" }, // Top level data
+      { label: "FECHA", value: "fecha" }, // Top level data
+      { label: "DESCRIPCION", value: "tipo" }, // Top level data
+      { label: "OBSERVACION", value: "descripcion" }, // Top level data
+    ],
+    content: this.data
+  },
+
+]
+
+let settings = {
+  fileName: "Planificacion", // Name of the resulting spreadsheet
+  extraLength: 6, // A bigger number means that columns will be wider
+  writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+}
+
+xlsx(dataimp, settings) // Will download the excel file
+
+          this.$q.loading.hide();
+},
       editRow(item) {
         this.dato2 = item.row
         this.junta=this.dato2.junta
+        this.junta.label = this.junta.nombre +' ' +this.junta.distrito
         this.tipo=this.lista.find(t=>{return t.tipo==this.dato2.tipo})
         this.dialog_mod = true;
       },
@@ -273,7 +373,8 @@ xlsx(dataimp, settings) // Will download the excel file
         this.dato.codigo=this.tipo.codigo
         this.dato.actividad=this.tipo.actividad
         this.dato.tipo=this.tipo.tipo
-        this.dato.junta=this.junta
+        this.dato.junta_id=this.junta.id
+        this.dato.celular=this.junta.celular
         this.$axios.post( "cronograma", this.dato).then((res) => {
           // console.log(res.data)
           this.$q.notify({
@@ -301,7 +402,7 @@ xlsx(dataimp, settings) // Will download the excel file
             message: "Modificado correctamente",
           });
           this.dialog_mod = false;
-          this.buscar();
+          this.Buscar();
         });
       },
       onDel() {

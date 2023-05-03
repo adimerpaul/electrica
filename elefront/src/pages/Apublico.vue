@@ -128,9 +128,14 @@
           icon-url="http://maps.google.com/mapfiles/ms/icons/purple-pushpin.png"
         />
       </l-marker>
-        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true ">        <l-icon
-          :icon-url="'img/'+m.color"
-        /></l-marker>
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true ">
+          <l-icon>
+          <img :src="'img/'+m.color" style="width: 20px;height: 20px;"/>
+          <div class="headline">
+            {{ m.nroposte }}
+          </div>
+          </l-icon>
+        </l-marker>
 
         <l-control position="topright" >
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>

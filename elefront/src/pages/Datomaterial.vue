@@ -7,11 +7,18 @@
       class="q-gutter-md"
       >
       <div class="col-6"><q-input v-model="codigo" type="text" label="Codigo Material" autofocus dense outlined/></div>
-      <div>
+
+            <div>
       </div>
     </q-form>
    </div>
-   <template v-if="correcto">
+   <div class="row">
+   <div class="col-6">
+    <div style="width: 200px; height: 200px;">
+        <qrcode-stream @decode="onDecode"></qrcode-stream>
+      </div></div>
+   <div class="col-6">
+    <template v-if="correcto">
     <table>
       <tr><th>Nro Compra</th><td>{{ info.compra.nrocompra }}</td></tr>
       <tr><th>Fecha Compra</th><td>{{ info.compra.fecha }}</td></tr>
@@ -23,22 +30,45 @@
       <tr><th>Numero</th><td>{{ info.num }}</td></tr>
     </table>
    </template>
+
+   </div>
+  </div>
+
 </q-page>
 </template>
 
 <script>
+import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
+
 export default {
+  components: {
+    QrcodeStream,
+
+  },
   data() {
       return {
+        isLoading: true,
+        camera: 'auto',
+        result: null,
+        showScanConfirmation: false,
         info: {},
         correcto:false,
-        codigo:''
+        codigo:'',
+        error: ''
       }
   },
-  created() {
+  mounted() {
+
+
   },
   methods: {
-    consultar(){
+    onDecode (decodedString) {
+    // ...
+    console.log(decodedString)
+    this.codigo=decodedString
+    this.consultar()
+  },
+   consultar(){
       if(this.codigo==undefined || this.codigo=='')
         return false
       this.info={}

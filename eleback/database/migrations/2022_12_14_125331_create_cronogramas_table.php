@@ -17,15 +17,16 @@ return new class extends Migration
             $table->id();
             $table->string('codigo');
             $table->string('actividad');
-            $table->string('distrito');
-            $table->string('junta');
-            $table->string('zona');
+            //$table->string('distrito');
+            //$table->string('junta');
+            //$table->string('zona');
             $table->string('tipo');
             $table->double('cantidad');
             $table->date('fecha');
             $table->string('celular');
             $table->string('descripcion')->nullable();
-
+            $table->unsignedBigInteger('junta_id');
+            $table->foreign('junta_id')->references('id')->on('juntas');
             $table->timestamps();
         });
     }

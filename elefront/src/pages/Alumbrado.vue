@@ -10,7 +10,7 @@
     <div class="row col-12">
       <div class="col-md-3 col-xs-8"><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
       <div class="col-2"><q-btn color="green" icon="search" @click="mispuntos" /></div>
-      
+
       <div class="col-md-3 col-xs-10"><q-input dense outlined v-model="numeroposte" type="text" label="Numero Poste"/></div>
       <div class="col-1"><q-btn color="info" icon="place" @click="searchPlace" /></div>
     </div>
@@ -22,11 +22,11 @@
 
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; recmtto='';">
           <l-icon>
-          <img :src="'img/'+m.color" />
+          <img :src="'img/'+m.color" style="width: 20px;height: 20px;"/>
           <div class="headline">
             {{ m.nroposte }}
           </div>
-          </l-icon>/>
+          </l-icon>
           </l-marker>
         <l-control position="topright" >
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
@@ -149,6 +149,8 @@ export default {
   data () {
     return {
       datos:[],
+      iconSize: [32, 37],
+      iconAnchor: [16, 37],
       prueba:'',
       styleMap:true,
       numeroposte:'',
@@ -320,7 +322,15 @@ export default {
         this.$q.loading.hide()
          console.log(this.datos)
       })
+    },
+    computed: {
+    dynamicSize () {
+      return [this.iconSize, this.iconSize * 1.15];
+    },
+    dynamicAnchor () {
+      return [this.iconSize / 2, this.iconSize * 1.15];
     }
+  }
   },
 
 }

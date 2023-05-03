@@ -19,21 +19,21 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('buscarPoste/{nro}',[\App\Http\Controllers\PosteController::class,'buscarPoste']);
-Route::post('buscarPersona/{ci}',[\App\Http\Controllers\PersonaController::class,'buscarPersona']);
-Route::post('consultaReclamo/{ci}',[\App\Http\Controllers\PersonaController::class,'consultaReclamo']);
+Route::get('buscarPersona/{ci}',[\App\Http\Controllers\PersonaController::class,'buscarPersona']);
+Route::get('consultaReclamo/{ci}',[\App\Http\Controllers\PersonaController::class,'consultaReclamo']);
 Route::post('calcularArea',[\App\Http\Controllers\PosteController::class,'calcularArea']);
 Route::post('login',[\App\Http\Controllers\UserController::class,'login']);
 Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
 Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
-Route::resource('/persona',\App\Http\Controllers\PersonaController::class);
+Route::resource('persona',\App\Http\Controllers\PersonaController::class);
 Route::get('qrFile', [\App\Http\Controllers\InventarioController::class, 'qrFile']);
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
     Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::resource('/salida',\App\Http\Controllers\SalidaController::class);
     Route::get('/recuperaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'recuperaInv']);
     Route::get('/consultaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'consultaInv']);
-    Route::post('/registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
-    Route::resource('/poste',\App\Http\Controllers\PosteController::class);
+    Route::post('registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
+    Route::resource('poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('listaposte',[\App\Http\Controllers\PosteController::class,'listaposte']);
     Route::resource('/user',\App\Http\Controllers\UserController::class);

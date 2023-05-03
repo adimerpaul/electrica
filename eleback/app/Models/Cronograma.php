@@ -11,13 +11,17 @@ class Cronograma extends Model
     protected $fillable=[
    'codigo',
    'actividad',
-   'distrito',
-   'junta',
-   'zona',
+   //'distrito',
+   //'junta',
+   'celular',
    'tipo',
    'cantidad',
    'fecha',
    'descripcion',
-   'celular'
+   'junta_id'
     ];
+
+    public function junta(){
+        return $this->belongsTo(Junta::class);
+    }
 }

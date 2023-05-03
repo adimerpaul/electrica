@@ -33,7 +33,7 @@
         @foreach($inventarios as $inv)
     <div class="inline" style="padding:8px 0px 0px 8px; margin-top:20px;">
         <img src="data:image/png;base64, {!! $inv['qr'] !!}" style="height: 50px;width: 50px;">
-        <div style="font-size: 4px; text-align: center">{!! $inv['codigo'] !!}</div>
+        <div style="font-size: 6px; text-align: center">{!! $inv['codigo'] !!}</div>
     </div>
 {{--<div style="color: #a0aec0;position: absolute;top: 350px;left: 915px;width: 10px;height: 10px">{{$credencial['id']}}</div>--}}
 <!--<div class="page_break"></div>-->

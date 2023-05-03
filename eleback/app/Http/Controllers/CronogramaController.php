@@ -32,22 +32,24 @@ class CronogramaController extends Controller
     }
 
     public function listCrono(Request $request){
-        return Cronograma::whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->orderBy('fecha','asc')->get();
+        return Cronograma::with('junta')->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->orderBy('fecha','asc')->get();
     }
 
     public function datoImp(Request $request){
-        return DB::SELECT("SELECT codigo,
-        actividad,
-        distrito,
-        junta,
-        zona,
+        return DB::SELECT("SELECT c.codigo,
+        c.actividad,
+        j.distrito,
+        j.nombre,
+        j.zona,
         '100' valor1,
         '100' valor2,
         'Puntos de Iluminacion' unidad,
-        tipo,
+        c.tipo,
+        c.descripcion detalle,
         sum(cantidad) total
-                 from cronogramas where date(fecha)>='$request->ini' and date(fecha)<='$request->fin'
-        group by codigo,actividad,distrito,zona,junta,tipo");
+        from cronogramas c inner join juntas j on c.junta_id=j.id
+        where date(c.fecha)>='$request->ini' and date(c.fecha)<='$request->fin'
+        group by c.codigo,c.actividad,j.distrito,j.zona,j.nombre,c.tipo,c.descripcion");
     }
     /**
      * Store a newly created resource in storage.
@@ -94,7 +96,16 @@ class CronogramaController extends Controller
     public function update(UpdateCronogramaRequest $request, Cronograma $cronograma)
     {
         //
-        return $cronograma->update($request->all());
+        $cronograma = Cronograma::find($request->id);
+        $cronograma->codigo=$request->codigo;
+        $cronograma->actividad=$request->actividad;
+        $cronograma->celular=$request->celular;
+        $cronograma->tipo=$request->tipo;
+        $cronograma->cantidad=$request->cantidad;
+        $cronograma->fecha=$request->fecha;
+        $cronograma->descripcion=$request->descripcion;
+        $cronograma->junta_id=$request->junta_id;
+        $cronograma->save();
 
     }
 

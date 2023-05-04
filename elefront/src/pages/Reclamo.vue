@@ -63,7 +63,7 @@
         </q-td>
       </template>
       <template v-slot:top-right>
-        <q-btn icon="refresh" color="info" @click="mispuntos "/>
+        <q-btn icon="refresh" color="info" @click="mispuntos"/>
         <q-btn icon="adjust" color="negative" @click="centro"/>
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
@@ -494,7 +494,6 @@ export default {
     mispuntos(){
       this.$q.loading.show()
       this.$axios.get('listAtencion').then(res=>{
-        console.log(res.data)
         this.puntos=[]
         res.data.forEach(r=>{
           if(r.poste.nroposte==null) r.poste.nroposte=''

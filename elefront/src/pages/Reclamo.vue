@@ -63,13 +63,20 @@
         </q-td>
       </template>
       <template v-slot:top-right>
-        <q-btn icon="refresh" color="info" @click="mispuntos"/>
+        <q-btn icon="refresh" color="info" @click="mispuntos "/>
         <q-btn icon="adjust" color="negative" @click="centro"/>
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+      <template v-slot:top-left>
+        <div class="row">
+          <q-select style="width: 200px;
+          " outlined dense  v-model="per" :options="personas"/>
+          <q-btn color="green" dense icon="search" @click="listReclamos" />
+      </div>
       </template>
     </q-table>
 
@@ -189,6 +196,7 @@ export default {
     return {
       modalpunto:false,
       styleMap: true,
+      personas:[],
       detalle:[],
       material:{},
       codigo:{},
@@ -198,6 +206,7 @@ export default {
       url:'https://electrica.gamo.cf/#/consulta',
       poste:{},
       persona:{},
+      per:{label:''},
       qrImage2:'',
       cantidad:1,
       qrImage:'',
@@ -253,6 +262,34 @@ export default {
     this.cargarMaterial()
   },
   methods:{
+    listPersona(){
+      this.personas=[]
+      this.$axios.get('listPerReclamo').then(res=>{
+        console.log(res.data)
+        res.data.forEach(r => {
+          r.label=r.nombre
+          this.personas.push(r)
+        });
+      })
+
+    },
+    listReclamos(){
+      if(this.per.id==undefined || this.per.id=='')
+        return false
+      this.$axios.get('listAtencion2/'+this.per.id).then(res=>{
+        this.$q.loading.show()
+        this.puntos=[]
+        res.data.forEach(r=>{
+          if(r.poste.nroposte==null) r.poste.nroposte=''
+          r.lat=r.poste.lat
+          r.lng=r.poste.lng
+          r.fechaman=date.formatDate(new Date(),'YYYY-MM-DD')
+          r.horaman=date.formatDate(new Date(),'HH:mm')
+          this.puntos.push(r)
+        })
+        this.$q.loading.hide()
+      })
+    },
     regmatto(){
       this.$axios.post('reclamofin',{punto:this.punto,detalle:this.detalle}).then(res=>{
         console.log(res.data)
@@ -470,6 +507,7 @@ export default {
           r.horaman=date.formatDate(new Date(),'HH:mm')
           this.puntos.push(r)
         })
+        this.listPersona()
         this.$q.loading.hide()
         console.log(this.puntos)
       })

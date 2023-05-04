@@ -10,6 +10,7 @@ use App\Http\Requests\StoreReclamoRequest;
 use App\Http\Requests\UpdateReclamoRequest;
 use App\Models\Bodega;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use Mockery\Undefined;
 
@@ -43,6 +44,17 @@ class ReclamoController extends Controller
 
     public function listAtencion(){
         return Reclamo::where('estado','EN ESPERA')->where('tipo','RECLAMO')->with('poste')->with('persona')->get();
+    }
+
+    public function listAtencion2($id){
+        return Reclamo::where('persona_id',$id)->where('estado','EN ESPERA')->where('tipo','RECLAMO')
+        ->with('poste')->with('persona')->get();
+    }
+
+    public function listPerReclamo(){
+        return DB::SELECT("SELECT p.id,p.nombre,p.ci,p.telefono from personas p inner join reclamos r on p.id= r.persona_id
+        where r.tipo='RECLAMO' and r.estado='EN ESPERA'
+        group by p.id,p.nombre,p.ci,p.telefono");
     }
     /**
      * Store a newly created resource in storage.

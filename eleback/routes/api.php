@@ -51,6 +51,8 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::get('listmtto',[\App\Http\Controllers\PosteController::class,'listmtto']);
     Route::get('listAtencion',[\App\Http\Controllers\ReclamoController::class,'listAtencion']);
+    Route::get('listAtencion2/{id}',[\App\Http\Controllers\ReclamoController::class,'listAtencion2']);
+    Route::get('listPerReclamo',[\App\Http\Controllers\ReclamoController::class,'listPerReclamo']);
     Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
     Route::resource('/junta',\App\Http\Controllers\JuntaController::class);
 

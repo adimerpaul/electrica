@@ -271,7 +271,6 @@ export default {
           this.personas.push(r)
         });
       })
-
     },
     listReclamos(){
       if(this.per.id==undefined || this.per.id=='')
@@ -296,7 +295,6 @@ export default {
         this.modalpunto=false
         this.mispuntos()
         this.cargarMaterial()
-
       })
     },
     delDetalle(ind){
@@ -306,8 +304,7 @@ export default {
     agregar(){
       if(this.cantidad==undefined || this.cantidad=='' || this.cantidad<=0){
         this.cantidad=1
-        return false
-      }
+        return false      }
 
       if(this.cantidad>this.codigo.saldo)
       {

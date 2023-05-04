@@ -6,8 +6,8 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
-        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">
-        </l-marker>
+        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;frmmodalpunto(m); ">
+</l-marker>
 
         <l-control position="topright" >
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
@@ -72,8 +72,7 @@
       </template>
       <template v-slot:top-left>
         <div class="row">
-          <q-select style="width: 200px;
-          " outlined dense  v-model="per" :options="personas"/>
+          <q-select style="width: 200px;" outlined dense  v-model="per" :options="personas"/>
           <q-btn color="green" dense icon="search" @click="listReclamos" />
       </div>
       </template>
@@ -254,7 +253,7 @@ export default {
         },
       }
 
-    };
+    }
   },
   created() {
     this.mispuntos()
@@ -268,7 +267,7 @@ export default {
         res.data.forEach(r => {
           r.label=r.nombre
           this.personas.push(r)
-        });
+        })
       })
     },
     listReclamos(){
@@ -322,7 +321,7 @@ export default {
         { cadena=''}
       this.detalle.forEach(x => {
         cadena+=' '+x.material+' Cod: '+ x.inventario.codigo+', '
-      });
+      })
       this.punto.actividad= cadena
     },
     buscar(){
@@ -342,7 +341,7 @@ export default {
           else{
               p.lista.push(r)
           }
-        });
+        })
         console.log(this.listMaterial)
         if(this.listMaterial.length>0){
         this.material=this.listMaterial[0]
@@ -487,8 +486,8 @@ export default {
     //   this.$axios.put('punto/'+this.punto.id,this.punto)
     // },
     centro(){
-      this.center = [-17.970310, -67.111780]
-      this.zoom= 13
+      this.center =[-17.970310, -67.111780]
+      this.zoom = 13
     },
     mispuntos(){
       this.$q.loading.show()

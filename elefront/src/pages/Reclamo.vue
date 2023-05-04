@@ -6,9 +6,8 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
 
-        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">        <l-icon
-          icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-        /></l-marker>
+        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">
+        </l-marker>
 
         <l-control position="topright" >
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>

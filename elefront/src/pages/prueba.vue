@@ -396,9 +396,9 @@ export default {
         this.lat=position.coords.latitude
           this.lng=position.coords.longitude
 
+          this.zoom=18;
         this.ubicacion=[this.lat,this.lng];
         this.center=this.ubicacion
-        this.zoom=17;
         this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data

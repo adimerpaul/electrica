@@ -339,13 +339,13 @@ export default {
       this.datos=[]
       this.$axios.get('buscarPoste/'+this.numeroposte).then(res=>{
         console.log(res.data)
-        if(res.data.length>0){
+        //if(res.data.length>0){
 
-          this.datos.push(res.data[0])
-          this.ubicacion={lat:res.data[0].lat,lng:res.data[0].lng};
-          this.center=this.ubicacion
-          this.zoom=18;
-        }
+          this.datos=res.data
+          //this.ubicacion={lat:res.data[0].lat,lng:res.data[0].lng};
+          //this.center=this.ubicacion
+          //this.zoom=18;
+       // }
       })
     },
     cargarpunto(value){

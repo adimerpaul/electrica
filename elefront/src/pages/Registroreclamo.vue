@@ -81,7 +81,7 @@
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui"
         >
         <l-icon
-          icon-url="http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png"
+          icon-url="img/pinyw.png"
         />
       </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;seleccionar(); ">        <l-icon
@@ -194,8 +194,8 @@ export default {
       lat:0,
       lng:0,
       datos:[],
-      ubicacion:{lat:-17.970310, lng:-67.111780},
-      center: {lat:-17.970310, lng:-67.111780},
+      ubicacion:[-17.970310, -67.111780],
+      center: [-17.970310,  -67.111780],
       backgroundDiv : {
         backgroundImage : 'url(bg.jpg)',
         backgroundRepeat : 'no-repeat',
@@ -237,6 +237,7 @@ export default {
               this.lng= value.latlng.lng
             this.ubicacion = [this.lat,this.lng];
             this.center=this.ubicacion
+
     },
     delreclamo(indice){
       console.log(indice)
@@ -402,6 +403,7 @@ export default {
       this.reclamo=''
       this.persona={}
       this.denuncia={}
+      this.lista=[]
       this.nposte=''
     },
     seleccionar(){
@@ -474,11 +476,12 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position)
 
-          this.lat= position.coords.latitude,
-          this.lng= position.coords.longitude,
-        this.ubicacion=[this.lat,this.lng];
+          this.lat= position.coords.latitude
+          this.lng= position.coords.longitude
+          this.zoom=16
+        this.ubicacion=[this.lat,this.lng]
         this.center=this.ubicacion
-        this.zoom=18;
+        console.log(this.ubicacion)
         this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data

@@ -384,6 +384,7 @@ xlsx(dataimp, settings) // Will download the excel file
             message: "Creado correctamente",
           });
           this.dato={}
+          this.junta={label:''}
           this.alert = false;
           this.Buscar();
           this.$q.loading.hide()

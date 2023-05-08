@@ -89,6 +89,7 @@
         /></l-marker>
 
         <l-control position="topright" >
+                      <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
     </l-map>
@@ -324,7 +325,7 @@ export default {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
     cargarUbicacion(){
-      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:100}).then(res=>{
+      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })
@@ -481,7 +482,7 @@ export default {
           this.zoom=18
         this.ubicacion=[this.lat,this.lng]
         this.center=this.ubicacion
-        this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:100}).then(res=>{
+        this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })

@@ -58,11 +58,11 @@
                       </template>
                     </q-select>
                   </div>
-                    <div class="col-6"><q-input outlined v-model="junta.distrito" label="Distrito"  /></div>
+                    <div class="col-6"><b>DISTRITO : </b>{{ junta.distrito }}</div>
 
 
-                    <div class="col-6"><q-input outlined v-model="junta.celular" type="text"  label="Celular"  /></div>
-                    <div class="col-6"><q-input outlined v-model="junta.zona"  label="Zona" /></div>
+                    <div class="col-6"><b>CELULAR : </b> {{ junta.celular }}</div>
+                    <div class="col-6"><b>ZONA :</b>{{ junta.zona }}</div>
 
                     <div class="col-6"><q-input outlined v-model="dato.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select v-model="tipo" :options="lista" label="Actividad" outlined required/></div>
@@ -121,21 +121,12 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onMod" class="q-gutter-md">
                 <div class="row">
-                  <div class="col-6"><q-select use-input input-debounce="0"  @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
-                        <template v-slot:no-option>
-                                <q-item>
-                          <q-item-section class="text-grey">
-                            No results
-                          </q-item-section>
-                        </q-item>
-                      </template>
-                    </q-select>
-                  </div>
-                    <div class="col-6"><q-input outlined v-model="junta.distrito" label="Distrito"  /></div>
+                  <div class="col-6"><b>JUNTA VECINAL: </b>{{ junta.nombre }}</div>
+                  <div class="col-6"><b>DISTRITO : </b>{{junta.distrito}}</div>
+                  <div class="col-6"><b>CELULAR : </b>{{junta.celular}}</div>
+                    <div class="col-6"><b>ZONA : </b>{{junta.zona}}</div>
 
 
-                    <div class="col-6"><q-input outlined v-model="junta.celular" type="text"  label="Celular"  /></div>
-                    <div class="col-6"><q-input outlined v-model="junta.zona"  label="Zona" /></div>
 
                     <div class="col-6"><q-input outlined v-model="dato2.fecha" label="Fecha" type="date" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" /></div>
                     <div class="col-6"><q-select v-model="tipo" :options="lista" label="Actividad" outlined required/></div>

@@ -3,7 +3,7 @@
       <q-btn
         label="Registro"
         color="positive"
-        @click="alert = true"
+        @click="junta={label:''}; alert = true"
         icon="add_circle"
         class="q-mb-xs"
       />
@@ -253,7 +253,7 @@ import xlsx from "json-as-xlsx"
         })
       },
       filterFn (val, update) {
-        if (val === '') {
+        if (val === '' || val===null) {
           update(() => {
             this.juntas = this.jfilter
           })

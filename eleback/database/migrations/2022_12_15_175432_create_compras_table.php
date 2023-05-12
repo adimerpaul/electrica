@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
-            $table->string('nrocompra');
+            $table->string('nrocompra')->nullable();
+            $table->string('nrovale')->nullable();
             $table->date('fecha');
+            $table->date('fechacompra')->nullable();
             $table->string('gestion');
             $table->unsignedBigInteger('tienda_id');
             $table->foreign('tienda_id')->references('id')->on('tiendas');

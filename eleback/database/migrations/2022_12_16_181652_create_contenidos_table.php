@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('material_id');
             $table->foreign('material_id')->references('id')->on('materials');
             $table->double('cantidad');
-            $table->double('unitario');
-            $table->double('total');
+            $table->double('unitario')->nullable();
+            $table->double('total')->nullable();
             $table->timestamps();
         });
     }

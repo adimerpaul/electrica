@@ -12,6 +12,7 @@ class Inventario extends Model
     'cantidad',
     'codigo',
     'num',
+    'letra',
     'gestion',
     'material_id',
     'compra_id',

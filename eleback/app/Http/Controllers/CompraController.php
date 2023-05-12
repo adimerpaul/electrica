@@ -60,6 +60,8 @@ class CompraController extends Controller
 */
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
+        $compra->nrovale=$request->nrovale;
+        $compra->fechacompra=$request->fechacompra;
         $compra->fecha=$request->fecha;
         $gestion=date("Y",strtotime($request->fecha));
         $compra->gestion=$gestion;
@@ -73,8 +75,6 @@ class CompraController extends Controller
             $cont->compra_id=$compra->id;
             $cont->material_id=$c['material']['id'];
             $cont->cantidad=$c['cantidad'];
-            $cont->unitario=$c['unitario'];
-            $cont->total=$c['total'];
             $cont->save();
             $material=Material::find($c['material']['id']);
             $material->stock=$material->stock + $cont->cantidad;
@@ -82,14 +82,15 @@ class CompraController extends Controller
             if($material->codificar=='SI'){
             for ($i=0; $i < $c['cantidad']; $i++) {
                 # code...
-                $invent=Inventario::where('material_id',$material->id)->where('gestion',$gestion)->get();
+                $invent=Inventario::where('material_id',$material->id)->where('gestion',$gestion)->where('letra',$tienda->codigo)->get();
                 if(sizeof($invent)>0){
-                    $numero=intval(Inventario::where('material_id',$material->id)->where('gestion',$gestion)->max('num')) + 1;}
+                    $numero=intval(Inventario::where('material_id',$material->id)->where('gestion',$gestion)->where('letra',$tienda->codigo)->max('num')) + 1;}
                 else{ $numero=1;}
                 $inv=new Inventario();
                 $inv->cantidad=1;
-                $inv->codigo=$compra->nrocompra.'-'.$material->codigo.'-'.$numero.$tienda->codigo;
+                $inv->codigo=$gestion.'-'.$material->codigo.'-'.$numero.$tienda->codigo;
                 $inv->num=$numero;
+                $inv->letra=$tienda->codigo;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
                 $inv->compra_id=$compra->id;
@@ -99,8 +100,9 @@ class CompraController extends Controller
             else{
                 $inv=new Inventario();
                 $inv->cantidad=$c['cantidad'];
-                $inv->codigo=$compra->nrocompra.'-'.$material->codigo;
+                $inv->codigo=$gestion.'-'.$material->codigo;
                 $inv->num=0;
+                $inv->letra=$tienda->codigo;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
                 $inv->compra_id=$compra->id;
@@ -141,6 +143,11 @@ class CompraController extends Controller
     public function update(UpdateCompraRequest $request, Compra $compra)
     {
         //
+        $compra=Compra::find($request->id);
+        $compra->nrocompra=$request->nrocompra;
+        $compra->nrovale=$request->nrovale;
+        $compra->fechacompra=$request->fechacompra;
+        $compra->save();
     }
 
     /**

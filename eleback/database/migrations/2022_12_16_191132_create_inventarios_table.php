@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->double('cantidad')->default(1);
             $table->string('codigo');
+            $table->string('letra')->nullable();
             $table->integer('num')->nullable();
             $table->string('gestion')->nullable();
             $table->string('estado')->default('ACTIVO');

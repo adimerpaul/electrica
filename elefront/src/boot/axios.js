@@ -104,7 +104,7 @@ Vue.component('l-popup', LPopup);
 //   //   store.commit('login/auth_success', {token:token,user:res.data})
 //   // })
 //   // .catch(err=>{
-//   //   // console.error('aas')
+//   //   // console.error('aas')P
 //   //   // Vue.prototype.$store.dispatch('login/salir')
 //   //   localStorage.removeItem('tokenelec')
 //   //

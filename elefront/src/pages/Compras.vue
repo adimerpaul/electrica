@@ -17,21 +17,25 @@
             <q-form @submit="registrar" @reset="onReset" class="q-gutter-md">
                         <div class="q-pd-md" v-if="mensaje!=''" style="color:red">{{mensaje}}</div>
                 <div class="row">
-                    <div class="col-4">
-                        <q-input dense outlined v-model="dato.nrocompra" type="number" label="Nro Compra" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" required @keyup="validarCompra"/>
+                    <div class="col-6">
+                        <q-input dense outlined v-model="dato.nrocompra" type="number" label="Nro Compra" />
+                    </div>
+                    <div class="col-6">
+                        <q-input dense outlined v-model="dato.fechacompra" type="date" label="Fecha Compra" />
                     </div>
                     <div class="col-4">
-                        <q-input dense outlined v-model="dato.fecha" type="date" label="Fecha" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" required/>
+                        <q-input dense outlined v-model="dato.nrovale" type="number" label="Nro Vale" />
                     </div>
+                    <div class="col-4">
+                        <q-input dense outlined v-model="dato.fecha" type="date" label="Fecha" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa Fecha']" required/>
+                    </div>
+
                     <div class="col-4"><q-select use-input input-debounce="0" @filter="filterTienda" dense v-model="tienda" :options="tiendas" label="Tienda/Proveedor" outlined  /></div>
-                </div>
-                <div class="row q-md-pd">
                     <div class="col-4"><q-select use-input @filter="filterMat" dense v-model="material" :options="materiales" label="Material" outlined /></div>
                     <div class="col-3"><q-input dense v-model="reg.cantidad" type="number" label="Cantidad" outlined/></div>
-                    <div class="col-3"><q-input dense v-model="reg.unitario" type="number" step="0.01" label="P Unitario" outlined/></div>
                     <div class="col-2"><q-btn dense color="green" icon="control_point" @click="agregarMaterial" /></div>
+                  </div>
 
-                </div>
                 <div class="col-12">
                     <q-table
                         title="Lista de Compra "
@@ -81,10 +85,8 @@
         </template>
         <template v-slot:body-cell-opcion="props">
             <q-td key="opcion" :props="props">
-              <q-btn dense round flat color="accent"
-                @click="viewRow(props.row)"
-                icon="local_mall"
-              />
+              <q-btn dense round flat color="yellow"  @click="editDato(props.row)"  icon="edit" />
+              <q-btn dense round flat color="accent"  @click="viewRow(props.row)"  icon="local_mall" />
 
               <q-btn dense round flat color="red" @click="deleteRow(props)" icon="delete" ></q-btn>
             </q-td>
@@ -93,6 +95,26 @@
       </q-table>
 
 
+      <q-dialog v-model="dialogMod">
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="shopping_cart" color="red" text-color="white" />
+            <span class="q-ml-sm">DETALLE DE COMPRA MODIFICAR</span>
+          </q-card-section>
+          <q-card-section>
+            <div class="row">
+              <div class="col-6"><q-input outlined v-model="compra.nrocompra" type="number" label="Nro Compra" /></div>
+              <div class="col-6"><q-input outlined v-model="compra.fechacompra" type="date" label="Fecha Compra" /></div>
+              <div class="col-6"><q-input outlined v-model="compra.nrovale" type="number" label="Nro Vale" /></div>
+            </div>
+
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Modificar" color="yellow" @click="modificar" />
+            <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
 
       <q-dialog v-model="dialog_del">
         <q-card>
@@ -143,6 +165,7 @@ import { date } from 'quasar'
         dialog_mod: false,
         dialog_del: false,
         dialogDetalle:false,
+        dialogMod:false,
         listado:[],
         filter:'',
         dato: {},
@@ -154,6 +177,7 @@ import { date } from 'quasar'
         tienda:{},
         materiales:[],
         filterMateriales:[],
+        compra:{},
         tiendas:[],
         filtertiendas:[],
         compras:[],
@@ -163,8 +187,10 @@ import { date } from 'quasar'
         mensaje:'',
         uni:{},
         columns: [
-        {name: "codigo", align: "left", label: "NRO COMPRA ", field: "nrocompra", sortable: true,},
-        {name: "fecha", align: "left", label: "FECHA", field: "fecha", sortable: true,},
+        {name: "nrocompra", align: "left", label: "NRO COMPRA ", field: "nrocompra", sortable: true,},
+        {name: "fechacompra", align: "left", label: "FECHA COMP", field: "fechacompra", sortable: true,},
+        {name: "nrovale", align: "left", label: "NRO VALE ", field: "nrovale", sortable: true,},
+        {name: "fecha", align: "left", label: "FECHA ING", field: "fecha", sortable: true,},
         {name: "gestion", align: "left", label: "gestion", field: "gestion", sortable: true,},
         {name: "tienda", align: "left", label: "TIENDA/PROV", field: row=>row.tienda.nombre, sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
@@ -174,9 +200,7 @@ import { date } from 'quasar'
             {name:'cantidad',label:'CANTIDAD',field:'cantidad'},
             {name:'unidad',label:'UNIDAD',field:'unidad'},
             {name:'material',label:'MATERIAL',field:'material'},
-            {name:'unitario',label:'P UNIT',field:'unitario'},
             {name:'codificar',label:'Cod',field:'codificar'},
-            {name:'total',label:'TOTAL',field:'total'},
         ],
         data: [],
       };
@@ -193,6 +217,18 @@ import { date } from 'quasar'
 
     },
     methods: {
+      editDato(r){
+        this.compra=r
+        this.dialogMod=true
+      },
+      modificar(){
+        this.$axios.put("compra/"+this.compra.id,this.compra).then((res) => {
+          this.compra={}
+          this.dialogMod=false
+          this.misdatos()
+        })
+
+      },
       filterTienda (val, update) {
         if (val === '') {
           update(() => {
@@ -273,7 +309,6 @@ import { date } from 'quasar'
         agregarMaterial(){
             console.log(this.listado)
             if(this.reg.cantidad==undefined || this.reg.cantidad<=0
-            || this.reg.unitario==undefined || this.reg.unitario==''
             || this.material.id==undefined)
             {
             console.log('error2 ing')
@@ -355,7 +390,7 @@ import { date } from 'quasar'
 
       onDel() {
         this.$q.loading.show();
-        this.$axios.delete("material/" + this.dato2.id)
+        this.$axios.delete("compra/" + this.dato2.id)
           .then((res) => {
             this.$q.notify({
               color: "green-4",

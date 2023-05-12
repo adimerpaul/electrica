@@ -51,6 +51,7 @@
         /></l-marker>
 
         <l-control position="topright" >
+
                       <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>

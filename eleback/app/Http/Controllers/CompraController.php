@@ -159,5 +159,6 @@ class CompraController extends Controller
     public function destroy(Compra $compra)
     {
         //
+        $compra->delete();
     }
 }

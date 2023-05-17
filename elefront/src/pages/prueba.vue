@@ -374,7 +374,7 @@ export default {
     },
     buscar(){
       let carnet=this.persona.ci
-      this.$axios.post('buscarPersona/'+carnet).then(res=>{
+      this.$axios.get('buscarPersona/'+carnet).then(res=>{
         console.log(res.data)
         if(res.data){
           this.persona=res.data

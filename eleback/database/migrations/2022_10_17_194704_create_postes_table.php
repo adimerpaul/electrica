@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->double('lat',11,6);
             $table->double('lng',11,6);
+            $table->point('ubicacion')->nullable();
             $table->string('luminaria');
             $table->string('nroposte');
             $table->string('material');

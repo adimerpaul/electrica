@@ -110,7 +110,7 @@ export default {
       }
       this.$q.loading.show()
       // console.log(this.codigo)
-      this.$axios.post(process.env.API+'consultaReclamo/'+this.codigo).then(res=>{
+      this.$axios.get(process.env.API+'consultaReclamo/'+this.codigo).then(res=>{
         console.log(res.data)
         this.datos=res.data
         // if (res.data.length>0)

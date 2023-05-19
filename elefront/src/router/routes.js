@@ -22,6 +22,7 @@ import Datomaterial from "pages/Datomaterial";
 import Compras from "pages/Compras";
 import Tiendas from "pages/Tiendas";
 import Salidas from "pages/Salidas";
+import Devoluciontecnico from "pages/Devoluciontecnico";
 import Home from "pages/Home";
 
 const routes = [
@@ -51,6 +52,7 @@ const routes = [
       { path: 'materialinfo', component: Datomaterial ,meta: {requiresAuth: true}},
       { path: 'salidas', component: Salidas ,meta: {requiresAuth: true}},
       { path: 'home', component: Home ,meta: {requiresAuth: true}},
+      { path: 'devolucion', component: Devoluciontecnico ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]

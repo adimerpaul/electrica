@@ -32,6 +32,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/salida',\App\Http\Controllers\SalidaController::class);
     Route::get('/recuperaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'recuperaInv']);
     Route::get('/consultaInv/{cod}',[\App\Http\Controllers\InventarioController::class,'consultaInv']);
+    Route::get('/consultaBodega/{cod}',[\App\Http\Controllers\BodegaController::class,'consultaBodega']);
     Route::post('registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
     Route::resource('poste',\App\Http\Controllers\PosteController::class);
     Route::group(['middleware'=>'auth:sanctum'],function (){
@@ -69,6 +70,9 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('reclamofin',[\App\Http\Controllers\ReclamoController::class,'reclamofin']);
     Route::post('matto',[\App\Http\Controllers\ReclamoController::class,'matto']);
     Route::post('bajaInv',[\App\Http\Controllers\BajaController::class,'bajaInv']);
+
+    Route::post('devolucionMaterial',[\App\Http\Controllers\InventarioController::class,'devolucionMaterial']);
+
 
 
 });

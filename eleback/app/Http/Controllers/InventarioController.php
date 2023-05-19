@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Inventario;
 use App\Http\Requests\StoreInventarioRequest;
 use App\Http\Requests\UpdateInventarioRequest;
+use App\Models\Bodega;
 use App\Models\Compra;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -125,5 +127,31 @@ class InventarioController extends Controller
     public function destroy(Inventario $inventario)
     {
         //
+    }
+
+    public function devolucionMaterial(Request $request){
+        $inv=Inventario::where('codigo',$request->codigo)->where('estado','AGOTADO')->first();
+        if(!$inv)
+            return 'Error';
+
+        $bodega=Bodega::where('inventario_id',$inv->id)->where('estado','ACTIVO')->first();
+        if(!$bodega)
+            return 'Error';
+
+        $material=Material::where('id',$inv->material_id)->first();
+        if(!$material)
+            return 'error';
+
+        $material->stock=$material->stock + $bodega->saldo;
+        $inv->cantidad=$inv->cantidad + $bodega->saldo;
+        $material->save();
+
+        $bodega->saldo=0;
+        $bodega->estado='DEVUELTO';
+        $bodega->save();
+
+        $inv->estado='ACTIVO';
+        $inv->save();
+
     }
 }

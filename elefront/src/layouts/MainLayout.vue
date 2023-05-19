@@ -299,6 +299,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/devolucion" exact >
+                <q-item-section avatar>
+                  <q-icon name="redo" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Devoluciones</q-item-label>
+                  <q-item-label caption>
+                    Tecnico
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
             </q-card-section>
 
           </q-card>

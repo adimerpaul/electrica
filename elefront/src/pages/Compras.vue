@@ -138,9 +138,9 @@
           </q-card-section>
           <q-card-section>
             <table>
-              <tr><th>MATERIAL</th><th>CANTIDAD</th><th>PRECIO</th><th>SUBTOTAL</th></tr>
+              <tr><th>MATERIAL</th><th>CANTIDAD</th></tr>
               <tr v-for="d in detalle" :key="d.id">
-              <td>{{ d.material.nombre }}</td><td>{{ d.cantidad }}</td><td>{{ d.unitario }}</td><td>{{ d.total }}</td>
+              <td>{{ d.material.nombre }}</td><td>{{ d.cantidad }}</td>
               </tr>
             </table>
           </q-card-section>
@@ -277,10 +277,30 @@ import { date } from 'quasar'
             this.dialogDetalle=true
         },
         registrar(){
-            if(this.listado.length==0)
+            if(this.listado.length==0){
+              this.$q.notify({
+              icon:'info',
+              message: 'Debe Ingresar material ',
+              color: 'red'
+            })
             return false
-            if(this.tienda.id==undefined)
+            }
+            if(this.tienda.id==undefined){
+              this.$q.notify({
+          icon:'info',
+          message: 'Debe Seleccionar Proveedor',
+          color: 'red'
+        })
               return false
+            }
+            if(this.dato.fecha=='' || this.dato.fecha==undefined){
+              this.$q.notify({
+          icon:'info',
+          message: 'Debe ingresar fecha',
+          color: 'red'
+        })
+              return false
+            }
           this.$q.loading.show();
             this.dato.contenido=this.listado
             this.dato.tienda_id=this.tienda.id

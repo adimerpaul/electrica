@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-md">
     <div class="row">
-      <div class="col-3"><q-input outlined v-model="nrocompra" type="text" label="NRO COMPRA" /></div>
-      <div class="col-3"><q-select outlined  v-model="material" :options="materiales" label="MATERIALES" /></div>
+      <div class="col-3"><q-input outlined v-model="fecha" type="date" label="Fecha Registro" /></div>
+      <div class="col-3"><q-select outlined input-debounce="0" use-input @filter="filterMat"  v-model="material" :options="materiales" label="MATERIALES" /></div>
       <div class="col-2"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
       <div class="col-2"><q-btn color="info" icon="print"  @click="printfull" /></div>
       <div class="col-2"><q-btn color="red" icon="delete_sweep"  @click="baja" /></div>
     </div>
     <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns"
-    row-key="id" :rows-per-page-options="[50,100]"
+    row-key="id" :rows-per-page-options="[20, 50,100,0]"
     :selected-rows-label="getSelectedString"
     selection="multiple"
     :selected.sync="selected"
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       selected:[],
+      filterMateriales:[],
       alert: false,
       dialog_mod: false,
       dialog_del: false,
@@ -73,6 +74,7 @@ export default {
       materiales:[],
       url: process.env.API,
       material:{},
+      fecha:'',
       data: [],
       opts : {
         errorCorrectionLevel: 'M',
@@ -92,8 +94,6 @@ export default {
     //    this.$router.replace({ path: '/' })
     // }
     this.mismateriales();
-
-    this.misdatos();
 
   },
   methods: {
@@ -180,12 +180,37 @@ export default {
           });
           this.materiales = res.data;
           this.$q.loading.hide();
-          this.material=this.materiales[0]
+          this.filterMateriales=this.materiales
+          this.material={label:''}
+        })
+      },
+      filterMat (val, update) {
+        if (val === '') {
+          update(() => {
+            this.materiales = this.filterMateriales
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.materiales = this.filterMateriales.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
       },
     misdatos() {
+      if ((this.fecha==undefined || this.fecha=='') && this.material.id==undefined){
+        this.$q.notify({
+          icon:'info',
+          message: 'Debe Seleccionar material o fecha',
+          color: 'red'
+        })
+        return false
+      }
       this.$q.loading.show();
-      this.$axios.post("buscarInv",{compra:this.nrocompra,material_id:this.material.id}).then((res) => {
+      this.$axios.post("buscarInv",{fecha:this.fecha,material_id:this.material.id}).then((res) => {
         console.log(res.data)
         this.data = res.data;
         this.$q.loading.hide();

@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="text-h5 text-center">SALIDA DE MATERIAL</div>
-    <div><q-btn color="green" icon="check" label="Registro" @click="salida={}; dialogReg=true" /></div>
+    <div><q-btn color="green" icon="check" label="Registro" @click="detalle=[]; salida={}; dialogReg=true" /></div>
     <div class="row">
       <div class="col-4 q-pa-xs"><q-input dense v-model="fecha" type="date" label="Fecha" outlined/></div>
       <div class="col-4"><q-btn color="green" icon="search" label="Buscar" @click="generarList" /></div>
@@ -36,7 +36,7 @@
         </q-card-section>
         <q-card-section>
           <div class="row">
-          <div class="col-md-6 col-xs-12"><q-select v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
+          <div class="col-md-6 col-xs-12"><q-select use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.destino" type="text" label="Destino" outlined dense /></div>
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.motivo" type="text" label="Motivo" outlined dense/></div>
           <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
@@ -92,6 +92,7 @@ export default {
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
       salidas:[],
       tecnico:{},
+      filtertecnicos:[],
       tecnicos:[],
       detalle:[],
       columna:[
@@ -136,13 +137,21 @@ export default {
         });
         return false
       }
+      if(this.tecnico.id==undefined){
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: "Debe Seleccioanr tecnico",
+        });
+        return false
+      }
       this.salida.user_id=this.$store.state.login.user.id
       this.salida.tecnico=this.tecnico.id
       this.salida.detalle=this.detalle
       this.$axios.post("salida",this.salida).then((res) => {
         console.log(res.data)
         this.salida={}
-        this.tecnico=this.tecnicos[0]
+        this.tecnico={label:''}
         this.detalle=[]
         this.dialogReg=false
       })
@@ -158,10 +167,27 @@ export default {
           r.label=r.name
         });
         this.tecnicos=res.data
-        this.tecnico=this.tecnicos[0]
+        this.tecnico={label:''}
+        this.filtertecnicos=this.tecnicos
       })
 
     },
+    filterTec (val, update) {
+        if (val === '') {
+          update(() => {
+            this.tecnicos = this.filtertecnicos
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.tecnicos = this.filtertecnicos.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
     printSalida(salida){
       let contenido=''
       salida.elementos.forEach(r => {

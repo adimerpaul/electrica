@@ -98,6 +98,11 @@ class CompraController extends Controller
             }
             }
             else{
+                $inv=Inventario::where('gestion',$gestion)->where('material_id',$material->id)->get();
+                if(sizeof($inv)>0)
+                    {$inv2=Inventario::where('gestion',$gestion)->where('material_id',$material->id)->orderBy('id','desc')->first();
+                    $inv2->cantidad=$inv2->cantidad + $c['cantidad'];}
+                else{
                 $inv=new Inventario();
                 $inv->cantidad=$c['cantidad'];
                 $inv->codigo=$gestion.'-'.$material->codigo;
@@ -105,8 +110,8 @@ class CompraController extends Controller
                 $inv->letra=$tienda->codigo;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
-                $inv->compra_id=$compra->id;
                 $inv->save();
+            }
             }
         }
     }

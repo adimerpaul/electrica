@@ -369,6 +369,10 @@ export default {
       //alert(this.ubicacion.lat)
       this.punto.lat=this.lat.toFixed(8)
       this.punto.lng=this.lng.toFixed(8)
+      this.$axios.post('calcularArea',{lat:this.punto.lat,lng:this.punto.lng,distancia:200}).then(res=>{
+          console.log(res.data)
+          this.datos=res.data
+      })
       this.dialogRegistro=true
     },
     async geolocate() {

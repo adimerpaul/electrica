@@ -32,11 +32,12 @@ class InventarioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function buscarInv(Request $request ){
+        $gestion=date("Y",strtotime($request->fecha));
         if($request->fecha==null || $request->fecha==''){
-            return Inventario::with('material')->with('compra')->where('material_id',$request->material_id)->get();
+            return Inventario::with('material')->where('material_id',$request->material_id)->get();
         }
         else{
-            return Inventario::with('material')->with('compra')->whereRelation('compra','fecha',$request->fecha)->get();
+            return Inventario::with('material')->whereRelation('compra','fecha',$request->fecha)->orWhere('gestion',$gestion)->get();
         }
     }
 

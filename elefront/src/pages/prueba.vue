@@ -39,11 +39,12 @@
       </div>
       <div class="q-pa-md   col-md-6 col-xs-12">
         <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
-          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
+
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui">
-        <l-icon icon-url="http://maps.google.com/mapfiles/ms/icons/ylw-pushpin.png" />
+        <l-icon icon-url="pinyw.png" />
 
       </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;seleccionar(); ">        <l-icon
@@ -142,7 +143,7 @@ export default {
       styleMap: true,
 
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      url2: 'https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',
+      url2: 'http://{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 16,

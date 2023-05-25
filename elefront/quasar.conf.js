@@ -74,7 +74,7 @@ module.exports = function ( ctx ) {
       env: {
         API: ctx.dev
           ? 'http://localhost:8000/api/'
-          : 'https://electricab.gamo.cf/api/'
+          : 'https://alumbradoback.gamo.gob.bo/api/'
       }
     },
 

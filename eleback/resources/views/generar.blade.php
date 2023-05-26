@@ -12,6 +12,9 @@
             margin: 0px;
             border: 0px;
         }
+        body{
+            margin-top: 5px;
+        }
         div.wrapper {
             width: 100%; /* or whatever */
             overflow: hidden;

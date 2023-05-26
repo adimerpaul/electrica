@@ -13,7 +13,7 @@
             border: 0px;
         }
         body{
-            margin-top: 5px;
+            margin-top: -20px;
         }
         div.wrapper {
             width: 100%; /* or whatever */

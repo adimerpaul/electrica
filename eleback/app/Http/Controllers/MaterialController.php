@@ -19,6 +19,9 @@ class MaterialController extends Controller
         return Material::all();
     }
 
+    public function listmaterial(){
+        return Material::where('stock','>',0)->get();
+    }
     /**
      * Show the form for creating a new resource.
      *

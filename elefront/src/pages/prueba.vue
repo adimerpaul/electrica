@@ -157,7 +157,7 @@ export default {
       lng:0,
       marker:{},
       postes:[],
-      urlbase:'https://electrica.gamo.cf/#/consulta',
+      urlbase:'https://alumbradop.gamo.gob.bo/#/consulta',
 
       datos:[],
       ubicacion:[-17.970310, -67.111780],

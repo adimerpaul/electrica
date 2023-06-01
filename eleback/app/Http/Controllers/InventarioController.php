@@ -28,9 +28,9 @@ class InventarioController extends Controller
 
     public function inventDisponible(Request $request){
         if ($request->codificar=='SI')
-            return Inventario::with('material')->where('material_id',$request->material_id)->where('estado','ACTIVO')->orderBy('id','asc')->limit($request->cantidad)->get();
+            return Inventario::with('material')->where('material_id',$request->id)->where('estado','ACTIVO')->orderBy('id','asc')->limit($request->cantidad)->get();
         else
-            return Inventario::with('material')->where('material_id',$request->material_id)->where('estado','ACTIVO')->where('cantidad','>=',$request->cantidad)->first();
+            return Inventario::with('material')->where('material_id',$request->id)->where('estado','ACTIVO')->where('cantidad','>=',$request->cantidad)->first();
 
     }
     /**

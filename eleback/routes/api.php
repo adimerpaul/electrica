@@ -72,6 +72,9 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('bajaInv',[\App\Http\Controllers\BajaController::class,'bajaInv']);
 
     Route::post('devolucionMaterial',[\App\Http\Controllers\InventarioController::class,'devolucionMaterial']);
+    Route::get('listmaterial',[\App\Http\Controllers\MaterialController::class,'listmaterial']);
+    Route::post('inventDisponible',[\App\Http\Controllers\InventarioController::class,'inventDisponible']);
+
 
 
 

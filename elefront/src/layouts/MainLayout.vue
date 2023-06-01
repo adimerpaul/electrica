@@ -201,7 +201,7 @@
           icon="perm_identity"
           label="Denuncias"
           caption="Denuncias de contribuyente"
-          v-if="$store.state.login.booldenuncia || $store.state.login.boolreporte"
+          v-if="$store.state.login.booldenuncia && $store.state.login.boolreporte"
         >
           <q-card>
             <q-card-section>

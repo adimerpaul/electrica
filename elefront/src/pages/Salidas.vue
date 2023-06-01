@@ -40,13 +40,17 @@
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.destino" type="text" label="Destino" outlined dense /></div>
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.motivo" type="text" label="Motivo" outlined dense/></div>
           <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
+          <div class="col-4"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material"  /></div>
+          <div class="col-4"><q-input dense outlined v-model="cantidad" type="number" label="Cantidad" /></div>
+          <div class="col-2"><q-btn color="green" icon="add_circle_outline" @click="onclick" /></div>
+          <!--
           <div class="col-12">
             <q-form
               @submit.prevent="regList"
             >
-                <q-input outlined v-model="codigo" type="text" label="Codigo Material"  dense autofocus/>
+                <q-input outlined   v-model="codigo" type="text" label="Codigo Material"  dense autofocus/>
             </q-form>
-          </div>
+          </div>-->
         </div>
           <div class="col-12">
             <q-table
@@ -89,8 +93,12 @@ export default {
   data() {
     return {
       salida:{},
+      cantidad:1,
+      material:{label:''},
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
       salidas:[],
+      materiales:[],
+      filterMateriales:[],
       tecnico:{},
       filtertecnicos:[],
       tecnicos:[],
@@ -99,6 +107,7 @@ export default {
         {name:'cant',label:'Cantidad',field:'cant'},
         {name:'codigo',label:'codigo',field:'codigo'},
         {name:'material',label:'material',field:'material'},
+        {name:'estado',label:'estado',field:'estado'},
         {name:'opcion',label:'opcion',field:'opcion'},
       ],
       colsalida:[
@@ -116,10 +125,94 @@ export default {
     }
   },
   created() {
+    this.getMaterial()
     this.cargarTecnicos()
     this.generarList()
   },
   methods: {
+    onclick(){
+      if(this.material.id==undefined){
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: "DEBE REGISTRAR MATERIAL"
+        })
+        return false
+      }
+      if(this.cantidad<=0 || this.cantidad=='' || this.cantidad==undefined){
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: "DEBE Ingresar cantidad correcta"
+        })
+        return false
+      }
+      if(this.material.stock < this.cantidad){
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: "No ay Suficiente Material",
+        });
+        return false
+      }
+      this.material.cantidad=this.cantidad
+      this.$axios.post("inventDisponible",this.material).then((res) => {
+        console.log(res.data)
+          if( this.material.codificar=='SI'){
+            res.data.forEach(r => {
+              let valida=this.detalle.find(d=> d.codigo==r.codigo)
+                if(valida==undefined){
+              r.cant=1
+              this.detalle.push(r)
+            }
+            })
+          }
+          else{
+
+              let valida=this.detalle.find(d=> d.codigo===res.data.codigo)
+                if(valida==undefined){
+                  res.data.cant=this.cantidad
+                  this.detalle.push(res.data)
+                }
+                else{
+                  if((valida.cant + parseInt(this.cantidad)) <= this.material.stock)
+                  {
+                    valida.cant =parseInt(valida.cant) + parseInt(this.cantidad)
+                  }
+                }
+
+        }
+          console.log(this.detalle)
+      })
+
+    },
+    filterMat (val, update) {
+        if (val === '') {
+          update(() => {
+            this.materiales = this.filterMateriales
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.materiales = this.filterMateriales.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+    getMaterial(){
+      this.materiales=[]
+      this.$axios.get("listmaterial").then((res) => {
+        res.data.forEach(r => {
+          r.label=r.nombre
+          this.materiales.push(r)
+        })
+        this.filterMateriales=this.materiales
+      })
+
+    },
     generarList(){
       if(this.fecha==undefined || this.fecha=='')
         return false

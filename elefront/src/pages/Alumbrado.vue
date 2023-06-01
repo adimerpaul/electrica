@@ -15,12 +15,16 @@
       <div class="col-1"><q-btn color="info" icon="place" @click="searchPlace" /></div>
     </div>
     <div class="col-12">
-      <l-map style="height: 50vh" :zoom="zoom" :center="center"  >
+      <l-map style="height: 50vh" :zoom="zoom" :center="center"  @click="cargarpunto" >
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
+                      <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui">
+        <l-icon icon-url="pinyw.png" />
 
+      </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; recmtto='';">
+
           <l-icon>
           <img :src="'img/'+m.color" style="width: 20px;height: 20px;"/>
           <div class="headline">
@@ -181,7 +185,8 @@ export default {
       d4e:[],
       d5:[],
       d5e:[],
-
+      lat:0,
+      lng:0,
       estado:'ACTIVO',
       filter:'',
       colums:[
@@ -204,13 +209,34 @@ export default {
     };
   },
   created() {
-    if (!this.$store.state.login.boolgeneral){
+    if (!this.$store.state.login.booldistrito){
        this.$router.replace({ path: '/' })
     }
    // this.mispuntos()
     //this.cargar
   },
   methods:{
+    cargarpunto(value){
+      console.log(value.latlng)
+          //return false
+          this.lat= value.latlng.lat
+              this.lng= value.latlng.lng
+            this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
+    },
+    updateCoordinates(l) {
+              this.lat= l.target._latlng.lat
+              this.lng= l.target._latlng.lng
+            this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
+
+        },
+        cargarUbicacion(){
+      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
+          console.log(res.data)
+          this.datos=res.data
+      })
+    },
     searchPlace(){
       if(this.numeroposte=='' || this.numeroposte==undefined)
       {

@@ -84,6 +84,7 @@ export default {
       columns:[
         {name:"actividad",field:"actividad",label:"ACTIVIDAD"},
         {name:"estado",field:"estado",label:"ESTADO"},
+        {name:"tipo",field:"tipo",label:"TIPO"},
         {name:"fechaman",field:"fechaman",label:"FECHA MAN"},
        // {name:"hora",field:"hora",label:"HORA"},
         {name:"horaman",field:"horaman",label:"HORA MAN"},
@@ -96,9 +97,9 @@ export default {
         {name:"reclamo",field:"reclamo",label:"RECLAMO"},
         {name:"fecha",field:"fecha",label:"FECHA"},
         //{name:"supervisor",field:"supervisor",label:"SUPERVISOR"},
-        {name:"ci",field:row=>row.persona.ci,label:"CI"},
-        {name:"nombre",field:row=>row.persona.nombre,label:"NOMBRE"},
-        {name:"telefono",field:row=>row.persona.telefono,label:"TELEFONO"},
+        {name:"ci",field:row=>row.persona==undefined?'':row.persona.ci,label:"CI"},
+        {name:"nombre",field:row=>row.persona==undefined?'':row.persona.nombre,label:"NOMBRE"},
+        {name:"telefono",field:row=>row.persona==undefined?'':row.persona.telefono,label:"TELEFONO"},
       ]
     }
   },
@@ -159,6 +160,7 @@ export default {
             if(r.tecnico==null) r.tecnico=''
             if(r.fechaman==null) r.fechaman=''
             if(r.actividad==null) r.actividad=''
+            if(r.persona==undefined) r.persona={nombre:'',ci:'',telefono:''}
             this.cadena+="<tr>\
               <td>"+con+"</td>\
               <td>"+r.fecha+"</td>\

@@ -119,7 +119,7 @@
     </div>
     <div class="col-12">
       <l-map style="height: 50vh" :zoom="zoom" :center="center" @click="cargarpunto">
-          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" title="Usted esta Aqui"
@@ -138,6 +138,7 @@
         </l-marker>
 
         <l-control position="topright" >
+        <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
     </l-map>
@@ -330,6 +331,23 @@ export default {
     this.geolocate()
   },
   methods:{
+    async geolocate() {
+      this.ubicacion= [0, 0]
+      console.log(navigator.geolocation)
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+          this.lat=position.coords.latitude
+          this.lng=position.coords.longitude
+          this.zoom=18;
+        this.ubicacion=[this.lat,this.lng];
+        this.center=this.ubicacion
+        this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
+          console.log(res.data)
+          this.datos=res.data
+         })
+        })
+      }
+    },
     searchPlace(){
       if(this.numeroposte=='' || this.numeroposte==undefined)
       {
@@ -375,42 +393,7 @@ export default {
       })
       this.dialogRegistro=true
     },
-    async geolocate() {
-      this.ubicacion= [0, 0]
-      // check if API is supported
 
-      if (navigator.geolocation) {
-
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position)
-
-
-          this.lat= position.coords.latitude,
-          this.lng= position.coords.longitude,
-
-        this.ubicacion=[this.lat,this.lng];
-        this.center=this.ubicacion
-        this.zoom=18;
-
-      },function(error){
-// El segundo parámetro es la función de error
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            console.log("El usuario denegó el permiso para la Geolocalización")
-            break;
-        case error.POSITION_UNAVAILABLE:
-            console.log("La ubicación no está disponible.")
-            break;
-        case error.TIMEOUT:
-            console.log("Se ha excedido el tiempo para obtener la ubicación")
-            break;
-        case error.UNKNOWN_ERROR:
-            console.log(" Un error desconocido.")
-            break;
-    }
-  });}
-
-    },
       cargarcolor(){
         console.log('sdfds')
         if(this.punto.potencia=='')

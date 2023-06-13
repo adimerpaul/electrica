@@ -78,6 +78,7 @@ class SalidaController extends Controller
                 $inventario->estado='AGOTADO';
             }
             $inventario->save();
+            if($material->codificar=='SI'){
             $bodega=new Bodega;
             $bodega->material=$elemento->material;
             $bodega->cantidad=$elemento->cantidad;
@@ -85,7 +86,28 @@ class SalidaController extends Controller
             $bodega->material_id=$elemento->material_id;
             $bodega->inventario_id=$elemento->inventario_id;
             $bodega->user_id=$salida->tecnico_id;
-            $bodega->save();
+            $bodega->save();}
+            else{
+                $valida=Bodega::where('material_id',$elemento->material_id)->where('user_id',$salida->tecnico_id)->where('inventario_id',$elemento->inventario_id)->get();
+                if(sizeof($valida)<=0 )
+                {
+                    $bodega=new Bodega;
+                    $bodega->material=$elemento->material;
+                    $bodega->cantidad=$elemento->cantidad;
+                    $bodega->saldo=$elemento->cantidad;
+                    $bodega->material_id=$elemento->material_id;
+                    $bodega->inventario_id=$elemento->inventario_id;
+                    $bodega->user_id=$salida->tecnico_id;
+                    $bodega->save();
+                }
+                else{
+                    $bodega=Bodega::where('material_id',$elemento->material_id)->where('user_id',$salida->tecnico_id)->where('inventario_id',$elemento->inventario_id)->first();
+                    $bodega->cantidad=$bodega->cantidad + $elemento->cantidad;
+                    $bodega->save();
+
+                }
+            }
+
         }
 
         return Salida::with('tecnico')->with('elementos')->where('id',$salida->id)->first();

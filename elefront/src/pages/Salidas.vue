@@ -120,7 +120,7 @@ export default {
 
       ],
       codigo:'',
-      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA BLANCA'],
+      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA BLANCA','CARRO DE TRAFICO'],
       dialogReg:false,
     }
   },

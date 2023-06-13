@@ -16,7 +16,7 @@
     </div>
     <div class="col-12">
       <l-map style="height: 50vh" :zoom="zoom" :center="center"  @click="cargarpunto" >
-          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
+          <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
                       <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui">
@@ -33,6 +33,8 @@
           </l-icon>
           </l-marker>
         <l-control position="topright" >
+        <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
+
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
     </l-map>
@@ -216,6 +218,23 @@ export default {
     //this.cargar
   },
   methods:{
+    async geolocate() {
+      this.ubicacion= [0, 0]
+      console.log(navigator.geolocation)
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+          this.lat=position.coords.latitude
+          this.lng=position.coords.longitude
+          this.zoom=18;
+        this.ubicacion=[this.lat,this.lng];
+        this.center=this.ubicacion
+        this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
+          console.log(res.data)
+          this.datos=res.data
+         })
+        })
+      }
+    },
     cargarpunto(value){
       console.log(value.latlng)
           //return false
@@ -348,7 +367,7 @@ export default {
         this.$q.loading.hide()
          console.log(this.datos)
       })
-    },
+    }},
     computed: {
     dynamicSize () {
       return [this.iconSize, this.iconSize * 1.15];
@@ -357,7 +376,6 @@ export default {
       return [this.iconSize / 2, this.iconSize * 1.15];
     }
   }
-  },
 
 }
 </script>

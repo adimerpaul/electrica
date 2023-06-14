@@ -37,9 +37,17 @@ class ReclamoController extends Controller
     }
 
     public function reporteReclamo(Request $request){
+        if($request->user_id==0){
         return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
         ->whereDate('fechaman','>=',$request->ini)
         ->whereDate('fechaman','<=',$request->fin)->get();
+        }
+        else{
+            return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
+            ->where('user_id',$request->user_id)
+            ->whereDate('fechaman','>=',$request->ini)
+            ->whereDate('fechaman','<=',$request->fin)->get();
+        }
     }
 
     public function listAtencion(){

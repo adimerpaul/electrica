@@ -146,8 +146,8 @@ class InventarioController extends Controller
         if(!$material)
             return 'error';
 
-        $material->stock=$material->stock + $bodega->saldo;
-        $inv->cantidad=$inv->cantidad + $bodega->saldo;
+        $material->stock=intval($material->stock) + intval($bodega->saldo);
+        $inv->cantidad=intval($inv->cantidad) + intval($bodega->saldo);
         $material->save();
 
         $bodega->saldo=0;

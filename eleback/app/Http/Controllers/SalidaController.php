@@ -60,6 +60,9 @@ class SalidaController extends Controller
 
         foreach ($request->detalle as $val) {
             # code...
+            $inventario=Inventario::find($val['id']);
+            if($inventario->cantidad>0){
+
             $elemento=new Elemento();
             $elemento->cantidad=$val['cant'];
             $elemento->material_id=$val['material_id'];
@@ -72,7 +75,6 @@ class SalidaController extends Controller
             $material->stock=floatval($material->stock) - floatval($val['cant']);
             $material->save();
 
-            $inventario=Inventario::find($val['id']);
             $inventario->cantidad = floatval($inventario->cantidad) - floatval($val['cant']);
             if($inventario->cantidad==0){
                 $inventario->estado='AGOTADO';
@@ -103,11 +105,12 @@ class SalidaController extends Controller
                 else{
                     $bodega=Bodega::where('material_id',$elemento->material_id)->where('user_id',$salida->tecnico_id)->where('inventario_id',$elemento->inventario_id)->first();
                     $bodega->cantidad=$bodega->cantidad + $elemento->cantidad;
+                    $bodega->saldo=$bodega->saldo + $elemento->cantidad;
                     $bodega->save();
 
                 }
             }
-
+         }
         }
 
         return Salida::with('tecnico')->with('elementos')->where('id',$salida->id)->first();

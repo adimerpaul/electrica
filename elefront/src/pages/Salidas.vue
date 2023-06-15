@@ -120,7 +120,7 @@ export default {
 
       ],
       codigo:'',
-      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA BLANCA','CARRO DE TRAFICO'],
+      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores'],
       dialogReg:false,
     }
   },
@@ -156,6 +156,7 @@ export default {
         return false
       }
       this.material.cantidad=this.cantidad
+
       this.$axios.post("inventDisponible",this.material).then((res) => {
         console.log(res.data)
           if( this.material.codificar=='SI'){
@@ -183,6 +184,7 @@ export default {
 
         }
           console.log(this.detalle)
+
       })
 
     },
@@ -241,12 +243,28 @@ export default {
       this.salida.user_id=this.$store.state.login.user.id
       this.salida.tecnico=this.tecnico.id
       this.salida.detalle=this.detalle
+      this.$q.loading.show()
+
       this.$axios.post("salida",this.salida).then((res) => {
+        this.$q.notify({
+          color: "green-4",
+          icon: "info",
+          message: "Regsitrado",
+        });
         console.log(res.data)
         this.salida={}
         this.tecnico={label:''}
         this.detalle=[]
         this.dialogReg=false
+        this.$q.loading.hide()
+      }).catch(error=>{
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: error.message,
+        });
+        this.$q.loading.hide()
+
       })
 
     },

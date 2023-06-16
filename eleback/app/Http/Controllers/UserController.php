@@ -47,7 +47,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|min:4',
         ]);
         $user = User::create($validated);
         $permisos= array();
@@ -73,7 +73,7 @@ class UserController extends Controller
     public function updatePassword(Request $request, User $user)
     {
         $request->validate([
-            'password' => 'required|min:6',
+            'password' => 'required|min:4',
         ]);
         $request['password']=Hash::make($request['password']);
         $user->update($request->all());

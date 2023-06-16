@@ -134,6 +134,9 @@ class InventarioController extends Controller
     }
 
     public function devolucionMaterial(Request $request){
+        $inv1=Inventario::where('codigo',$request->codigo)->first();
+        if($inv1->num > 0){
+
         $inv=Inventario::where('codigo',$request->codigo)->where('estado','AGOTADO')->first();
         if(!$inv)
             return 'Error';
@@ -156,6 +159,31 @@ class InventarioController extends Controller
 
         $inv->estado='ACTIVO';
         $inv->save();
+        }
+        else{
+            $inv=Inventario::where('codigo',$request->codigo)->first();
+            if(!$inv)
+                return 'Error';
 
+            $bodega=Bodega::where('inventario_id',$inv->id)->where('user_id',$request->id)->where('estado','ACTIVO')->first();
+            if(!$bodega)
+                return 'Error';
+
+            $material=Material::where('id',$inv->material_id)->first();
+            if(!$material)
+                return 'error';
+
+            $material->stock=intval($material->stock) + intval($request->cantidad);
+            $inv->cantidad=intval($inv->cantidad) + intval($request->cantidad);
+            $material->save();
+
+            $bodega->saldo=intval($bodega->saldo) - intval($request->cantidad);
+            if($bodega->saldo<=0)
+                $bodega->estado='AGOTADO';
+            $bodega->save();
+
+            $inv->estado='ACTIVO';
+            $inv->save();
+        }
     }
 }

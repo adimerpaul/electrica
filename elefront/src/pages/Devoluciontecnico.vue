@@ -7,8 +7,12 @@
       @submit.prevent="consultar"
       class="q-gutter-md"
       >
-      <div class="col-6"><q-input v-model="codigo" type="text" label="Codigo Material" autofocus dense outlined/></div>
-
+      <div class="row">
+      <div class="col-md-6 col-xs-12"><q-select use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
+      <div class="col-md-6 col-xs-12"><q-input v-model="codigo" type="text" label="Codigo Material" autofocus dense outlined/></div>
+      <div class="col-md-6 col-xs-12"><q-input v-model="cantidad" type="number" label="Cantidad"  dense outlined/></div>
+      <div class="col-3"><q-btn color="primary" icon="check" label="OK" type="submit" /></div>
+      </div>
             <div>
       </div>
     </q-form>
@@ -45,32 +49,66 @@ export default {
   data() {
       return {
         isLoading: true,
+        cantidad:1,
         camera: 'auto',
         result: null,
         showScanConfirmation: false,
         info: {},
         correcto:false,
         codigo:'',
-        error: ''
+        error: '',
+        tecnicos:[],
+        tecnico:{},
+        filtertecnicos:[]
       }
   },
   mounted() {
 
-
+    this.cargarTecnicos()
   },
+
   methods: {
+    cargarTecnicos(){
+      this.$axios.get("listUser").then((res) => {
+        res.data.forEach(r => {
+          r.label=r.name
+        });
+        this.tecnicos=res.data
+        this.tecnico={label:''}
+        this.filtertecnicos=this.tecnicos
+      })
+
+    },
+    filterTec (val, update) {
+        if (val === '') {
+          update(() => {
+            this.tecnicos = this.filtertecnicos
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.tecnicos = this.filtertecnicos.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
     onClick(){
       this.$q.dialog({
-        title: 'DEVOULCION MATERIAL',
+        title: 'DEVOLUCION MATERIAL',
         message: 'Esta seguro de devolver?',
         cancel: true,
         persistent: false
       }).onOk(() => {
         // console.log('>>>> OK')
-      this.$axios.post("devolucionMaterial",{codigo:this.info.inventario.codigo}).then((res) => {
+      this.$axios.post("devolucionMaterial",{codigo:this.info.inventario.codigo,id:this.info.user_id,cantidad:this.cantidad}).then((res) => {
         console.log(res.data)
         this.correcto=false
         this.info={}
+        this.cantidad=1
+        this.codigo=''
       })
       }).onOk(() => {
         // console.log('>>>> second OK catcher')
@@ -87,19 +125,23 @@ export default {
     this.consultar()
   },
    consultar(){
+    console.log(this.tecnico)
       if(this.codigo==undefined || this.codigo=='')
+        return false
+      if(this.tecnico.id==undefined)
         return false
       this.info={}
       this.correcto=false
-      this.$axios.get("consultaBodega/"+this.codigo).then((res) => {
+      this.$axios.post("consultaBodega",{cod:this.codigo,id:this.tecnico.id}).then((res) => {
         console.log(res.data)
         if(res.data!='')
         {this.info=res.data
+          this.cantidad=res.data.saldo
           this.info.fecha=date.formatDate(this.info.created_at, "YYYY-MM-DD H:m"),
           this.correcto=true
         }
       })
-      this.codigo=''
+      //this.codigo=''
     }
   }
 }

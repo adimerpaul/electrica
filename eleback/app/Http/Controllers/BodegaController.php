@@ -19,10 +19,12 @@ class BodegaController extends Controller
         //
     }
 
-    public function consultaBodega($cod){
+    public function consultaBodega(Request $request){
         return Bodega::with('inventario')->with('material')->with('user')
-        ->whereRelation('inventario','codigo',$cod)
-        ->where('estado','ACTIVO')->orderBy('id','desc')->first();
+        ->whereRelation('inventario','codigo',$request->cod)
+        ->where('estado','ACTIVO')
+        ->where('user_id',$request->id)
+        ->orderBy('id','desc')->first();
     }
 
     public function disponible(Request $request){

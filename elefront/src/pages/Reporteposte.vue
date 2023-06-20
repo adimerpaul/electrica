@@ -148,6 +148,8 @@ export default {
         this.$axios.post('reportePoste',{ini:this.fecha1,fin:this.fecha2,numero:this.numero}).then(res=>{
           console.log(res.data)
         this.misdenuncias=res.data
+        if((res.data).length>0){
+
         this.cadena="<style>\
           *{font-size:10px}\
           table{width:100%; border-collapse: collapse;}\
@@ -156,7 +158,7 @@ export default {
           </style>\
           <div >\
             <table style='border:0;'><tr><td style='border:0;width:20%;'><img src='logo.jpg' style='width:50px; height:50px;'/></td>\
-               <td class='titulo' style='border:0;'> RESUMEN DE MTTOs y ATENCION RECLAMOS DEL "+this.fecha1+" AL "+this.fecha2+" Usuario: "+this.user.label+"</td>\
+               <td class='titulo' style='border:0;'> RESUMEN DE MTTOs y ATENCION RECLAMOS DEL "+this.fecha1+" AL "+this.fecha2+" Nro Poste: "+this.numero+"</td>\
                </tr>\
             </table>\
             <table>\
@@ -185,7 +187,7 @@ export default {
               //console.log(this.cadena)
           document.getElementById('myelement').innerHTML = this.cadena
       const d = new Printd()
-      d.print( document.getElementById('myelement') )
+      d.print( document.getElementById('myelement') )}
           })
 
       },

@@ -177,6 +177,7 @@ export default {
         this.$axios.post('reporteReclamo',{ini:this.fecha1,fin:this.fecha2,id:this.user.id}).then(res=>{
           console.log(res.data)
         this.misdenuncias=res.data
+        if((res.data).length>0){
         this.cadena="<style>\
           *{font-size:10px}\
           table{width:100%; border-collapse: collapse;}\
@@ -214,7 +215,7 @@ export default {
               //console.log(this.cadena)
           document.getElementById('myelement').innerHTML = this.cadena
       const d = new Printd()
-      d.print( document.getElementById('myelement') )
+      d.print( document.getElementById('myelement') )}
           })
 
       },

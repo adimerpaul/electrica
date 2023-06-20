@@ -5,12 +5,16 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
+                      <l-marker :lat-lng="[lat,lng]" draggable  title="Usted esta Aqui">
+        <l-icon icon-url="pinyw.png" />
 
+      </l-marker>
         <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">        <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
         /></l-marker>
 
         <l-control position="topright" >
+          <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
     </l-map>
@@ -205,6 +209,8 @@ export default {
       zoom: 13,
       center: {lat:-17.970310, lng:-67.111780},
       markerLatLng: [-17.970310, -67.111780],
+      lat:0,
+      lng:0,
       opts : {
         errorCorrectionLevel: 'M',
         type: 'png',
@@ -235,6 +241,19 @@ export default {
     this.cargarMaterial()
   },
   methods:{
+    async geolocate() {
+      this.ubicacion= [0, 0]
+      console.log(navigator.geolocation)
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+          this.lat=position.coords.latitude
+          this.lng=position.coords.longitude
+          this.zoom=18;
+        this.ubicacion=[this.lat,this.lng];
+        this.center=this.ubicacion
+        })
+      }
+    },
     regmatto(){
       this.$axios.post('reclamofin',{punto:this.punto,detalle:this.detalle}).then(res=>{
         console.log(res.data)

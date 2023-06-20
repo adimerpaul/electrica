@@ -5,11 +5,15 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
+                      <l-marker :lat-lng="[lat,lng]" draggable  title="Usted esta Aqui">
+        <l-icon icon-url="pinyw.png" />
 
+      </l-marker>
         <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;frmmodalpunto(m); ">
 </l-marker>
 
         <l-control position="topright" >
+          <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
                       <q-btn @click="styleMap=!styleMap" icon="map" class="bg-primary text-white" dense round></q-btn>
                     </l-control>
     </l-map>
@@ -199,6 +203,8 @@ export default {
       material:{},
       codigo:{},
       codigos:[],
+      lat:0,
+      lng:0,
       fechaplan:date.formatDate(new Date(),'YYYY-MM-DD'),
       filter:'',
       url:'https://electrica.gamo.cf/#/consulta',
@@ -260,6 +266,19 @@ export default {
     this.cargarMaterial()
   },
   methods:{
+    async geolocate() {
+      this.ubicacion= [0, 0]
+      console.log(navigator.geolocation)
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+          this.zoom=18;
+          this.lat=position.coords.latitude
+          this.lng=position.coords.longitude
+        this.ubicacion=[this.lat,this.lng];
+        this.center=this.ubicacion
+        })
+      }
+    },
     listPersona(){
       this.personas=[]
       this.$axios.get('listPerReclamo').then(res=>{

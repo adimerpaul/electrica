@@ -13,6 +13,7 @@ import User from "pages/User";
 import Tecnicos from "pages/Tecnicos";
 import Apublico from "pages/Apublico";
 import Reportereclamo from "pages/Reportereclamo";
+import Reporteposte from "pages/Reporteposte";
 import Inspeccion from "pages/Inspeccion";
 import Cronograma from "pages/Cronograma";
 import Juntavecinal from "pages/Juntavecinal";
@@ -42,6 +43,7 @@ const routes = [
       { path: 'tecnicos', component: Tecnicos ,meta: {requiresAuth: true}},
       { path: 'apublico', component: Apublico ,meta: {requiresAuth: true}},
       { path: 'reportereclamo', component: Reportereclamo ,meta: {requiresAuth: true}},
+      { path: 'reporteposte', component: Reporteposte ,meta: {requiresAuth: true}},
       { path: 'inspeccion', component: Inspeccion ,meta: {requiresAuth: true}},
       { path: 'cronograma', component: Cronograma ,meta: {requiresAuth: true}},
       { path: 'juntavecinal', component: Juntavecinal ,meta: {requiresAuth: true}},

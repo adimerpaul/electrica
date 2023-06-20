@@ -160,6 +160,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/reporteposte" exact v-if="$store.state.login.boolreporte">
+                <q-item-section avatar>
+                  <q-icon name="print" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reporte por poste</q-item-label>
+                  <q-item-label caption>
+                    informe de poste
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
               <q-item clickable to="/cronograma" exact v-if="$store.state.login.boolcronograma">
                 <q-item-section avatar>
                   <q-icon name="date_range" />

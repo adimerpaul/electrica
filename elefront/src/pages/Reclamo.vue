@@ -44,7 +44,7 @@
     </gmap-map>
   </div>
 -->
-    <q-table :data="puntos"  :columns="colums" :filter="filter">
+    <q-table :data="puntos"  :columns="colums" :filter="filter" row-key="id">
       <template v-slot:body-cell-nombre="props">
         <q-td :props="props" @click="frmmodalpunto(props.row)">
           {{props.row.persona.nombre}} - {{props.row.persona.telefono}}

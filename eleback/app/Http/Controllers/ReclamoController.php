@@ -50,6 +50,14 @@ class ReclamoController extends Controller
         }
     }
 
+    public function reportePoste(Request $request){
+
+        return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
+        ->whereRelation('poste','nroposte',$request->numero)
+        ->whereDate('fechaman','>=',$request->ini)
+        ->whereDate('fechaman','<=',$request->fin)->get();
+    }
+
     public function listAtencion(){
         return Reclamo::where('estado','EN ESPERA')->where('tipo','RECLAMO')->with('poste')->with('persona')->get();
     }

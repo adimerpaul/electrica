@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-12">
       <q-card>
-        <q-card-section  class="bg-green text-white text-center text-subtitle2">Reporte de denuncias</q-card-section>
+        <q-card-section  class="bg-green text-white text-center text-subtitle2">Reporte por Poste</q-card-section>
         <q-card-section>
           <q-form @submit.prevent="reporte2">
             <div class="row">
@@ -14,7 +14,7 @@
                 <q-input outlined dense label="Fecha fin" type="date" v-model="fecha2" required/>
               </div>
               <div class="col-12 col-sm-3">
-                <q-select outlined dense label="Usuario" v-model="user" :options="users" use-input @filter="filterUs" />
+                <q-input v-model="numero" type="text" label="Nro Poste" dense outlined required/>
               </div>
               <div class="col-12 col-sm-3 flex flex-center">
                 <q-btn type="submit" label="Generar reporte" color="positive" icon="print" class="full-width full-height" />
@@ -83,6 +83,7 @@ export default {
       fecha1:date.formatDate(new Date(),'YYYY-MM-DD'),
       fecha2:date.formatDate(new Date(),'YYYY-MM-DD'),
       misdenuncias:[],
+      numero:'',
       cadena:'',
       users:[{lable:'TODOS',id:0}],
       user:{},
@@ -113,37 +114,9 @@ export default {
     if (!this.$store.state.login.boolreporte){
        this.$router.replace({ path: '/home' })
     }
-    this.getUsers()
   },
   methods:{
-    filterUs (val, update) {
-        if (val === '') {
-          update(() => {
-            this.users = this.filtUser
 
-            // here you have access to "ref" which
-            // is the Vue reference of the QSelect
-          })
-          return
-        }
-
-        update(() => {
-          const needle = val.toLowerCase()
-          this.users = this.filtUser.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
-        })
-      },
-    getUsers(){
-      this.users=[{label:'TODOS',id:0}]
-      this.$axios.get('listUser').then(res=>{
-        res.data.forEach(r => {
-          r.label=r.name
-          this.users.push(r)
-        })
-        this.filtUser= this.users
-        this.user={label:''}
-      })
-
-    },
     exportTable () {
       // naive encoding to csv format
       const content = [this.columns.map(col => wrapCsvValue(col.label))].concat(
@@ -171,10 +144,8 @@ export default {
       }
       },
       reporte2(){
-        if(this.user.id==undefined)
-          return false
         this.cadena=''
-        this.$axios.post('reporteReclamo',{ini:this.fecha1,fin:this.fecha2,id:this.user.id}).then(res=>{
+        this.$axios.post('reportePoste',{ini:this.fecha1,fin:this.fecha2,numero:this.numero}).then(res=>{
           console.log(res.data)
         this.misdenuncias=res.data
         this.cadena="<style>\

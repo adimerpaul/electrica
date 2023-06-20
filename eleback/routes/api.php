@@ -46,6 +46,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listplan',[\App\Http\Controllers\PosteController::class,'listplan']);
     Route::post('disponible',[\App\Http\Controllers\BodegaController::class,'disponible']);
     Route::post('reporteReclamo',[\App\Http\Controllers\ReclamoController::class,'reporteReclamo']);
+    Route::post('reportePoste',[\App\Http\Controllers\ReclamoController::class,'reportePoste']);
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('upPoste',[\App\Http\Controllers\PosteController::class,'upPoste']);
     Route::post('listsalida',[\App\Http\Controllers\SalidaController::class,'listsalida']);

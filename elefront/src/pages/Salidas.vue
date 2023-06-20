@@ -12,7 +12,15 @@
         :data="salidas"
         :columns="colsalida"
         row-key="name"
+        :filter="filter"
       >
+      <template v-slot:top-right>
+        <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
       <template v-slot:body-cell-elementos="props">
               <q-td key="elementos" :props="props">
                 <div v-for=" mat in props.row.elementos" :key="mat.id">
@@ -60,6 +68,7 @@
               row-key="name"
               dense
             >
+
             <template v-slot:body-cell-opcion="props">
               <q-td key="opcion" :props="props">
                   <q-btn color="red" icon="delete" dense @click="quitarLista(props)"/>
@@ -92,6 +101,7 @@ import {Printd} from "printd";
 export default {
   data() {
     return {
+      filter:'',
       salida:{},
       cantidad:1,
       material:{label:''},

@@ -98,7 +98,8 @@ export default {
     onClick(){
       if(this.cantidad<=0 || this.cantidad=='' || this.cantidad==undefined)
         return false
-        
+      if(this.cantidad>this.info.saldo)
+        return false
       this.$q.dialog({
         title: 'DEVOLUCION MATERIAL',
         message: 'Esta seguro de devolver?',

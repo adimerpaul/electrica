@@ -112,6 +112,7 @@ class CompraController extends Controller
                 $inv->letra=$tienda->codigo;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
+                $inv->estado='ACTIVO';
                 $inv->save();
             }
             }

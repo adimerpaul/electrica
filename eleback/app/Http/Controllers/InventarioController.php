@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateInventarioRequest;
 use App\Models\Bodega;
 use App\Models\Compra;
 use App\Models\Material;
+use App\Models\Devuelta;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -148,7 +149,15 @@ class InventarioController extends Controller
         $material=Material::where('id',$inv->material_id)->first();
         if(!$material)
             return 'error';
-
+            $devuelta=new Devuelta();
+            $devuelta->cantidad=$bodega->saldo;
+            $devuelta->material=$material->nombre;
+            $devuelta->fecha=date('Y-m-d');
+            $devuelta->hora=date('H:i:s');
+            $devuelta->inventario_id=$inv->id;
+            $devuelta->tecnico_id=$bodega->user_id;
+            $devuelta->user_id=$request->user()->id;
+            $devuelta->save();
         $material->stock=intval($material->stock) + intval($bodega->saldo);
         $inv->cantidad=intval($inv->cantidad) + intval($bodega->saldo);
         $material->save();
@@ -172,7 +181,15 @@ class InventarioController extends Controller
             $material=Material::where('id',$inv->material_id)->first();
             if(!$material)
                 return 'error';
-
+                $devuelta=new Devuelta();
+                $devuelta->cantidad=$request->cantidad;
+                $devuelta->material=$material->nombre;
+                $devuelta->fecha=date('Y-m-d');
+                $devuelta->hora=date('H:i:s');
+                $devuelta->inventario_id=$inv->id;
+                $devuelta->tecnico_id=$bodega->user_id;
+                $devuelta->user_id=$request->user()->id;
+                $devuelta->save();
             $material->stock=intval($material->stock) + intval($request->cantidad);
             $inv->cantidad=intval($inv->cantidad) + intval($request->cantidad);
             $material->save();

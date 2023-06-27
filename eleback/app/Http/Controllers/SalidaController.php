@@ -76,7 +76,7 @@ class SalidaController extends Controller
             $material->save();
 
             $inventario->cantidad = floatval($inventario->cantidad) - floatval($val['cant']);
-            if($inventario->cantidad==0){
+            if($inventario->cantidad<=0){
                 $inventario->estado='AGOTADO';
             }
             $inventario->save();

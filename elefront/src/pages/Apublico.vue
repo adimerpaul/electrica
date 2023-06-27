@@ -12,32 +12,32 @@
         >
         <q-card-section class="q-pt-none">
             <div class="row">
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="latitud" v-model="punto.lat" required type="number"  step="0.00000000001" />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.00000000001"  />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Potencia"  v-model="punto.potencia"
                 :options="potencias" @change="cargarcolor()" />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" type="number" required/>
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
 
@@ -67,31 +67,31 @@
         >
         <q-card-section class="q-pt-none">
             <div class="row">
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="latitud" v-model="punto.lat" required type="number" step="0.000001"/>
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.000001"  />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="potencias" @change.native="cargarcolor" />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" type="number" required/>
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
-              <div class="col-3">
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
 
@@ -412,9 +412,18 @@ export default {
           this.punto.color=r.colores}
         })
         console.log(this.punto)
+        this.$q.loading.show();
+
       this.$axios.post('poste',this.punto).then(res=>{
         this.dialogRegistro=false
+        this.$q.notify({
+              icon:'info',
+              message: 'Punto regsitrado ',
+              color: 'green'
+            })
         this.punto={}
+        this.$q.loading.hide();
+
         this.mispuntos
       })
 

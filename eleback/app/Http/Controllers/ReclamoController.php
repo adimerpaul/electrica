@@ -255,6 +255,8 @@ class ReclamoController extends Controller
         $reclamo->save();
 
         foreach ($request->detalle as $d) {
+            $bodega=Bodega::find($d['id']);
+            if($bodega->saldo>0){
             $detalle= new Detalle;
             $detalle->cantidad=$d['cantidad'];
             $detalle->material=$d['material'];
@@ -263,11 +265,11 @@ class ReclamoController extends Controller
             $detalle->bodega_id=$d['id'];
             $detalle->save();
 
-            $bodega=Bodega::find($d['id']);
             $bodega->saldo= intval($bodega->saldo) - intval($d['cantidad']);
             if($bodega->saldo<=0)
                 $bodega->estado='AGOTADO';
             $bodega->save();
+            }
         }
 
     }

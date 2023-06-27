@@ -166,7 +166,7 @@ export default {
         return false
       }
       this.material.cantidad=this.cantidad
-
+      this.$q.loading.show()
       this.$axios.post("inventDisponible",this.material).then((res) => {
         console.log(res.data)
           if( this.material.codificar=='SI'){
@@ -193,9 +193,17 @@ export default {
                 }
 
         }
+        this.$q.loading.hide()
+
           console.log(this.detalle)
 
-      })
+      }).catch(error=>{
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: error.message
+        })
+      }).finished()
 
     },
     filterMat (val, update) {

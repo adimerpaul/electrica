@@ -37,6 +37,13 @@
             </template>
           </q-input>
         </template>
+        <template v-slot:body-cell-minimo="props">
+            <q-td key="minimo" :props="props">
+              <q-badge :color="props.row.minimo>props.row.stock?'red':'green'"  >{{ props.row.minimo }}
+                </q-badge>
+            </q-td>
+
+        </template>
         <template v-slot:body-cell-opcion="props">
             <q-td key="opcion" :props="props">
               <q-btn dense round flat color="yellow"

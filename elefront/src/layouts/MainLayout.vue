@@ -92,7 +92,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
+<!--
         <q-item clickable to="/" exact >
           <q-item-section avatar>
             <q-icon name="list" />
@@ -116,6 +116,18 @@
             </q-item-label>
           </q-item-section>
         </q-item>
+      -->
+      <q-item clickable to="/alumbrado" exact v-if="$store.state.login.booldistrito">
+                <q-item-section avatar>
+                  <q-icon name="wb_incandescent" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Alumbrado Publico</q-item-label>
+                  <q-item-label caption>
+                    Ubicacion
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
         <q-item clickable to="/mantenimiento" exact v-if="$store.state.login.boolmtto">
           <q-item-section avatar>
             <q-icon name="my_location" />
@@ -127,17 +139,8 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/alumbrado" exact v-if="$store.state.login.booldistrito">
-                <q-item-section avatar>
-                  <q-icon name="wb_incandescent" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Alumbrado Publico</q-item-label>
-                  <q-item-label caption>
-                    Ubicacion
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
+
+
               <q-item clickable to="/reclamos" exact v-if="$store.state.login.boolreclamo">
                 <q-item-section avatar>
                   <q-icon name="handyman" />
@@ -230,7 +233,7 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
--->
+
         <q-expansion-item
           expand-separator
           icon="perm_identity"
@@ -267,7 +270,7 @@
 
           </q-card>
         </q-expansion-item>
-
+      -->
         <q-expansion-item
           expand-separator
           icon="warehouse"

@@ -19,14 +19,14 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="modalpunto=true" title="Usted esta Aqui">
-
         <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/pink-pushpin.png"
         />
         </l-marker>
         <l-marker v-for="m in jobs" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng]; ">        <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-        /></l-marker>
+        />
+      </l-marker>
 
         <l-control position="topright" >
           <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
@@ -34,8 +34,6 @@
                     </l-control>
     </l-map>
     </div>
-
-
     <q-table :data="jobs"  :columns="colums" :filter="filter">
       <template v-slot:top-left>
                 <q-toggle
@@ -96,10 +94,7 @@
                   true-value="PLAZAS Y PARQUES"
                   false-value="DEPENDENCIAS"
                 /></div>
-
             </div>
-
-
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="Actividad" v-model="job.actividad" />
               </div>
@@ -161,7 +156,6 @@
 import {date} from "quasar";
 import {Printd} from "printd";
 import { env } from "process";
-const QRCode = require('qrcode')
 export default {
   data () {
     return {

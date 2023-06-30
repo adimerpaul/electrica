@@ -33,7 +33,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue'),meta: {requiresAuth: true} },
+      { path: '', component: () => import('pages/Home.vue'),meta: {requiresAuth: true} },
       { path: 'mantenimiento', component: Mantenimiento ,meta: {requiresAuth: true}},
       { path: 'denuncia', component: Denuncia ,meta: {requiresAuth: true}},
       { path: 'mapa', component: Mapa ,meta: {requiresAuth: true}},

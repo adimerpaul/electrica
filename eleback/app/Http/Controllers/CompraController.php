@@ -102,6 +102,7 @@ class CompraController extends Controller
                 if(sizeof($inv)>0)
                     {$inv2=Inventario::where('gestion',$gestion)->where('material_id',$material->id)->orderBy('id','desc')->first();
                     $inv2->cantidad=intval($inv2->cantidad) + intval( $c['cantidad']);
+                    $inv2->estado='ACTIVO';
                     $inv2->save();
                 }
                 else{

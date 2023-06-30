@@ -38,10 +38,8 @@
         <template v-slot:top-right>
           <q-btn
             color="primary"
-            icon-right="archive"
-            label="Exportar a csv"
-            no-caps
-            @click="exportTable"
+            label="Exportar PDF"
+            @click="exportPdf"
           />
         </template>
       </q-table>
@@ -57,25 +55,7 @@ import {jsPDF} from "jspdf"
 import { exportFile } from 'quasar'
 import {Printd} from "printd";
 
-function wrapCsvValue (val, formatFn, row) {
-  let formatted = formatFn !== void 0
-    ? formatFn(val, row)
-    : val
 
-  formatted = formatted === void 0 || formatted === null
-    ? ''
-    : String(formatted)
-
-  formatted = formatted.split('"').join('""')
-  /**
-   * Excel accepts \n and \r in strings, but some other CSV parsers do not
-   * Uncomment the next two lines to escape new lines
-   */
-  // .split('\n').join('\\n')
-  // .split('\r').join('\\r')
-
-  return `"${formatted}"`
-}
 export default {
   name: `Reportedenuncia`,
   data(){
@@ -93,17 +73,12 @@ export default {
         {name:"estado",field:"estado",label:"ESTADO"},
         {name:"tipo",field:"tipo",label:"TIPO"},
         {name:"fechaman",field:"fechaman",label:"FECHA MAN"},
-       // {name:"hora",field:"hora",label:"HORA"},
         {name:"horaman",field:"horaman",label:"HORA MAN"},
-       // {name:"id",field:"id",label:"ID"},
-       // {name:"lat",field:row=>row.poste.lat,label:"lat"},
-        //{name:"lng",field:row=>row.poste.lng,label:"lng"},
         {name:"tecnico",field:"tecnico",label:"TECNICO"},
 
         {name:"nroposte",field:row=>row.poste.nroposte,label:"NRO POSTE"},
         {name:"reclamo",field:"reclamo",label:"RECLAMO"},
         {name:"fecha",field:"fecha",label:"FECHA"},
-        //{name:"supervisor",field:"supervisor",label:"SUPERVISOR"},
         {name:"ci",field:row=>row.persona==undefined?'':row.persona.ci,label:"CI"},
         {name:"nombre",field:row=>row.persona==undefined?'':row.persona.nombre,label:"NOMBRE"},
         {name:"telefono",field:row=>row.persona==undefined?'':row.persona.telefono,label:"TELEFONO"},
@@ -116,49 +91,17 @@ export default {
     }
   },
   methods:{
-
-    exportTable () {
-      // naive encoding to csv format
-      const content = [this.columns.map(col => wrapCsvValue(col.label))].concat(
-        this.misdenuncias.map(row => this.columns.map(col => wrapCsvValue(
-          typeof col.field === 'function'
-            ? col.field(row)
-            : row[ col.field === void 0 ? col.name : col.field ],
-          col.format,
-          row
-        )).join(','))
-      ).join('\r\n')
-
-      const status = exportFile(
-        date.formatDate(new Date(),'YYYY-MM-DD')+'Denuncias.csv',
-        content,
-        'text/csv'
-      )
-
-      if (status !== true) {
-        $q.notify({
-          message: 'Browser denied file download...',
-          color: 'negative',
-          icon: 'warning'
-        })
-      }
-      },
-      reporte2(){
-        this.cadena=''
-        this.$axios.post('reportePoste',{ini:this.fecha1,fin:this.fecha2,numero:this.numero}).then(res=>{
-          console.log(res.data)
-        this.misdenuncias=res.data
-        if((res.data).length>0){
-
+      exportPdf(){
+        if((this.misdenuncias).length>0){
         this.cadena="<style>\
-          *{font-size:10px}\
+          .fuente{font-size:10px}\
           table{width:100%; border-collapse: collapse;}\
           table, th, td {  border: 1px solid;}\
           titulo{font-weight: bold; font-size:16px; text-align: center;}\
           </style>\
-          <div >\
+          <div class='fuente'>\
             <table style='border:0;'><tr><td style='border:0;width:20%;'><img src='logo.jpg' style='width:50px; height:50px;'/></td>\
-               <td class='titulo' style='border:0;'> RESUMEN DE MTTOs y ATENCION RECLAMOS DEL "+this.fecha1+" AL "+this.fecha2+" Nro Poste: "+this.numero+"</td>\
+               <td class='titulo' style='border:0;'> RESUMEN DE MTTOs y ATENCION RECLAMOS DEL "+this.fecha1+" AL "+this.fecha2+" Usuario: "+this.user.label+"</td>\
                </tr>\
             </table>\
             <table>\
@@ -188,6 +131,14 @@ export default {
           document.getElementById('myelement').innerHTML = this.cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )}
+      },
+
+      reporte2(){
+        this.cadena=''
+        this.$axios.post('reportePoste',{ini:this.fecha1,fin:this.fecha2,numero:this.numero}).then(res=>{
+          console.log(res.data)
+        this.misdenuncias=res.data
+
           })
 
       },

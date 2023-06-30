@@ -56,7 +56,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
+<!--
         <q-item clickable to="tecnicos" exact v-if="$store.state.login.booltecnico">
           <q-item-section avatar>
             <q-icon name="engineering" />
@@ -68,7 +68,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-
+-->
         <q-item clickable to="juntavecinal" exact v-if="$store.state.login.booljunta">
           <q-item-section avatar>
             <q-icon name="real_estate_agent" />
@@ -179,6 +179,30 @@
                   <q-item-label>Planificacion </q-item-label>
                   <q-item-label caption>
                     Actividad
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable to="/dependencias" exact v-if="$store.state.login.booldependencia">
+                <q-item-section avatar>
+                  <q-icon name="home_repair_service" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Dependencias/ Plazas y Parques </q-item-label>
+                  <q-item-label caption>
+                    Arreglos
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable to="/reportes" exact v-if="$store.state.login.boolreporte2">
+                <q-item-section avatar>
+                  <q-icon name="summarize" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Dependencias/ Plazas y Parques </q-item-label>
+                  <q-item-label caption>
+                    Repostes
                   </q-item-label>
                 </q-item-section>
               </q-item>

@@ -4,7 +4,7 @@
       <l-map style="height: 50vh" :zoom="zoom" :center="center" >
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`"
                       layer-type="base"
-                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
                       <l-marker :lat-lng="[lat,lng]" draggable  title="Usted esta Aqui">
         <l-icon icon-url="pinyw.png" />
 

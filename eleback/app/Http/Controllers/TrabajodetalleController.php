@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Devuelta;
-use App\Http\Requests\StoreDevueltaRequest;
-use App\Http\Requests\UpdateDevueltaRequest;
-use Illuminate\Http\Request;
+use App\Models\Trabajodetalle;
+use App\Http\Requests\StoreTrabajodetalleRequest;
+use App\Http\Requests\UpdateTrabajodetalleRequest;
 
-class DevueltaController extends Controller
+class TrabajodetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +18,6 @@ class DevueltaController extends Controller
         //
     }
 
-    public function listadoDev(Request $request ){
-        return Devuelta::with('inventario')->with('tecnico')
-        ->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -36,22 +31,21 @@ class DevueltaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreDevueltaRequest  $request
+     * @param  \App\Http\Requests\StoreTrabajodetalleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDevueltaRequest $request)
+    public function store(StoreTrabajodetalleRequest $request)
     {
         //
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Devuelta  $devuelta
+     * @param  \App\Models\Trabajodetalle  $trabajodetalle
      * @return \Illuminate\Http\Response
      */
-    public function show(Devuelta $devuelta)
+    public function show(Trabajodetalle $trabajodetalle)
     {
         //
     }
@@ -59,10 +53,10 @@ class DevueltaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Devuelta  $devuelta
+     * @param  \App\Models\Trabajodetalle  $trabajodetalle
      * @return \Illuminate\Http\Response
      */
-    public function edit(Devuelta $devuelta)
+    public function edit(Trabajodetalle $trabajodetalle)
     {
         //
     }
@@ -70,11 +64,11 @@ class DevueltaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateDevueltaRequest  $request
-     * @param  \App\Models\Devuelta  $devuelta
+     * @param  \App\Http\Requests\UpdateTrabajodetalleRequest  $request
+     * @param  \App\Models\Trabajodetalle  $trabajodetalle
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDevueltaRequest $request, Devuelta $devuelta)
+    public function update(UpdateTrabajodetalleRequest $request, Trabajodetalle $trabajodetalle)
     {
         //
     }
@@ -82,10 +76,10 @@ class DevueltaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Devuelta  $devuelta
+     * @param  \App\Models\Trabajodetalle  $trabajodetalle
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Devuelta $devuelta)
+    public function destroy(Trabajodetalle $trabajodetalle)
     {
         //
     }

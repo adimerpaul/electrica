@@ -63,6 +63,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/material',\App\Http\Controllers\MaterialController::class);
     Route::resource('/compra',\App\Http\Controllers\CompraController::class);
     Route::resource('/inventario',\App\Http\Controllers\InventarioController::class);
+    Route::resource('/trabajo',\App\Http\Controllers\TrabajoController::class);
     Route::post('listCrono',[\App\Http\Controllers\CronogramaController::class,'listCrono']);
     Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
     Route::get('valCompra/{nro}',[\App\Http\Controllers\CompraController::class,'valCompra']);
@@ -75,6 +76,10 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('devolucionMaterial',[\App\Http\Controllers\InventarioController::class,'devolucionMaterial']);
     Route::get('listmaterial',[\App\Http\Controllers\MaterialController::class,'listmaterial']);
     Route::post('inventDisponible',[\App\Http\Controllers\InventarioController::class,'inventDisponible']);
+    Route::post('listadoDev',[\App\Http\Controllers\DevueltaController::class,'listadoDev']);
+    Route::get('listLugar',[\App\Http\Controllers\TrabajoController::class,'listLugar']);
+    Route::post('listaTrabajos',[\App\Http\Controllers\TrabajoController::class,'listaTrabajos']);
+    Route::post('reportJob',[\App\Http\Controllers\TrabajoController::class,'reportJob']);
 
 
 

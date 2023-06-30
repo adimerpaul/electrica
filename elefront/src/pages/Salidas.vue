@@ -173,7 +173,7 @@ export default {
             res.data.forEach(r => {
               let valida=this.detalle.find(d=> d.codigo==r.codigo)
                 if(valida==undefined){
-              r.cant=1
+                r.cant=1
               this.detalle.push(r)
             }
             })
@@ -181,6 +181,7 @@ export default {
           else{
 
               let valida=this.detalle.find(d=> d.codigo===res.data.codigo)
+              console.log(valida)
                 if(valida==undefined){
                   res.data.cant=this.cantidad
                   this.detalle.push(res.data)
@@ -203,7 +204,7 @@ export default {
           icon: "info",
           message: error.message
         })
-      }).finished()
+      })
 
     },
     filterMat (val, update) {

@@ -76,9 +76,9 @@
 <br>
         <l-map style="height: 70vh" :zoom="zoom" :center="center" @click="cargarpunto ">
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
-        
+
                       layer-type="base"
-                      name="OpenStreetMap" :attribution="attribution"></l-tile-layer>
+                      name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
         <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui"
         >
         <l-icon

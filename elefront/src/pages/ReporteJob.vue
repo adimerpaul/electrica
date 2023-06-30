@@ -3,16 +3,24 @@
   <div class="row">
     <div class="col-12">
       <q-card>
-        <q-card-section  class="bg-green text-white text-center text-subtitle2">Reporte de denuncias</q-card-section>
+        <q-card-section  class="bg-accent text-white text-center text-subtitle2">REPORTE DEPENDENCIAS / PLAZAS Y PARQUES</q-card-section>
         <q-card-section>
           <q-form @submit.prevent="reporte2">
             <div class="row">
-              <div class="col-12 col-sm-3">
+              <div class="col-xs-12 col-md-3">
                 <q-input outlined dense label="Fecha inicio" type="date" v-model="fecha1" required/>
               </div>
-              <div class="col-12 col-sm-3">
+              <div class="col-xs-12 col-md-3">
                 <q-input outlined dense label="Fecha fin" type="date" v-model="fecha2" required/>
               </div>
+              <div class="col-xs-12 col-md-3">
+                <q-toggle
+                  v-model="tipo"
+                  color="green"
+                  :label="tipo"
+                  true-value="PLAZAS Y PARQUES"
+                  false-value="DEPENDENCIAS"
+                /></div>
               <div class="col-12 col-sm-3">
                 <q-select outlined dense label="Usuario" v-model="user" :options="users" use-input @filter="filterUs" />
               </div>
@@ -30,19 +38,25 @@
     <div class="col-12">
       <q-table
         title="Denuncias"
-        :data="misdenuncias"
+        :data="misjobs"
         color="primary"
         row-key="name"
         :columns="columns"
+        :filter="filter"
       >
-        <template v-slot:top-right>
-          <q-btn
-            color="primary"
-            icon-right="archive"
-            label="Exportar PDF"
+      <template v-slot:top-right>
+        <q-btn
+            color="red"
+            label="PDF"
             @click="exportPdf"
           />
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
         </template>
+
       </q-table>
     </div>
   </div>
@@ -56,45 +70,40 @@ import {jsPDF} from "jspdf"
 import { exportFile } from 'quasar'
 import {Printd} from "printd";
 
-
 export default {
-  name: `Reportedenuncia`,
+  name: `Reportejob`,
   data(){
     return{
+      tipo:"PLAZAS Y PARQUES",
+      tiprint:'',
+      filter:'',
       fecha1:date.formatDate(new Date(),'YYYY-MM-DD'),
       fecha2:date.formatDate(new Date(),'YYYY-MM-DD'),
-      misdenuncias:[],
+      misjobs:[],
+      ini:'',
+      fin:'',
       cadena:'',
       users:[{lable:'TODOS',id:0}],
       user:{},
+      userprint:{},
       filtUser:[],
       columns:[
-        {name:"actividad",field:"actividad",label:"ACTIVIDAD"},
-        {name:"estado",field:"estado",label:"ESTADO"},
+        {name:"lat",field:"lat",label:"LAT"},
+        {name:"lng",field:"lng",label:"LNG"},
+        {name:"fecha",field:"fecha",label:"FECHA",sortable:true},
+        {name:"hora",field:"hora",label:"HORA",sortable:true},
+        {name:"lugar",field:"lugar",label:"LUGAR",sortable:true},
+        {name:"tecnico",field: row=>row.user.name,label:"TECNICO",sortable:true},
         {name:"tipo",field:"tipo",label:"TIPO"},
-        {name:"fechaman",field:"fechaman",label:"FECHA MAN"},
-       // {name:"hora",field:"hora",label:"HORA"},
-        {name:"horaman",field:"horaman",label:"HORA MAN"},
-       // {name:"id",field:"id",label:"ID"},
-       // {name:"lat",field:row=>row.poste.lat,label:"lat"},
-        //{name:"lng",field:row=>row.poste.lng,label:"lng"},
-        {name:"tecnico",field:"tecnico",label:"TECNICO"},
-
-        {name:"nroposte",field:row=>row.poste.nroposte,label:"NRO POSTE"},
-        {name:"reclamo",field:"reclamo",label:"RECLAMO"},
-        {name:"fecha",field:"fecha",label:"FECHA"},
-        //{name:"supervisor",field:"supervisor",label:"SUPERVISOR"},
-        {name:"ci",field:row=>row.persona==undefined?'':row.persona.ci,label:"CI"},
-        {name:"nombre",field:row=>row.persona==undefined?'':row.persona.nombre,label:"NOMBRE"},
-        {name:"telefono",field:row=>row.persona==undefined?'':row.persona.telefono,label:"TELEFONO"},
+        {name:"actividad",field:"actividad",label:"ACTIVIDAD"},
       ]
     }
   },
   created(){
+    this.getUsers()
     if (!this.$store.state.login.boolreporte){
        this.$router.replace({ path: '/home' })
     }
-    this.getUsers()
   },
   methods:{
     filterUs (val, update) {
@@ -125,20 +134,8 @@ export default {
       })
 
     },
-
-      reporte2(){
-        if(this.user.id==undefined)
-          return false
-        this.cadena=''
-        this.$axios.post('reporteReclamo',{ini:this.fecha1,fin:this.fecha2,id:this.user.id}).then(res=>{
-          console.log(res.data)
-          this.misdenuncias=res.data
-
-          })
-
-      },
-      exportPdf(){
-        if((this.misdenuncias).length>0){
+    exportPdf(){
+      if((this.misjobs).length>0){
         this.cadena="<style>\
           .fuente{font-size:10px}\
           table{width:100%; border-collapse: collapse;}\
@@ -147,29 +144,24 @@ export default {
           </style>\
           <div class='fuente'>\
             <table style='border:0;'><tr><td style='border:0;width:20%;'><img src='logo.jpg' style='width:50px; height:50px;'/></td>\
-               <td class='titulo' style='border:0;'> RESUMEN DE MTTOs y ATENCION RECLAMOS DEL "+this.fecha1+" AL "+this.fecha2+" Usuario: "+this.user.label+"</td>\
+               <td class='titulo' style='border:0;'> RESUMEN DE "+this.tiprint+" DEL "+this.ini+" AL "+this.fin+" Usuario: "+this.userprint.label+"</td>\
                </tr>\
             </table>\
             <table>\
-            <thead><tr><th>N</th><th>FECHA</th><th>N POSTE</th><th>ESTADO</th><th>CONTRIBUYENTE</th><th>CI/RUN</th><th>HORA</th><th>OPERADOR</th><th>FECHA MAN</th><th>ACTIVIDAD</th></tr></thead>\
+            <thead><tr><th>N</th><th>LAT</th><th>LNG</th><th>FECHA</th><th>HORA</th><th>LUGAR</th><th>TECNICO</th><th>TIPO</th><th>ACTIVIDAD</th></tr></thead>\
           <tbody>"
             let con=0
-            this.misdenuncias.forEach(r=>{
+            this.misjobs.forEach(r=>{
             con++
-            if(r.tecnico==null) r.tecnico=''
-            if(r.fechaman==null) r.fechaman=''
-            if(r.actividad==null) r.actividad=''
-            if(r.persona==undefined) r.persona={nombre:'',ci:'',telefono:''}
             this.cadena+="<tr>\
               <td>"+con+"</td>\
+              <td>"+r.lat+"</td>\
+              <td>"+r.lng+"</td>\
               <td>"+r.fecha+"</td>\
-              <td>"+r.poste.nroposte+"</td>\
-              <td>"+r.estado+"</td>\
-              <td>"+r.persona.nombre+"</td>\
-              <td>"+r.persona.ci+"</td>\
               <td>"+r.hora+"</td>\
-              <td>"+r.tecnico+"</td>\
-              <td>"+r.fechaman+"</td>\
+              <td>"+r.lugar+"</td>\
+              <td>"+r.user.name+"</td>\
+              <td>"+r.tipo+"</td>\
               <td>"+r.actividad+"</td>\
               </tr>"})
               this.cadena+="</tbody></table></div>"
@@ -177,6 +169,22 @@ export default {
           document.getElementById('myelement').innerHTML = this.cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )}
+
+    },
+
+      reporte2(){
+        if(this.user.id==undefined)
+          return false
+        this.cadena=''
+        this.$axios.post('reportJob',{ini:this.fecha1,fin:this.fecha2,id:this.user.id,tipo:this.tipo}).then(res=>{
+          console.log(res.data)
+        this.misjobs=res.data
+        this.userprint=this.user
+        this.tiprint=this.tipo
+        this.ini=this.fecha1
+        this.fin=this.fecha2
+           })
+
       },
 
   }

@@ -5,26 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Devuelta extends Model
+class Trabajo extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'cantidad',
-        'material',
+        'lat',
+        'lng',
+        'lugar',
         'fecha',
         'hora',
-        'inventario_id',
-        'tecnico_id',
+        'actividad',
+        'tipo',
         'user_id',
         ];
 
-    public function inventario(){
-        return $this->belongsTo(Inventario::class);
-    }
-
-    public function tecnico(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 
-
+    public function trabajodetalle(){
+        return $this->hasMany(Trabajodetalle::class);
+    }
 }

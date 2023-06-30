@@ -21,7 +21,8 @@ export function auth_success(state, data){
    state.boolgestionar=data.user.permisos.find(p=>p.id===12)!=undefined
    state.boolreclamo=data.user.permisos.find(p=>p.id===13)!=undefined
    state.boolalmacen=data.user.permisos.find(p=>p.id===14)!=undefined
-  // state.boolbuscararchivos=data.user.permisos.find(p=>p.id===2)!=undefined
+   state.booldependencia=data.user.permisos.find(p=>p.id===15)!=undefined
+   state.boolreporte2=data.user.permisos.find(p=>p.id===16)!=undefined
 }
 export function   auth_error(state){
   state.status = 'error'
@@ -43,6 +44,6 @@ export function salir(state){
   state.boolgestionar=false
   state.boolreclamo=false
   state.boolalmacen=false
-  // state.boolmercadocambioactividad=false
-  // state.boolbuscararchivos=false
+  state.booldependencia=false
+  state.boolreporte2=false
 }

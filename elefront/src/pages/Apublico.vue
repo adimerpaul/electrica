@@ -122,7 +122,8 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
-        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" title="Usted esta Aqui"
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()"
+         title="Usted esta Aqui"
         >
         <l-icon
           icon-url="http://maps.google.com/mapfiles/ms/icons/purple-pushpin.png"
@@ -385,13 +386,20 @@ export default {
         },
     registropunto(){
       //alert(this.ubicacion.lat)
+      this.punto={}
       this.punto.lat=this.lat.toFixed(8)
       this.punto.lng=this.lng.toFixed(8)
-      this.$axios.post('calcularArea',{lat:this.punto.lat,lng:this.punto.lng,distancia:200}).then(res=>{
+
+      this.dialogRegistro=true
+    },
+
+    verpuntos(){
+      //alert(this.ubicacion.lat)
+      console.log('dblcl')
+      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data
       })
-      this.dialogRegistro=true
     },
 
       cargarcolor(){

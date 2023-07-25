@@ -251,6 +251,7 @@ export default {
 
         },
         cargarUbicacion(){
+          this.datos=[]
       this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data

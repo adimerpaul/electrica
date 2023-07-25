@@ -378,14 +378,18 @@ export default {
     handleMarkerDrag(e) {
       this.ubicacion = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     },
-    updateCoordinates(location) {
-        this.lat= location.latLng.lat(),
-        this.lng= location.latLng.lng(),
+    updateCoordinates(l) {
+            console.log(l.target._latlng)
+            this.lat= l.target._latlng.lat
+            this.lng= l.target._latlng.lng
             this.ubicacion = [this.lat,this.lng];
+            this.center=this.ubicacion
+
 
         },
     registropunto(){
       //alert(this.ubicacion.lat)
+
       this.punto={}
       this.punto.lat=this.lat.toFixed(8)
       this.punto.lng=this.lng.toFixed(8)

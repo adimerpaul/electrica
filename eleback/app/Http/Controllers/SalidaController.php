@@ -106,6 +106,7 @@ class SalidaController extends Controller
                     $bodega=Bodega::where('material_id',$elemento->material_id)->where('user_id',$salida->tecnico_id)->where('inventario_id',$elemento->inventario_id)->first();
                     $bodega->cantidad=$bodega->cantidad + $elemento->cantidad;
                     $bodega->saldo=$bodega->saldo + $elemento->cantidad;
+                    $bodega->estado='ACTIVO';
                     $bodega->save();
 
                 }

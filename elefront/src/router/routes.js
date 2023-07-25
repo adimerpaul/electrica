@@ -26,6 +26,7 @@ import Salidas from "pages/Salidas";
 import Devoluciontecnico from "pages/Devoluciontecnico";
 import Dependencias from "pages/Dependencias";
 import ReporteJob from "pages/ReporteJob";
+import Acta from "pages/Acta";
 import Home from "pages/Home";
 
 const routes = [
@@ -59,6 +60,7 @@ const routes = [
       { path: 'devolucion', component: Devoluciontecnico ,meta: {requiresAuth: true}},
       { path: 'dependencias', component: Dependencias ,meta: {requiresAuth: true}},
       { path: 'reportes', component: ReporteJob ,meta: {requiresAuth: true}},
+      { path: 'acta', component: Acta ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'login', component: Login },
     ]

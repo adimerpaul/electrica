@@ -16,7 +16,13 @@ class Acta extends Model
         'luminaria',
         'cantidad',
         'tecnico',
-        'archivo'
+        'archivo',
+        'observacion',
+        'user_id'
         ];
+
+        public function user(){
+            return $this->belongsTo(User::class);
+        }
 
 }

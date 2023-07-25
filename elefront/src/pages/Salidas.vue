@@ -300,7 +300,6 @@ export default {
         this.tecnico={label:''}
         this.filtertecnicos=this.tecnicos
       })
-
     },
     filterTec (val, update) {
         if (val === '') {

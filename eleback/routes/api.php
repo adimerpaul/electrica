@@ -27,6 +27,7 @@ Route::resource('/denuncia',\App\Http\Controllers\DenunciaController::class);
 Route::resource('/consulta',\App\Http\Controllers\ConsultaController::class);
 Route::resource('persona',\App\Http\Controllers\PersonaController::class);
 Route::get('qrFile', [\App\Http\Controllers\InventarioController::class, 'qrFile']);
+
 Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store']);
     Route::resource('/reclamo',\App\Http\Controllers\ReclamoController::class);
     Route::resource('/salida',\App\Http\Controllers\SalidaController::class);
@@ -35,6 +36,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('/consultaBodega',[\App\Http\Controllers\BodegaController::class,'consultaBodega']);
     Route::post('registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
     Route::resource('poste',\App\Http\Controllers\PosteController::class);
+
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('listaposte',[\App\Http\Controllers\PosteController::class,'listaposte']);
     Route::resource('/user',\App\Http\Controllers\UserController::class);
@@ -64,6 +66,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/compra',\App\Http\Controllers\CompraController::class);
     Route::resource('/inventario',\App\Http\Controllers\InventarioController::class);
     Route::resource('/trabajo',\App\Http\Controllers\TrabajoController::class);
+    Route::resource('/acta',\App\Http\Controllers\ActaController::class);
     Route::post('listCrono',[\App\Http\Controllers\CronogramaController::class,'listCrono']);
     Route::post('datoImp',[\App\Http\Controllers\CronogramaController::class,'datoImp']);
     Route::get('valCompra/{nro}',[\App\Http\Controllers\CompraController::class,'valCompra']);
@@ -80,6 +83,12 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::get('listLugar',[\App\Http\Controllers\TrabajoController::class,'listLugar']);
     Route::post('listaTrabajos',[\App\Http\Controllers\TrabajoController::class,'listaTrabajos']);
     Route::post('reportJob',[\App\Http\Controllers\TrabajoController::class,'reportJob']);
+
+    Route::post('listActa',[\App\Http\Controllers\ActaController::class,'listActa']);
+    Route::post('uparchivo',[\App\Http\Controllers\ActaController::class,'uparchivo']);
+    Route::get('lugaresActa',[\App\Http\Controllers\ActaController::class,'lugaresActa']);
+    
+    Route::post('/upload', [\App\Http\Controllers\UploadController::class,'upload']);
 
 
 

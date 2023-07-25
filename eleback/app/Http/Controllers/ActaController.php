@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acta;
+use App\Models\User;
 use App\Http\Requests\StoreActaRequest;
 use App\Http\Requests\UpdateActaRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ActaController extends Controller
 {
@@ -19,7 +22,13 @@ class ActaController extends Controller
 
     }
 
-    public function
+    public function listActa(Request $request){
+        return Acta::with('user')->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
+    }
+
+    public function lugaresActa(){
+        return DB::SELECT("SELECT distinct(lugar) from actas");
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +48,27 @@ class ActaController extends Controller
     public function store(StoreActaRequest $request)
     {
         //
+
+        $acta=new Acta();
+        $acta->fecha=$request->fecha;
+        $acta->lugar=strtoupper($request->lugar);
+        $acta->distrito=$request->distrito;
+        $acta->tipo=$request->tipo;
+        $acta->luminaria=$request->luminaria;
+        $acta->cantidad=$request->cantidad;
+        $acta->tecnico=$request->tecnico;
+        $acta->archivo=$request->archivo;
+        $acta->observacion=$request->observacion;
+        $acta->user_id=$request->user_id;
+        $acta->save();
     }
+
+    public function uparchivo(Request $request){
+
+        $acta=Acta::find($request->id);
+        $acta->archivo=$request->archivo;
+        $acta->save();
+     }
 
     /**
      * Display the specified resource.
@@ -73,6 +102,17 @@ class ActaController extends Controller
     public function update(UpdateActaRequest $request, Acta $acta)
     {
         //
+        $acta=Acta::find($request->id);
+        $acta->fecha=$request->fecha;
+        $acta->lugar=strtoupper($request->lugar);
+        $acta->distrito=$request->distrito;
+        $acta->tipo=$request->tipo;
+        $acta->luminaria=$request->luminaria;
+        $acta->cantidad=$request->cantidad;
+        $acta->tecnico=$request->tecnico;
+        $acta->observacion=$request->observacion;
+        $acta->user_id=$request->user_id;
+        $acta->save();
     }
 
     /**
@@ -81,8 +121,10 @@ class ActaController extends Controller
      * @param  \App\Models\Acta  $acta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Acta $acta)
+    public function destroy($id)
     {
         //
+        $acta=Acta::find($id);
+        $acta->delete();
     }
 }

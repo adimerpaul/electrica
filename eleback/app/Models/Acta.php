@@ -18,6 +18,7 @@ class Acta extends Model
         'tecnico',
         'archivo',
         'observacion',
+        'vecino',
         'user_id'
         ];
 

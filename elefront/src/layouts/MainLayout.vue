@@ -209,6 +209,18 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-item clickable to="/acta" exact v-if="$store.state.login.boolveracta">
+                <q-item-section avatar>
+                  <q-icon name="list_alt" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>ACTAS ENTREGA </q-item-label>
+                  <q-item-label caption>
+                    luminarias postes
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 <!--
               <q-item clickable to="/prueba" exact>
                 <q-item-section avatar>

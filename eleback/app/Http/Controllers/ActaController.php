@@ -29,6 +29,10 @@ class ActaController extends Controller
     public function lugaresActa(){
         return DB::SELECT("SELECT distinct(lugar) from actas");
     }
+
+    public function vecinoActa(){
+        return DB::SELECT("SELECT distinct(vecino) from actas");
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -48,7 +52,6 @@ class ActaController extends Controller
     public function store(StoreActaRequest $request)
     {
         //
-
         $acta=new Acta();
         $acta->fecha=$request->fecha;
         $acta->lugar=strtoupper($request->lugar);
@@ -56,8 +59,9 @@ class ActaController extends Controller
         $acta->tipo=$request->tipo;
         $acta->luminaria=$request->luminaria;
         $acta->cantidad=$request->cantidad;
-        $acta->tecnico=$request->tecnico;
+        $acta->tecnico=strtoupper($request->tecnico);
         $acta->archivo=$request->archivo;
+        $acta->vecino=strtoupper($request->vecino);
         $acta->observacion=$request->observacion;
         $acta->user_id=$request->user_id;
         $acta->save();
@@ -109,7 +113,8 @@ class ActaController extends Controller
         $acta->tipo=$request->tipo;
         $acta->luminaria=$request->luminaria;
         $acta->cantidad=$request->cantidad;
-        $acta->tecnico=$request->tecnico;
+        $acta->tecnico=strtoupper($request->tecnico);
+        $acta->vecino=strtoupper($request->vecino);
         $acta->observacion=$request->observacion;
         $acta->user_id=$request->user_id;
         $acta->save();

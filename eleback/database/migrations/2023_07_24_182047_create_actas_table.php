@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('cantidad'); //
             $table->string('tecnico'); // nombre del tecnico acargo
             $table->string('observacion')->nullable(); // otro detalle
+            $table->string('vecino')->nullable(); // otro detalle
             $table->string('archivo')->nullable();  //jpg, pdf acta
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

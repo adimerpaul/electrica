@@ -87,7 +87,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listActa',[\App\Http\Controllers\ActaController::class,'listActa']);
     Route::post('uparchivo',[\App\Http\Controllers\ActaController::class,'uparchivo']);
     Route::get('lugaresActa',[\App\Http\Controllers\ActaController::class,'lugaresActa']);
-    
+    Route::get('vecinoActa',[\App\Http\Controllers\ActaController::class,'vecinoActa']);
     Route::post('/upload', [\App\Http\Controllers\UploadController::class,'upload']);
 
 

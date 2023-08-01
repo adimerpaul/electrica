@@ -14,7 +14,7 @@
       :filter="filter"
     >
     <template v-slot:top-right>
-        <q-btn color="green" icon="assignment" label="Registrar" @click="dialogForm=true" />
+        <q-btn color="green" icon="assignment" label="Registrar" @click="dialogForm=true" v-if="$store.state.login.boolregacta" />
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
@@ -23,9 +23,9 @@
       </template>
       <template v-slot:body-cell-op="props" >
         <q-td :props="props">
-          <q-btn color="yellow" icon="edit" dense @click="cargarActa(props.row)"/>
-          <q-btn color="red" icon="delete" dense @click="eliminar(props.row)"/>
-          <q-btn color="info" icon="image" dense @click="modif=props.row; dialogImg=true"/>
+          <q-btn color="yellow" icon="edit" dense @click="cargarActa(props.row)" v-if="$store.state.login.booleditacta"/>
+          <q-btn color="red" icon="delete" dense @click="eliminar(props.row)" v-if="$store.state.login.booleditacta"/>
+          <q-btn color="info" icon="image" dense @click="modif=props.row; dialogImg=true" v-if="$store.state.login.booleditacta"/>
           <q-btn color="accent" icon="download" dense @click="descargar(props.row)"/>
         </q-td>
       </template>
@@ -66,11 +66,16 @@
             <q-input v-model="datos.luminaria" type="text" label="Luminaria" outlined dense />
           </div>
           <div class="col-md-6 col-xs-12"><q-select use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
-
+          <div class="col-md-6 col-xs-12">
+                <q-input style="text-transform: uppercase" outlined dense label="Vecino/Representate" list="vecinos"  v-model="datos.vecino" />
+                    <datalist id="vecinos">
+                      <option v-for="r in vecinos" :key="r.vecino">{{r.vecino}}</option>
+                    </datalist>
+          </div>
           <div class="col-md-6 col-xs-12">
             <q-input v-model="datos.observacion" type="text" label="Observacion" outlined dense/>
           </div>
-          <div class="col-6 ">
+          <div class="col-6 " v-if="datos.distrito!=undefined && datos.distrito!=''">
             <label for="">ARCHIVO Imagen / PDF</label><br>
             <input type="file" @change="getArch" class="archi">
             <div v-if="porcentaje >0" class="red">Subiendo ...{{porcentaje}}%</div>
@@ -96,9 +101,9 @@
         class="q-gutter-md"
       >
 
-      <q-card-section>
+      <q-card-section >
         <div class="row">
-          <div class="col-6 ">
+          <div class="col-6 " >
             <label for="">ARCHIVO Imagen / PDF</label><br>
             <input type="file" @change="getArch" >
             <div v-if="porcentaje >0" class="red">Subiendo ...{{porcentaje}}%</div>
@@ -148,7 +153,12 @@
             <q-input v-model="modif.luminaria" type="text" label="Luminaria" outlined dense />
           </div>
           <div class="col-md-6 col-xs-12"><q-select use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
-
+          <div class="col-md-6 col-xs-12">
+                <q-input style="text-transform: uppercase" outlined dense label="Vecino/Representate" list="vecinos"  v-model="modif.vecino" />
+                    <datalist id="vecinos">
+                      <option v-for="r in vecinos" :key="r.vecino">{{r.vecino}}</option>
+                    </datalist>
+          </div>
           <div class="col-md-6 col-xs-12">
             <q-input v-model="modif.observacion" type="text" label="Observacion" outlined dense/>
           </div>
@@ -187,6 +197,7 @@ export default {
       tecnico:{},
       archivo:'',
       porcentaje:0,
+      vecinos:[],
       tipos:['NUEVAS INSTALACIONES','CAMBIO DE POTENCIA','MANTENIMIENTO','OTRO'],
       columns:[
         {label:'OP',name:'op',field:'op'},
@@ -196,6 +207,7 @@ export default {
         {label:'LUMINARIA',name:'luminaria',field:'luminaria'},
         {label:'CANTIDAD',name:'cantidad',field:'cantidad'},
         {label:'TECNICO',name:'tecnico',field:'tecnico'},
+        {label:'VECINO',name:'vecino',field:'vecino'},
         {label:'OBS',name:'observacion',field:'observacion'}
 
       ],
@@ -215,6 +227,7 @@ export default {
     this.searchActa()
     this.cargarTecnicos()
     this.cargalugar()
+    this.cargarvecino()
   },
   methods:{
     eliminar(acta){
@@ -271,7 +284,10 @@ export default {
         this.dialogForm=false
         this.datos={fecha:date.formatDate(Date.now(),'YYYY-MM-DD')}
         this.nameFile=''
+        this.tecnico={label:''}
+        this.porcentaje=0
         this.searchActa()
+        this.cargalugar()
       })
     },
     modificarActa(){
@@ -291,10 +307,13 @@ export default {
         this.datos={fecha:date.formatDate(Date.now(),'YYYY-MM-DD')}
         this.nameFile=''
         this.searchActa()
+        this.cargalugar()
       })
       },
     updateActa(){
       this.$q.loading.show();
+      if(this.nameFile=='')
+      return false
       this.modif.archivo=this.nameFile
 
       this.$axios.post('uparchivo', this.modif).then(res=>{
@@ -307,6 +326,7 @@ export default {
         this.dialogImg=false
         this.datos={fecha:date.formatDate(Date.now(),'YYYY-MM-DD')}
         this.nameFile=''
+        this.porcentaje=0
         this.searchActa()
       })
     },
@@ -315,8 +335,18 @@ export default {
       // console.log(event.target)
       this.archivo = event.target.files[0];
       this.porcentaje = 0
+      let id=''
+      let dist=''
+      if(this.datos.distrito!=undefined && this.datos.distrito!='')
+       dist=this.datos.distrito
+       else{
+       dist=this.modif.distrito
+       id=this.modif.id
+      }
       const fd = new FormData()
       fd.append('file', this.archivo)
+      fd.append('distrito', dist)
+      fd.append('id', id)
 
       this.$axios.post('upload', fd, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -325,7 +355,7 @@ export default {
           }
         }).then(res => {
           this.nameFile=res.data
-          // console.log(res.data)
+           //console.log(res.data)
         })
 
     },
@@ -334,7 +364,12 @@ export default {
       this.$axios.get('lugaresActa').then(res=>{
         this.lugares=res.data
       })
-
+    },
+    cargavecino(){
+      this.vecinos=[]
+      this.$axios.get('vecinosActa').then(res=>{
+        this.vecinos=res.data
+      })
     },
     searchActa(){
       if(this.ini==undefined || this.fin==undefined)

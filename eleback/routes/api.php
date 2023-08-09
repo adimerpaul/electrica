@@ -59,6 +59,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::get('listPerReclamo',[\App\Http\Controllers\ReclamoController::class,'listPerReclamo']);
     Route::resource('/punto',\App\Http\Controllers\PuntoController::class);
     Route::resource('/junta',\App\Http\Controllers\JuntaController::class);
+    Route::resource('/agenda',\App\Http\Controllers\AgendaController::class);
 
     Route::resource('/cronograma',\App\Http\Controllers\CronogramaController::class);
     Route::resource('/tienda',\App\Http\Controllers\TiendaController::class);
@@ -90,6 +91,10 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::get('vecinoActa',[\App\Http\Controllers\ActaController::class,'vecinoActa']);
     Route::post('/upload', [\App\Http\Controllers\UploadController::class,'upload']);
 
+    Route::post('listAgenda', [\App\Http\Controllers\AgendaController::class,'listAgenda']);
+    Route::post('cambioFecha', [\App\Http\Controllers\AgendaController::class,'cambioFecha']);
+    Route::post('cambioEstado', [\App\Http\Controllers\AgendaController::class,'cambioEstado']);
+    Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']);
 
 
 

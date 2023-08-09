@@ -13,30 +13,25 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cronogramas', function (Blueprint $table) {
+        Schema::create('agendas', function (Blueprint $table) {
             $table->id();
             $table->string('distrito');
             $table->string('junta');
-            //$table->string('codigo');
             $table->string('dirigente')->nullable();
             $table->string('telefono')->nullable();
-            //$table->string('actividad');
+            // cantidad tipo descripcion
+            $table->string('nueva')->nullable();// INN
+            $table->string('mtto')->nullable();// MTO
+            $table->string('plantado')->nullable();// PLp
+            $table->string('repot')->nullable();// REP
+            $table->string('otros')->nullable();// OTR
 
-            $table->string('nueva')->nullable();
-            $table->string('mtto')->nullable();
-            $table->string('plantado')->nullable();
-            $table->string('repot')->nullable();
-            $table->string('otros')->nullable();
             $table->date('fecha');
-            //$table->string('tipo');
-            //$table->double('cantidad');
-            //$table->string('celular');
-            //$table->string('descripcion')->nullable();
             $table->string('observacion')->nullable();
-            $table->string('estado')->default('INICIO');//INICIO // EN PROCESO// REALIZADO  // PENDIENTE
+            $table->string('estado')->default('INICIO');//INICIO // EN PROCESO// REALIZADO  // PENDIENTE //suspendido
+
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-
             $table->unsignedBigInteger('junta_id')->nullable();
             $table->foreign('junta_id')->references('id')->on('juntas');
             $table->timestamps();
@@ -50,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cronogramas');
+        Schema::dropIfExists('agendas');
     }
 };

@@ -94,7 +94,8 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listAgenda', [\App\Http\Controllers\AgendaController::class,'listAgenda']);
     Route::post('cambioFecha', [\App\Http\Controllers\AgendaController::class,'cambioFecha']);
     Route::post('cambioEstado', [\App\Http\Controllers\AgendaController::class,'cambioEstado']);
-    Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']);
+    Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']); 
+    Route::post('reporteMaterial', [\App\Http\Controllers\SalidaController::class,'reporteMaterial']); 
 
 
 

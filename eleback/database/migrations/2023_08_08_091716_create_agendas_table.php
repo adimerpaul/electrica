@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('repot')->nullable();// REP
             $table->string('otros')->nullable();// OTR
 
+            $table->integer('cantidad')->nullable();// cant
+            $table->string('tipo')->nullable(); //tip 
+            $table->string('potencia')->nullable();
+
             $table->date('fecha');
             $table->string('observacion')->nullable();
             $table->string('estado')->default('INICIO');//INICIO // EN PROCESO// REALIZADO  // PENDIENTE //suspendido

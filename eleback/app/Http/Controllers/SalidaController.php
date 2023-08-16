@@ -10,6 +10,8 @@ use App\Models\Inventario;
 use App\Models\Material;
 use App\Models\Bodega;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class SalidaController extends Controller
 {
@@ -117,6 +119,14 @@ class SalidaController extends Controller
         return Salida::with('tecnico')->with('elementos')->where('id',$salida->id)->first();
     }
 
+    public function reporteMaterial(Request $request){
+        return DB::SELECT("select e.material_id,(select codigo from materials where id=e.material_id) codigo,sum(e.cantidad) cantidad
+        ,e.material 
+        from salidas s inner join elementos e on s.id=e.salida_id 
+        where s.fecha>='".$request->ini."' and s.fecha<='".$request->fin."'
+        GROUP by e.material_id,e.material
+        order by codigo;");
+    } 
     /**
      * Display the specified resource.
      *

@@ -66,12 +66,14 @@ class AgendaController extends Controller
     public function cambioFecha(Request $request){
         $agenda=Agenda::find($request->id);
         $agenda->fecha=$request->fecha;
+        $agenda->observacion=$request->observacion;
         $agenda->save();
     }
 
     public function cambioEstado(Request $request){
         $agenda=Agenda::find($request->id);
         $agenda->estado=$request->estado;
+        $agenda->observacion=$request->observacion;
         $agenda->save();
     }
 
@@ -79,6 +81,10 @@ class AgendaController extends Controller
         $agenda=Agenda::find($request->id);
         $agenda->user_id=$request->user_id;
         $agenda->estado='EN PROCESO';
+        $agenda->observacion=$request->observacion;
+        $agenda->cantidad=$request->cantidad;
+        $agenda->tipo=$request->tipo;
+        $agenda->potencia=$request->potencia;
         $agenda->save();
     }
     /**

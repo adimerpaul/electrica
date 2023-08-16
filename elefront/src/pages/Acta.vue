@@ -227,7 +227,7 @@ export default {
     this.searchActa()
     this.cargarTecnicos()
     this.cargalugar()
-    this.cargarvecino()
+    //this.cargarvecino()
   },
   methods:{
     eliminar(acta){

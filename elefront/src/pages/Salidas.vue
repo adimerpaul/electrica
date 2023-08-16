@@ -5,6 +5,9 @@
     <div class="row">
       <div class="col-4 q-pa-xs"><q-input dense v-model="fecha" type="date" label="Fecha" outlined/></div>
       <div class="col-4"><q-btn color="green" icon="search" label="Buscar" @click="generarList" /></div>
+      <div class="col-4"><q-btn color="info" icon="print" label="Impresion" @click="printDia" /></div>
+      <div class="col-4 q-pa-xs"><q-input dense v-model="fecha2" type="date" label="Fecha2" outlined/></div>
+      <div class="col-4"><q-btn color="accent" icon="print" label="Reporte" @click="printReport" /></div>
     </div>
     <div class="col-12">
       <q-table
@@ -106,6 +109,7 @@ export default {
       cantidad:1,
       material:{label:''},
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
+      fecha2:date.formatDate(new Date(),'YYYY-MM-DD'),
       salidas:[],
       materiales:[],
       filterMateriales:[],
@@ -140,6 +144,43 @@ export default {
     this.generarList()
   },
   methods: {
+    printReport(){
+      this.$axios.post("reporteMaterial",{ini:this.fecha,fin:this.fecha2}).then((res) => {
+        console.log(res.data)
+        if(res.data.length>0)
+        {
+          let cadena="<style>\
+      *{font-size:10px;}\
+      .table1{\
+        width:100%;\
+        border-collapse: collapse;\
+      }\
+      table, th, td {\
+        border: 1px solid;\
+      }\
+      .titulo{\
+      text-align:center;\
+      font-weight:bold;\
+      }\
+      </style>\
+      <div id='myelement'>\
+      <div class='titulo'>SALIDA DE MATERIAL DE "+this.fecha+" AL "+this.fecha2+"</div> <br>\
+      <table class='table1'><tr><th>CODIGO</th> <th>CANTIDAD</th><th>MATERIAL</th><tr>"
+
+      res.data.forEach(r => {
+      
+        cadena+='<tr><td>'+r.codigo+'</td><td>'+r.cantidad+'</td><td>'+r.material+'</td></tr> '
+          
+      })
+      cadena+="</table></div>"
+      
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+        }
+      })
+
+    },
     onclick(){
       if(this.material.id==undefined){
         this.$q.notify({
@@ -354,6 +395,42 @@ export default {
 
       cadena+=`</table></div>
       `
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+    },
+    printDia(){
+      let contenido=''
+
+      let cadena="<style>\
+      *{font-size:10px;}\
+      table{\
+        width:100%;\
+      }\
+      .titulo{\
+      text-align:center;\
+      font-weight:bold;\
+      }\
+      </style>\
+      <div id='myelement'>\
+      <div class='titulo'>SALIDA DE ALMACEN</div>"
+      this.salidas.forEach(r => {
+        cadena+="<div><b>FECHA: </b>"+r.fecha+" "+r.hora+"</div>\
+      <div><b>TECNICO: </b>"+r.tecnico.name+"</div>\
+      <div><b>CARRO: </b>"+r.carro+"</div>\
+      <div><b>DESTINO: </b>"+r.destino+"</div>\
+      <div><b>MOTIVO: </b>"+r.motivo+"</div><hr>\
+      <div class='titulo'><b>DETALLE </b></div>\
+      <table style='padding:5px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"
+        r.elementos.forEach(e => {
+      
+        cadena+='<tr><td>'+e.cantidad+'</td><td>'+e.material+'</td><td>'+e.inventario.codigo+'</td></tr> '
+          
+        })
+        cadena+='</table><hr style=" border: 1px solid red;">'
+      })
+      cadena+="</div>"
+      
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )

@@ -96,24 +96,7 @@
             </template>
           </q-input>
         </template>
-        <template v-slot:body-cell-opcion="props">
-            <q-td key="opcion" :props="props">
-              <q-btn dense round flat color="yellow"
-                @click="editRow(props)"
-                icon="edit"
-              />
 
-              <q-btn
-                dense
-                round
-                flat
-                color="red"
-                @click="deleteRow(props)"
-                icon="delete"
-              ></q-btn>
-            </q-td>
-
-        </template>
         <template v-slot:body="props">
           <q-tr  :props="props" :style="'background-color:'+ props.row.color" >
             <q-td key="opcion" :props="props">
@@ -121,10 +104,11 @@
         <!-- dropdown content goes here -->
         <q-list dense style="width: 20px;">
 
-              <q-btn dense round flat color="indigo-7"  icon="checklist_rtl" @click="agenda2=props.row; dialog_estado=true" v-if="props.row.estado!='INICIO'"/>
-              <q-btn dense round flat color="accent"  icon="manage_accounts"  @click="agenda2=props.row; dialog_asig=true" v-if="props.row.estado!='SUSPENDIDO' && props.row.estado!='REALIZADO'"/>
-              <q-btn dense round flat color="blue-10"  icon="today" @click="agenda2=props.row; dialog_fec=true" v-if="props.row.estado!='SUSPENDIDO'  && props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="indigo-7"  icon="checklist_rtl" @click="cargaEstado(props.row)" v-if="props.row.estado!='INICIO'"/>
+              <q-btn dense round flat color="accent"  icon="manage_accounts"  @click="cargaAsigna(props.row)" v-if="props.row.estado!='SUSPENDIDO' && props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="blue-10"  icon="today" @click="cargaFecha(props.row)" v-if="props.row.estado!='SUSPENDIDO'  && props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="orange-6" @click="editRow(props)" icon="edit" v-if="props.row.estado!='SUSPENDIDO' && props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="info" @click="printReport(props.row)" icon="print" v-if="props.row.cantidad>0"/>
         </q-list>
         </q-btn-dropdown>
 
@@ -140,6 +124,7 @@
             <q-td key="mtto" :props="props">{{ props.row.mtto }}</q-td>
             <q-td key="repot" :props="props">{{ props.row.repot }}</q-td>
             <q-td key="otros" :props="props">{{ props.row.otros }}</q-td>
+            <q-td key="detalle" :props="props"><q-btn dense flat color="info" icon="visibility"  @click="verDetalle(props.row)" v-if="props.row.cantidad > 1"/></q-td>
             <q-td key="observacion" :props="props">{{ props.row.observacion }}</q-td>
             <q-td key="tecnico" :props="props">{{ props.row.tecnico }}</q-td>
           </q-tr>
@@ -154,7 +139,7 @@
           <q-card-section class="q-pt-xs">
             <q-form @submit="onMod" class="q-gutter-md">
                   <div class="row">
-                    <div class="col-12"><q-select dense use-input input-debounce="0"   @input="cargaDatos" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
+                    <div class="col-12"><q-select dense use-input input-debounce="0"   @input="cargaDatos2" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
                         <template v-slot:no-option>
                                 <q-item>
                           <q-item-section class="text-grey">
@@ -186,7 +171,7 @@
       </q-dialog>
 
       <q-dialog v-model="dialog_asig">
-        <q-card>
+        <q-card style="width: 700px; max-width: 80vw;">
           <q-card-section class="row items-center">
             <span class="q-ml-sm">ASIGNAR PERSONAL / INICIO</span>
           </q-card-section>
@@ -201,10 +186,13 @@
               <li v-if="agenda2.plantado!=null">{{ agenda2.plantado }}</li>
               <li v-if="agenda2.otros!=null">{{ agenda2.otros }}</li>
             </ul>
-
-            <div class="col-12"><q-select v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense use-input @filter="filterTec"/></div>
-            <div class="col-12"><q-input v-model="agenda2.observacion" type="text" label="Observacion" dense outlined/></div>
-
+            <div class="row ">
+            <div class="col-12 q-pa-xs"><q-select v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense use-input @filter="filterTec"/></div>
+            <div class="col-md-4 col-xs-12 q-pa-xs"><q-input v-model="agenda2.cantidad" type="number" label="Cantidad" dense outlined/></div>
+            <div class="col-md-4 col-xs-12 q-pa-xs"><q-input v-model="agenda2.tipo" type="text" label="Tipo" dense outlined/></div>
+            <div class="col-md-4 col-xs-12 q-pa-xs"><q-input v-model="agenda2.potencia" type="text" label="Potencia" dense outlined/></div>
+            <div class="col-12 q-pa-xs"><q-input v-model="agenda2.observacion" type="text" label="Observacion" dense outlined/></div>
+          </div>
           </q-card-section>
 
           <q-card-actions align="right">
@@ -263,6 +251,7 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
+      <div id="myelement" class="hidden"></div>
 
     </div>
   </template>
@@ -270,7 +259,8 @@
   <script>
   import { date } from 'quasar'
 import xlsx from "json-as-xlsx"
-
+import {Printd} from "printd";
+import moment from 'moment';
   const { addToDate } = date
   export default {
     data() {
@@ -285,6 +275,7 @@ import xlsx from "json-as-xlsx"
         alert: false,
         junta2:{},
         agenda2:{},
+        cEstado:'',
         jvDialog:false,
         dialog_mod: false,
         dialog_del: false,
@@ -321,6 +312,7 @@ import xlsx from "json-as-xlsx"
             {name: "plantado", align: "left", label: "PLANTADO ", field: 'plantado', sortable: true,},
             {name: "repot", align: "left", label: "REPOTENCIACION", field: 'repot', sortable: true,},
             {name: "otros", align: "left", label: "OTROS", field: 'otros', sortable: true,},
+            {name: "detalle", align: "left", label: "DETALLE", field: 'detalle', sortable: true,},
             {name: "observacion", align: "left", label: "OBSERVACION", field: "observacion", sortable: true,},
             {name: "tecnico", align: "left", label: "TECNICO", field: "tecnico", sortable: true,},
         ],
@@ -340,6 +332,138 @@ import xlsx from "json-as-xlsx"
 
     },
     methods: {
+      printReport(agenda){
+          let cadena="<style>\
+            .table1{\
+        width:100%;\
+        border-collapse: collapse;\
+      }\
+      table, th, td {\
+        border: 1px solid;\
+        font-size:10px;\
+      }\
+      .titulo{\
+      text-align:center;\
+      font-weight:bold;\
+      font-size:20px;\
+      text-decoration-line: underline;\
+      font-style: oblique;\
+      }\
+      .tabtitulo{writing-mode:  vertical-rl; width:0.7cm;}\
+      .encabezado{\
+      text-align:justify;\
+      font-size:14px;\
+      }\
+      .enc{\
+        justify-content: space-between;\
+      font-size:9px;\
+      font-style: oblique;\
+      display: flex; \
+      flex-wrap: wrap;\
+      align-content: flex-end;\
+      }\
+      .pie{\
+      font-size:9px;\
+      font-style: oblique;\
+      }\
+      .contenido{\
+      height:0.5cm}\
+      .cuadrado{ border-radius: 5px;  border: 1px solid #000000;     background: #000;    width: 0.4cm;    height: 0.4cm; }\
+      .tab2 {font-size:10px; font-weight:bold;}\
+      </style>\
+      <div id='myelement'>\
+      <div class='enc'><div><img src='logelectrico.png' style='height:70px; width:60px;  position:absolute; left:20px;'/></div><span>Unidad de Alumbrado Publico y Servicios Electricos</span></div>\
+      <br><div class='titulo'>ACTA DE INSTALACION DE<br> LUMINARIAS GESTION 2023</div> <br><br>\
+      <div class='encabezado'>En Fecha <b>"+moment(agenda.fecha).format("DD/MM/YYYY")+"</b> se realizo la instalacion de nuevas luminarias en la Junta Vecinal <b>"+agenda.junta+"</b>, Distrito <b>"+agenda.distrito+"</b>\
+        con el fin de proveer iluminacion en areas y sectores de acceso publico, en horario nocturno, y brindar seguridad ciudadana, en el marco \
+         de las compotencias de la Unidad de Alumbrado Publico y Servicios Electricos del Gobierno Autonomo Municipal de Oruro, para lo cual se detallan\
+          las siguientes instalaciones: </div><br>\
+          <div class='encabezado' style='text-justify: distribute; '>Cantidad luminarias = <b>"+agenda.cantidad+" (Unid)</b>;  Tipo = <b>"+agenda.tipo+"</b> ; Potencia = <b>"+agenda.potencia +" (Watts)</b></div><br>\
+      <table class='table1'><tr><th rowspan=2>COORDENADAS</th><th colspan=3>Codigo</th><th colspan=3>Tipo Poste</th><th colspan=2>Tipo Brazo</th><th>Cable</th><th rowspan=2>Observaciones</th></tr>\
+        <tr><th style='width:1.5cm;'>Poste</th> <th style='width:1.5cm;'>luminaria</th><th style='width:1.5cm;'>Fotocelula</th><th class='tabtitulo'>Metalico</th><th class='tabtitulo'>Madera</th><th class='tabtitulo'>Cemento</th><th class='tabtitulo'>Brazo 3m</th><th class='tabtitulo'>Brazo 1.5m</th><th>Metros<br><div style='  display: flex;justify-content: space-between;'>Cu <div class='cuadrado'></div></div><div style='  display: flex; justify-content: space-between;'>Al<div class='cuadrado'></div></div></th></tr>"
+      //res.data.forEach(r => {
+      
+     //   cadena+='<tr><td>'+r.codigo+'</td><td>'+r.cantidad+'</td><td>'+r.material+'</td></tr> '
+          
+      //})
+      for (let i = 0; i < 15; i++) {
+        cadena+="<tr class='contenido'><td></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td><td rowspan=2></td></tr><tr class='contenido'><td></td></tr>"
+        
+      }
+      cadena+="</table>En constancia firman: <br><br>\
+      <table class='table1'><tr><td><span class='tab2'>DIRIGENTE O ENCARGADO SELLO FIRMA:</span><br><br><br><br><br><br><br><div style='font-size:8px; text-align:center;'>"+agenda.dirigente+"<br>Celular: "+agenda.telefono+"</div></td>\
+      <td style='vertical-align:top;'><span class='tab2'>SELLO DE LA URBANIZACION Y/O JUNTA VECINAL: </span></td></tr><tr><td style='vertical-align:top;'><span class='tab2'>TRABAJO INSTRUIDO POR: </span></td><td><span class='tab2'>TECNICO:</span> <br><br><br><br><br><br><br><div style='text-align:center'> Tec: "+agenda.user.name+"</div</td></tr></table>\
+      <span class='pie'>Este documento es legal para ser llevado a procesos de auditoria a personal de la U.A.P.</span>\
+      </div>"
+      
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+
+    },
+      verDetalle(v){
+        this.$q.dialog({
+          title: 'DETALLE',
+          message: '<ul><li><b>CANTIDAD: </b>'+v.cantidad+'</li><li><b>TIPO: </b>'+v.tipo+'</li><li><b>POTENCIA: </b>'+v.potencia+'</li></ul>',
+          html: true
+        }).onOk(() => {
+          // console.log('OK')
+        }).onCancel(() => {
+          // console.log('Cancel')
+        }).onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
+      },
+      cargaEstado(ag){
+        this.agenda2.id=ag.id
+         this.agenda2.distrito= ag.distrito
+        this.agenda2.junta= ag.junta
+        this.agenda2.dirigente= ag.dirigente
+        this.agenda2.telefono= ag.telefono
+        this.agenda2.fecha= ag.fecha
+        this.agenda2.estado= ag.estado
+        this.agenda2.nueva= ag.nueva
+        this.agenda2.plantado= ag.plantado
+        this.agenda2.mtto= ag.mtto
+        this.agenda2.repot= ag.repot
+        this.agenda2.otros= ag.otros
+        this.agenda2.observacion= ag.observacion
+        this.dialog_estado=true
+      },
+      cargaFecha(ag){
+        this.agenda2.id = ag.id
+        this.agenda2.distrito= ag.distrito
+        this.agenda2.junta= ag.junta
+        this.agenda2.dirigente= ag.dirigente
+        this.agenda2.telefono= ag.telefono
+        this.agenda2.fecha= ag.fecha
+        this.agenda2.estado= ag.estado
+        this.agenda2.nueva= ag.nueva
+        this.agenda2.plantado= ag.plantado
+        this.agenda2.mtto= ag.mtto
+        this.agenda2.repot= ag.repot
+        this.agenda2.otros= ag.otros
+        this.agenda2.observacion= ag.observacion
+        this.dialog_fec=true
+      },
+      cargaAsigna(ag){
+        this.agenda2.id=ag.id
+         this.agenda2.distrito= ag.distrito
+        this.agenda2.junta= ag.junta
+        this.agenda2.dirigente= ag.dirigente
+        this.agenda2.telefono= ag.telefono
+        this.agenda2.fecha= ag.fecha
+        this.agenda2.estado= ag.estado
+        this.agenda2.nueva= ag.nueva
+        this.agenda2.plantado= ag.plantado
+        this.agenda2.mtto= ag.mtto
+        this.agenda2.repot= ag.repot
+        this.agenda2.otros= ag.otros
+        this.agenda2.observacion= ag.observacion
+        this.tecnico=ag.user
+        this.tecnico.label=this.tecnico.name
+        this.dialog_asig=true
+      },
       asignar(){
         if(this.tecnico.id==undefined)
           return false
@@ -372,6 +496,7 @@ import xlsx from "json-as-xlsx"
         })
       },
       cambioEstado(){
+
         this.$axios.post( "cambioEstado", this.agenda2).then((res) => {
           this.agenda2={}
           this.dialog_estado=false
@@ -391,11 +516,7 @@ import xlsx from "json-as-xlsx"
           this.agenda.dirigente=''
           this.agenda.telefono=''
           this.agenda.junta_id=''      
-
-          this.agenda2.junta=''
-          this.agenda2.dirigente=''
-          this.agenda2.telefono=''
-          this.agenda2.junta_id=''      
+   
         }
         else{
           this.agenda.junta_id=this.junta.id      
@@ -403,6 +524,20 @@ import xlsx from "json-as-xlsx"
           this.agenda.junta=this.junta.nombre
           this.agenda.dirigente=this.junta.representate
           this.agenda.telefono=this.junta.celular
+
+        }
+      },
+      cargaDatos2(){
+        console.log(this.junta)
+        if(this.junta.id==undefined){
+    
+
+          this.agenda2.junta=''
+          this.agenda2.dirigente=''
+          this.agenda2.telefono=''
+          this.agenda2.junta_id=''      
+        }
+        else{
 
           this.agenda2.junta_id=this.junta.id      
           this.agenda2.distrito=this.junta.distrito
@@ -591,7 +726,20 @@ xlsx(dataimp, settings) // Will download the excel file
           this.$q.loading.hide();
 },
       editRow(item) {
-        this.agenda2 = item.row
+        this.agenda2={}
+        this.agenda2.id=item.row.id
+        this.agenda2.distrito= item.row.distrito
+        this.agenda2.junta= item.row.junta
+        this.agenda2.dirigente= item.row.dirigente
+        this.agenda2.telefono= item.row.telefono
+        this.agenda2.fecha= item.row.fecha
+        this.agenda2.estado= item.row.estado
+        this.agenda2.nueva= item.row.nueva
+        this.agenda2.plantado= item.row.plantado
+        this.agenda2.mtto= item.row.mtto
+        this.agenda2.repot= item.row.repot
+        this.agenda2.otros= item.row.otros
+        this.agenda2.observacion= item.row.observacion
       //  this.junta=this.agenda2.junta
         //this.junta.label = this.junta.nombre +' ' +this.junta.distrito
         //this.tipo=this.lista.find(t=>{return t.tipo==this.dato2.tipo})

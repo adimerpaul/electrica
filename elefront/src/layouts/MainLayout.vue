@@ -174,6 +174,17 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+              <q-item clickable to="/agenda" exact v-if="$store.state.login.boolagenda">
+                <q-item-section avatar>
+                  <q-icon name="calendar_month" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Agendar Actividad</q-item-label>
+                  <q-item-label caption>
+                    Planificacion
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
               <q-item clickable to="/cronograma" exact v-if="$store.state.login.boolcronograma">
                 <q-item-section avatar>
                   <q-icon name="date_range" />
@@ -218,6 +229,18 @@
                   <q-item-label>ACTAS ENTREGA </q-item-label>
                   <q-item-label caption>
                     luminarias postes
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable to="/listaActa" exact >
+                <q-item-section avatar>
+                  <q-icon name="list_alt" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Listado de ACTAS </q-item-label>
+                  <q-item-label caption>
+                    Info Actas
                   </q-item-label>
                 </q-item-section>
               </q-item>

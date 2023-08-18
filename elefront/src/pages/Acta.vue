@@ -203,6 +203,7 @@ export default {
         {label:'OP',name:'op',field:'op'},
         {label:'FECHA',name:'fecha',field:'fecha'},
         {label:'LUGAR',name:'lugar',field:'lugar'},
+        {label:'DISTRITO',name:'distrito',field:'distrito'},
         {label:'TIPO',name:'tipo',field:'tipo'},
         {label:'LUMINARIA',name:'luminaria',field:'luminaria'},
         {label:'CANTIDAD',name:'cantidad',field:'cantidad'},

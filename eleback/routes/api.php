@@ -36,6 +36,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('/consultaBodega',[\App\Http\Controllers\BodegaController::class,'consultaBodega']);
     Route::post('registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
     Route::resource('poste',\App\Http\Controllers\PosteController::class);
+    Route::post('listActa',[\App\Http\Controllers\ActaController::class,'listActa']);
 
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('listaposte',[\App\Http\Controllers\PosteController::class,'listaposte']);
@@ -85,7 +86,6 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listaTrabajos',[\App\Http\Controllers\TrabajoController::class,'listaTrabajos']);
     Route::post('reportJob',[\App\Http\Controllers\TrabajoController::class,'reportJob']);
 
-    Route::post('listActa',[\App\Http\Controllers\ActaController::class,'listActa']);
     Route::post('uparchivo',[\App\Http\Controllers\ActaController::class,'uparchivo']);
     Route::get('lugaresActa',[\App\Http\Controllers\ActaController::class,'lugaresActa']);
     Route::get('vecinoActa',[\App\Http\Controllers\ActaController::class,'vecinoActa']);

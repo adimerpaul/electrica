@@ -23,6 +23,7 @@ export default function () {
     boolveracta:false,
     boolregacta:false,
     booleditacta:false,
+    boolagenda:false,
     // boolnatural:false,
     // booldemandado:false,
     // boolcotizacion:false,

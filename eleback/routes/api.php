@@ -88,6 +88,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
 
     Route::post('uparchivo',[\App\Http\Controllers\ActaController::class,'uparchivo']);
     Route::get('lugaresActa',[\App\Http\Controllers\ActaController::class,'lugaresActa']);
+    Route::get('juntaActa',[\App\Http\Controllers\ActaController::class,'juntaActa']);
     Route::get('vecinoActa',[\App\Http\Controllers\ActaController::class,'vecinoActa']);
     Route::post('/upload', [\App\Http\Controllers\UploadController::class,'upload']);
 
@@ -96,6 +97,9 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('cambioEstado', [\App\Http\Controllers\AgendaController::class,'cambioEstado']);
     Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']); 
     Route::post('reporteMaterial', [\App\Http\Controllers\SalidaController::class,'reporteMaterial']); 
+    Route::post('reportEntregaMat', [\App\Http\Controllers\SalidaController::class,'reportEntregaMat']); 
+    Route::post('reportTecnicoMat', [\App\Http\Controllers\SalidaController::class,'reportTecnicoMat']); 
+    Route::post('reportEntMat', [\App\Http\Controllers\SalidaController::class,'reportEntMat']); 
 
 
 

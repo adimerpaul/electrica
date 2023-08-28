@@ -13,10 +13,10 @@
         <q-card-section class="q-pt-none">
             <div class="row">
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="latitud" v-model="punto.lat" required type="number"  step="0.00000000001" />
+                <q-input dense outlined label="latitud" v-model="punto.lat"  />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.00000000001"  />
+                <q-input dense outlined label="longitud" v-model="punto.lng"  />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
@@ -68,10 +68,10 @@
         <q-card-section class="q-pt-none">
             <div class="row">
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="latitud" v-model="punto.lat" required type="number" step="0.000001"/>
+                <q-input dense outlined label="latitud" v-model="punto.lat"  />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="longitud" v-model="punto.lng" required type="number" step="0.000001"  />
+                <q-input dense outlined label="longitud" v-model="punto.lng"   />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
@@ -96,7 +96,7 @@
               </div>
 
               <div class="col-12">
-                <q-input dense outlined label="Observacion" v-model="punto.observacion" required />
+                <q-input dense outlined label="Observacion" v-model="punto.observacion"  />
               </div>
 
             </div>
@@ -391,8 +391,8 @@ export default {
       //alert(this.ubicacion.lat)
 
       this.punto={}
-      this.punto.lat=this.lat.toFixed(8)
-      this.punto.lng=this.lng.toFixed(8)
+      this.punto.lat=this.lat.toFixed(10)
+      this.punto.lng=this.lng.toFixed(10)
 
       this.dialogRegistro=true
     },
@@ -418,6 +418,25 @@ export default {
         })
       },
       regPoste(){
+        const regex = /[-]?[0-9]*[.,][0-9]*/i;
+
+        if (regex.test(this.punto.lat) || !isNaN(this.punto.lat)) {
+          this.$q.notify({
+                    icon:'info',
+                    message: 'Error Lat ',
+                    color: 'red'
+                  })
+          return false
+        }
+
+        if (regex.test(this.punto.lng) || !isNaN(this.punto.lng)) {
+          this.$q.notify({
+                    icon:'info',
+                    message: 'Error lng ',
+                    color: 'red'
+                  })
+          return false
+        }
         this.poten.forEach(r=>{
           if(r.potencia==this.punto.potencia)
           {
@@ -443,6 +462,25 @@ export default {
 updatePoste(){
   console.log(this.punto)
   //return false
+  const regex = /[-]?[0-9]*[.,][0-9]*/i;
+
+  if (regex.test(this.punto.lat) || !isNaN(this.punto.lat)) {
+    this.$q.notify({
+              icon:'info',
+              message: 'Error Lat ',
+              color: 'red'
+            })
+    return false
+  }
+
+  if (regex.test(this.punto.lng) || !isNaN(this.punto.lng)) {
+    this.$q.notify({
+              icon:'info',
+              message: 'Error lng ',
+              color: 'red'
+            })
+    return false
+  }
   this.poten.forEach(r=>{
           if(r.potencia==this.punto.potencia)
           {this.punto.color=r.colores}

@@ -372,6 +372,32 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-item clickable to="/reportematerial" exact >
+                <q-item-section avatar>
+                  <q-icon name="summarize" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Reporte Entrega Material</q-item-label>
+                  <q-item-label caption>
+                    Salida Material
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              
+              <q-item clickable to="/resumenreporte" exact >
+                <q-item-section avatar>
+                  <q-icon name="fact_check" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Resumen Material Entregado</q-item-label>
+                  <q-item-label caption>
+                    Salida Material
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              
               <q-item clickable to="/devolucion" exact >
                 <q-item-section avatar>
                   <q-icon name="redo" />

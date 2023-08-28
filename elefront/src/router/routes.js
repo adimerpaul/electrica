@@ -27,8 +27,10 @@ import Devoluciontecnico from "pages/Devoluciontecnico";
 import Dependencias from "pages/Dependencias";
 import ReporteJob from "pages/ReporteJob";
 import Acta from "pages/Acta";
+import ReporteMaterial from "pages/ReporteMaterial";
 import ListaActa from "pages/ListaActa";
 import Agenda from "pages/Agenda";
+import Resumenreporte from "pages/Resumenreporte";
 import Home from "pages/Home";
 
 const routes = [
@@ -64,6 +66,8 @@ const routes = [
       { path: 'reportes', component: ReporteJob ,meta: {requiresAuth: true}},
       { path: 'acta', component: Acta ,meta: {requiresAuth: true}},
       { path: 'agenda', component: Agenda ,meta: {requiresAuth: true}},
+      { path: 'reportematerial', component: ReporteMaterial ,meta: {requiresAuth: true}},
+      { path: 'resumenreporte', component: Resumenreporte ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'listaActa', component: ListaActa},
       { path: 'login', component: Login },

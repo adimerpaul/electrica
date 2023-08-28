@@ -30,6 +30,10 @@ class ActaController extends Controller
         return DB::SELECT("SELECT distinct(lugar) from actas");
     }
 
+    public function juntaActa(){
+        return DB::SELECT("SELECT distinct(junta) from actas");
+    }
+
     public function vecinoActa(){
         return DB::SELECT("SELECT distinct(vecino) from actas");
     }
@@ -54,6 +58,7 @@ class ActaController extends Controller
         //
         $acta=new Acta();
         $acta->fecha=$request->fecha;
+        $acta->junta=strtoupper($request->junta);
         $acta->lugar=strtoupper($request->lugar);
         $acta->distrito=$request->distrito;
         $acta->tipo=$request->tipo;
@@ -64,6 +69,7 @@ class ActaController extends Controller
         $acta->vecino=strtoupper($request->vecino);
         $acta->observacion=$request->observacion;
         $acta->user_id=$request->user_id;
+        $acta->junta_id=$request->junta_id;
         $acta->save();
     }
 
@@ -108,6 +114,7 @@ class ActaController extends Controller
         //
         $acta=Acta::find($request->id);
         $acta->fecha=$request->fecha;
+        $acta->junta=strtoupper($request->junta);
         $acta->lugar=strtoupper($request->lugar);
         $acta->distrito=$request->distrito;
         $acta->tipo=$request->tipo;
@@ -117,6 +124,7 @@ class ActaController extends Controller
         $acta->vecino=strtoupper($request->vecino);
         $acta->observacion=$request->observacion;
         $acta->user_id=$request->user_id;
+        $acta->junta_id=$request->junta_id;
         $acta->save();
     }
 

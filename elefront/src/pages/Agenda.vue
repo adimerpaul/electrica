@@ -460,8 +460,9 @@ import moment from 'moment';
         this.agenda2.repot= ag.repot
         this.agenda2.otros= ag.otros
         this.agenda2.observacion= ag.observacion
+        if(ag.user_id!=undefined && ag.user_id!=null){
         this.tecnico=ag.user
-        this.tecnico.label=this.tecnico.name
+        this.tecnico.label=this.tecnico.name}
         this.dialog_asig=true
       },
       asignar(){

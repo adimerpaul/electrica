@@ -20,7 +20,7 @@
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
                       <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="cargarUbicacion" title="Usted esta Aqui">
-        <l-icon icon-url="pinyw.png" />
+        <l-icon icon-url="img/pinyw.png" />
 
       </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true; recmtto='';">

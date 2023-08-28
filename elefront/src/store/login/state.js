@@ -24,6 +24,7 @@ export default function () {
     boolregacta:false,
     booleditacta:false,
     boolagenda:false,
+    boolreportemat:false,
     // boolnatural:false,
     // booldemandado:false,
     // boolcotizacion:false,

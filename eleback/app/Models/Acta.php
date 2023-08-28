@@ -10,6 +10,7 @@ class Acta extends Model
     use HasFactory;
     protected $fillable=[
         'fecha',
+        'junta',
         'lugar',
         'distrito',
         'tipo',
@@ -19,11 +20,20 @@ class Acta extends Model
         'archivo',
         'observacion',
         'vecino',
-        'user_id'
+        'user_id',
+        'junta_id'
         ];
 
         public function user(){
             return $this->belongsTo(User::class);
+        }
+
+        public function detailactas(){
+            return $this->hasMany(detailactas::class);
+        }
+
+        public function junta(){
+            return $this->belongsTo(junta::class);
         }
 
 }

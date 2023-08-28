@@ -1,13 +1,11 @@
 <template>
   <q-page padding>
     <div class="text-h5 text-center">SALIDA DE MATERIAL</div>
-    <div><q-btn color="green" icon="check" label="Registro" @click="detalle=[]; salida={}; dialogReg=true" /></div>
     <div class="row">
-      <div class="col-4 q-pa-xs"><q-input dense v-model="fecha" type="date" label="Fecha" outlined/></div>
-      <div class="col-4"><q-btn color="green" icon="search" label="Buscar" @click="generarList" /></div>
-      <div class="col-4"><q-btn color="info" icon="print" label="Impresion" @click="printDia" /></div>
-      <div class="col-4 q-pa-xs"><q-input dense v-model="fecha2" type="date" label="Fecha2" outlined/></div>
-      <div class="col-4"><q-btn color="accent" icon="print" label="Reporte" @click="printReport" /></div>
+      <div class="col-3 q-pa-xs"><q-input dense v-model="fecha" type="date" label="Fecha" outlined/></div>
+      <div class="col-3 q-pa-xs"><q-input dense v-model="fecha2" type="date" label="Fecha2" outlined/></div>
+      <div class="col-3 q-pa-xs"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material"  /></div>
+      <div class="col-3 q-pa-xs"><q-btn color="green" icon="search" label="Buscar" @click="generarList" /></div>
     </div>
     <div class="col-12">
       <q-table
@@ -24,73 +22,10 @@
           </template>
         </q-input>
       </template>
-      <template v-slot:body-cell-elementos="props">
-              <q-td key="elementos" :props="props">
-                <div v-for=" mat in props.row.elementos" :key="mat.id">
-                  {{ mat.cantidad }} {{ mat.material }} - {{ mat.inventario.num }}
-                </div>
 
-              </q-td>
-            </template>
-            <template v-slot:body-cell-opcion="props">
-              <q-td key="opcion" :props="props">
-                <q-btn color="info" icon="print" dense @click="printSalida(props.row)" />
-              </q-td>
-            </template>
       </q-table>
     </div>
-    <q-dialog v-model="dialogReg" full-width>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="shopping_cart" color="primary" text-color="white" dense size="40px"/>
-          <span class="q-ml-sm">REGISTRO SALIDA DE MATERIAL</span>
-        </q-card-section>
-        <q-card-section>
-          <div class="row">
-          <div class="col-md-6 col-xs-12"><q-select use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos" outlined dense /></div>
-          <div class="col-md-6 col-xs-12"><q-input v-model="salida.destino" type="text" label="Destino" outlined dense /></div>
-          <div class="col-md-6 col-xs-12"><q-input v-model="salida.motivo" type="text" label="Motivo" outlined dense/></div>
-          <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
-          <div class="col-4"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material"  /></div>
-          <div class="col-4"><q-input dense outlined v-model="cantidad" type="number" label="Cantidad" /></div>
-          <div class="col-2"><q-btn color="green" icon="add_circle_outline" @click="onclick" /></div>
-          <!--
-          <div class="col-12">
-            <q-form
-              @submit.prevent="regList"
-            >
-                <q-input outlined   v-model="codigo" type="text" label="Codigo Material"  dense autofocus/>
-            </q-form>
-          </div>-->
-        </div>
-          <div class="col-12">
-            <q-table
-              title="Detalle"
-              :data="detalle"
-              :columns="columna"
-              row-key="name"
-              dense
-            >
 
-            <template v-slot:body-cell-opcion="props">
-              <q-td key="opcion" :props="props">
-                  <q-btn color="red" icon="delete" dense @click="quitarLista(props)"/>
-              </q-td>
-            </template>
-            <template v-slot:body-cell-material="props">
-              <q-td key="material" :props="props">
-                {{ props.row.material.nombre }}
-              </q-td>
-            </template>
-            </q-table>
-          </div>
-          <div class="row">
-            <div class="col-4"><q-btn dense color="red" icon="cancel" label="CANCELAR"  v-close-popup /></div>
-            <div class="col-4"><q-btn dense color="green" icon="check" label="REGISTRAR" @click="registroSalida" /></div>
-          </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
   <div id="myelement" class="hidden"></div>
 
   </q-page>
@@ -117,20 +52,16 @@ export default {
       filtertecnicos:[],
       tecnicos:[],
       detalle:[],
-      columna:[
-        {name:'cant',label:'Cantidad',field:'cant'},
-        {name:'codigo',label:'codigo',field:'codigo'},
-        {name:'material',label:'material',field:'material'},
-        {name:'estado',label:'estado',field:'estado'},
-        {name:'opcion',label:'opcion',field:'opcion'},
-      ],
+
       colsalida:[
-        {name:'tecnico',label:'TECNICO',field:row=>row.tecnico.name},
-        {name:'carro',label:'CARRO',field:'carro'},
+        {name:'fecha',label:'FECHA',field:'fecha'},
         {name:'destino',label:'DESTINO',field:'destino'},
         {name:'motivo',label:'MOTIVO',field:'motivo'},
-        {name:'elementos',label:'MATERIALES',field:'elementos'},
-        {name:'opcion',label:'OPCION',field:'opcion'},
+        {name:'carro',label:'CARRO',field:'carro'},
+        {name:'tecnico',label:'TECNICO',field:'name'},
+        {name:'cantidad',label:'CANTIDAD',field:'cantidad'},
+        {name:'material',label:'MATERIAL',field:'material'},
+        {name:'codigo',label:'CODIGO',field:'codigo'},
 
       ],
       codigo:'',
@@ -140,7 +71,6 @@ export default {
   },
   created() {
     this.getMaterial()
-    this.cargarTecnicos()
     this.generarList()
   },
   methods: {
@@ -266,7 +196,7 @@ export default {
       },
     getMaterial(){
       this.materiales=[]
-      this.$axios.get("listmaterial").then((res) => {
+      this.$axios.get("material").then((res) => {
         res.data.forEach(r => {
           r.label=r.nombre
           this.materiales.push(r)
@@ -278,7 +208,11 @@ export default {
     generarList(){
       if(this.fecha==undefined || this.fecha=='')
         return false
-      this.$axios.post("listsalida",{fecha:this.fecha}).then((res) => {
+      if(this.fecha2==undefined || this.fecha2=='')
+        return false
+      if(this.material.id==undefined)
+        return false
+      this.$axios.post("reportEntregaMat",{ini:this.fecha,fin:this.fecha2,material_id:this.material.id}).then((res) => {
         this.salidas=res.data
       })
 

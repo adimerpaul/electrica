@@ -75,7 +75,7 @@
                   <q-input outlined v-model="dato2.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.unidad" type="text" label="Unidad Medida " hint="Ingresar unidad" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.minimo" type="number" label="Minimo stock" hint="nimimo alerta"  />
-                  <q-toggle v-model="dato2.codificar" color="green" false-value="NO" true-value="SI" :label="dato2.codificar+' CODIFICAR'"/>
+                 <!-- <q-toggle v-model="dato2.codificar" color="green" false-value="NO" true-value="SI" :label="dato2.codificar+' CODIFICAR'"/>-->
               <div>
                 <q-btn label="Modificar" type="submit" color="positive" icon="add_circle" />
                 <q-btn label="Cancelar" icon="delete" color="negative" v-close-popup />

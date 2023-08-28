@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('archivo')->nullable();  //jpg, pdf acta
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('junta_id')->nullable();
+            $table->foreign('junta_id')->references('id')->on('juntas');
             $table->timestamps();
         });
     }

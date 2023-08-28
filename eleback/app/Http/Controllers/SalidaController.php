@@ -121,7 +121,7 @@ class SalidaController extends Controller
 
     public function reporteMaterial(Request $request){
         return DB::SELECT("select e.material_id,(select codigo from materials where id=e.material_id) codigo,sum(e.cantidad) cantidad
-        ,e.material 
+        ,e.material, (SELECT stock from materials where id=e.material_id) almacen 
         from salidas s inner join elementos e on s.id=e.salida_id 
         where s.fecha>='".$request->ini."' and s.fecha<='".$request->fin."'
         GROUP by e.material_id,e.material
@@ -134,6 +134,23 @@ class SalidaController extends Controller
         inner join users u on s.tecnico_id=u.id
         INNER join inventarios i on e.inventario_id=i.id
         where s.fecha>='$request->ini' and s.fecha<='$request->fin' and e.material_id=$request->material_id");
+    }
+
+    public function reportTecnicoMat(Request $request){
+        return DB::SELECT("SELECT m.codigo,e.material,sum(e.cantidad) total
+        FROM salidas s inner join elementos e on s.id=e.salida_id 
+        inner join materials m on m.id=e.material_id
+        where s.fecha>='$request->ini' and s.fecha<='$request->fin'
+         and s.tecnico_id=$request->user_id group by m.codigo,e.material;");
+    }
+
+    public function reportEntMat(Request $request){
+        return DB::SELECT("SELECT s.fecha,u.name tecnico,sum(e.cantidad) total ,e.material 
+        FROM salidas s inner join elementos e on s.id=e.salida_id 
+        inner join users u on s.tecnico_id=u.id 
+        INNER join inventarios i on e.inventario_id=i.id 
+        where s.fecha>='$request->ini' and s.fecha<='$request->fin' 
+        and e.material_id=$request->material_id group by s.fecha,u.name,e.material");
     }
     /**
      * Display the specified resource.

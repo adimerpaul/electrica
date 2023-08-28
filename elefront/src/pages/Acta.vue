@@ -24,7 +24,8 @@
       <template v-slot:body-cell-op="props" >
         <q-td :props="props">
           <q-btn color="yellow" icon="edit" dense @click="cargarActa(props.row)" v-if="$store.state.login.booleditacta"/>
-          <q-btn color="red" icon="delete" dense @click="eliminar(props.row)" v-if="$store.state.login.booleditacta"/>
+          <!--<q-btn color="red" icon="delete" dense @click="eliminar(props.row)" v-if="$store.state.login.booleditacta"/>-->
+          <q-btn color="orange" icon="toc" dense @click="detalle(props.row)" v-if="$store.state.login.booleditacta && props.row.tipo=='NUEVAS INSTALACIONES'"/>
           <q-btn color="info" icon="image" dense @click="modif=props.row; dialogImg=true" v-if="$store.state.login.booleditacta"/>
           <q-btn color="accent" icon="download" dense @click="descargar(props.row)"/>
         </q-td>
@@ -44,6 +45,16 @@
 
       <q-card-section>
         <div class="row">
+          <div class="col-12">               
+            <q-select dense use-input input-debounce="0"   @input="cargaDatos" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
+                        <template v-slot:no-option>
+                                <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select></div>
           <div class="col-md-6 col-xs-12">
             <q-input v-model="datos.fecha" type="date" label="Fecha" outlined dense required/>
           </div>
@@ -51,7 +62,10 @@
             <q-select v-model="datos.distrito" :options="distritos" label="Distrito" outlined dense required/>
           </div>
           <div class="col-md-6 col-xs-12">
-                <q-input style="text-transform: uppercase" outlined dense label="Lugar" list="lugares"  v-model="datos.lugar" required/>
+                <q-input style="text-transform: uppercase" outlined dense label="Junta Vec"  v-model="datos.junta" />
+          </div>
+          <div class="col-md-6 col-xs-12">
+                <q-input style="text-transform: uppercase" outlined dense label="Lugar" list="lugares"  v-model="datos.lugar"/>
                     <datalist id="lugares">
                       <option v-for="r in lugares" :key="r.lugar">{{r.lugar}}</option>
                     </datalist>
@@ -131,6 +145,16 @@
 
       <q-card-section>
         <div class="row">
+          <div class="col-12">               
+            <q-select dense use-input input-debounce="0"   @input="cargaDatos2" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
+                        <template v-slot:no-option>
+                                <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select></div>
           <div class="col-md-6 col-xs-12">
             <q-input v-model="modif.fecha" type="date" label="Fecha" outlined dense required/>
           </div>
@@ -138,7 +162,13 @@
             <q-select v-model="modif.distrito" :options="distritos" label="Distrito" outlined dense required/>
           </div>
           <div class="col-md-6 col-xs-12">
-                <q-input style="text-transform: uppercase" outlined dense label="Lugar" list="lugares"  v-model="modif.lugar" required/>
+                <q-input style="text-transform: uppercase" outlined dense label="Junta Vec" list="juntas"  v-model="datos.junta" />
+                    <datalist id="juntas">
+                      <option v-for="r in juntas" :key="r.junta">{{r.junta}}</option>
+                    </datalist>
+          </div>
+          <div class="col-md-6 col-xs-12">
+                <q-input style="text-transform: uppercase" outlined dense label="Lugar" list="lugares"  v-model="modif.lugar" />
                     <datalist id="lugares">
                       <option v-for="r in lugares" :key="r.lugar">{{r.lugar}}</option>
                     </datalist>
@@ -185,6 +215,9 @@ export default {
       dialogForm:false,
       dialogImg:false,
       dialogMod:false,
+      junta:{},
+      juntas:[],
+      jfilter:[],
       modif:{},
       filter:'',
       datos:{fecha:date.formatDate(Date.now(),'YYYY-MM-DD')},
@@ -199,9 +232,15 @@ export default {
       porcentaje:0,
       vecinos:[],
       tipos:['NUEVAS INSTALACIONES','CAMBIO DE POTENCIA','MANTENIMIENTO','OTRO'],
+      luminarias:['Sodio','Led'],
+      potencias:['1000w','600w','400w','360w','300w','250w','240w','200w','196w','150w',
+      '144w','136w','125w','120w','100w','85w','75w','70w',
+      '60w','58w','50w','40w','38w',
+      '36w','30w','20w','24w','18w','15w','12w','10w','0'],
       columns:[
         {label:'OP',name:'op',field:'op'},
         {label:'FECHA',name:'fecha',field:'fecha'},
+        {label:'JUNTA V',name:'junta',field:'junta'},
         {label:'LUGAR',name:'lugar',field:'lugar'},
         {label:'DISTRITO',name:'distrito',field:'distrito'},
         {label:'TIPO',name:'tipo',field:'tipo'},
@@ -212,7 +251,7 @@ export default {
         {label:'OBS',name:'observacion',field:'observacion'}
 
       ],
-      actas:[]
+      actas:[],
       /*$table->date('fecha');
             $table->string('lugar'); // jv, urb , direccion, unidad edificio
             $table->string('distrito'); //1 al 5
@@ -225,12 +264,73 @@ export default {
   };
 },
   created() {
+    this.listJunta()
     this.searchActa()
     this.cargarTecnicos()
-    this.cargalugar()
     //this.cargarvecino()
   },
   methods:{
+    cargaDatos(){
+        console.log(this.junta)
+        if(this.junta.id==undefined){
+          this.datos.junta=''
+          this.datos.distrito='D1'
+          this.datos.vecino=''
+          this.datos.junta_id=null    
+   
+        }
+        else{
+          this.datos.junta_id=this.junta.id      
+          this.datos.distrito=this.junta.distrito
+          this.datos.junta=this.junta.nombre
+          this.datos.vecino=this.junta.representate
+
+        }
+      },
+      cargaDatos2(){
+        console.log(this.junta)
+        if(this.junta.id==undefined){
+    
+
+          this.modif.junta=''
+          this.modif.vecino=''
+          this.modif.junta_id=null    
+        }
+        else{
+
+          this.modif.junta_id=this.junta.id      
+          this.modif.distrito=this.junta.distrito
+          this.modif.junta=this.junta.nombre
+          this.modif.vecino=this.junta.representate
+        }
+      },
+    filterFn (val, update) {
+        if (val === '' || val===null) {
+          update(() => {
+            this.juntas = this.jfilter
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.juntas = this.jfilter.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+    listJunta() {
+        this.juntas=[{label:''}]
+        this.$q.loading.show();
+        this.$axios.get("junta").then((res) => {
+          //console.log(res.data)
+          res.data.forEach(r => {
+            r.label=r.nombre+' ' +r.distrito
+            this.juntas.push(r)
+          })
+          this.$q.loading.hide();
+          this.jfilter=this.juntas
+          this.junta=this.juntas[0]
+        });
+      },
     eliminar(acta){
       this.$q.dialog({
         title: 'Eliminar Acta',
@@ -288,12 +388,11 @@ export default {
         this.tecnico={label:''}
         this.porcentaje=0
         this.searchActa()
-        this.cargalugar()
       })
     },
     modificarActa(){
 
-      this.$q.loading.show();
+      this.$q.loading.show()
 
       this.modif.tecnico=this.tecnico.name
       this.modif.user_id=this.tecnico.id
@@ -308,7 +407,6 @@ export default {
         this.datos={fecha:date.formatDate(Date.now(),'YYYY-MM-DD')}
         this.nameFile=''
         this.searchActa()
-        this.cargalugar()
       })
       },
     updateActa(){
@@ -360,10 +458,11 @@ export default {
         })
 
     },
-    cargalugar(){
-      this.lugares=[]
-      this.$axios.get('lugaresActa').then(res=>{
-        this.lugares=res.data
+
+    cargajunta(){
+      this.juntas=[]
+      this.$axios.get('juntaActa').then(res=>{
+        this.juntas=res.data
       })
     },
     cargavecino(){

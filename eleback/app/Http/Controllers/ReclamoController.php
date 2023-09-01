@@ -128,6 +128,8 @@ class ReclamoController extends Controller
         $reclamo->tipo="MTTO";
         $reclamo->persona_id=null;
         $reclamo->poste_id=$request->punto['id'];
+        $reclamo->tecnico=$request->user()->name;
+        $reclamo->user_id=$request->user()->id;
         $reclamo->save();
     }
 

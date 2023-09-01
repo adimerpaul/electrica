@@ -418,9 +418,9 @@ export default {
         })
       },
       regPoste(){
-        const regex = /[-]?[0-9]*[.,][0-9]*/i;
+        const regex = /[-]?[0-9]+[.,][0-9]*/i;
 
-        if (regex.test(this.punto.lat) || !isNaN(this.punto.lat)) {
+        if (!regex.test(this.punto.lat) || isNaN(this.punto.lat)) {
           this.$q.notify({
                     icon:'info',
                     message: 'Error Lat ',
@@ -429,7 +429,8 @@ export default {
           return false
         }
 
-        if (regex.test(this.punto.lng) || !isNaN(this.punto.lng)) {
+        if (!regex.test(this.punto.lng) || isNaN(this.punto.lng)) {
+
           this.$q.notify({
                     icon:'info',
                     message: 'Error lng ',
@@ -462,9 +463,9 @@ export default {
 updatePoste(){
   console.log(this.punto)
   //return false
-  const regex = /[-]?[0-9]*[.,][0-9]*/i;
+  const regex = /[-]?[0-9]+[.,][0-9]*/i;
 
-  if (regex.test(this.punto.lat) || !isNaN(this.punto.lat)) {
+  if (!regex.test(this.punto.lat) || isNaN(this.punto.lat)) {
     this.$q.notify({
               icon:'info',
               message: 'Error Lat ',
@@ -473,7 +474,7 @@ updatePoste(){
     return false
   }
 
-  if (regex.test(this.punto.lng) || !isNaN(this.punto.lng)) {
+  if (!regex.test(this.punto.lng) || isNaN(this.punto.lng)) {
     this.$q.notify({
               icon:'info',
               message: 'Error lng ',

@@ -77,8 +77,12 @@
           <q-form @submit="regmatto">
             <div class="row">
 
-              <div class="col-xs-9">
+              <div class="col-xs-3">
                 <b>Reclamo: </b>{{ punto.reclamo }}
+              </div>
+              
+              <div class="col-xs-6">
+                <b>Tecnico: </b>{{ punto.tecnico }}
               </div>
               <div class="col-md-3 col-xs-6">
                 <b>Fecha Hora:</b> {{ punto.fecha }} {{ punto.hora }}

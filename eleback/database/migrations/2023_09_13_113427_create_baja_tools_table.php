@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tecnicos', function (Blueprint $table) {
+        Schema::create('baja_tools', function (Blueprint $table) {
             $table->id();
-            $table->string('ci')->unique();
-            $table->string('nombre');
-            $table->string('telefono')->nullable();
-            $table->string('unidad')->nullable();
+            $table->date('fecha');
+            $table->string('codigo');
+            $table->integer('cantidad');
+            $table->string('motivo');
+            $table->unsignedBigInteger('tool_id')->nullable();
+            $table->foreign('tool_id')->references('id')->on('tools');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tecnicos');
+        Schema::dropIfExists('baja_tools');
     }
 };

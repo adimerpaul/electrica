@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Material extends Model
+class Boxtool extends Model
 {
     use HasFactory;
     protected $fillable = [
-    'codigo',
-    'nombre',
-    'unidad',
-    'stock',
-    'minimo',
-    'codificar',
-    'color',
-];
+        'stock',
+        'disponible',
+        'nombre',
+        'tipo',
+    ];
 }

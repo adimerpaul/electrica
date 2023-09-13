@@ -101,7 +101,13 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('reportTecnicoMat', [\App\Http\Controllers\SalidaController::class,'reportTecnicoMat']); 
     Route::post('reportEntMat', [\App\Http\Controllers\SalidaController::class,'reportEntMat']); 
 
-
+//Prestamo de material
+    Route::resource('/prestamo',\App\Http\Controllers\PrestamoController::class);
+    Route::resource('/prestamodetalle',\App\Http\Controllers\PrestamodetalleController::class);
+    Route::resource('/boxtool',\App\Http\Controllers\BoxtoolController::class);
+    Route::resource('/tool',\App\Http\Controllers\ToolController::class);
+    Route::resource('/bajatool',\App\Http\Controllers\BajaToolController::class);
+    
 
 });
 

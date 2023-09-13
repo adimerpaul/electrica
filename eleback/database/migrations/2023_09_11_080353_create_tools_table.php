@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
             $table->id();
             $table->string('codigo')->unique();
             $table->string('nombre');
-            $table->string('unidad');
-            $table->double('stock');
-            $table->double('minimo');
-            $table->string('codificar')->default('NO');
-            $table->string('color')->default('white');
+            $table->integer('cantidad')->default(1);
+            $table->integer('saldo')->default(1);
+            $table->string('estado'); // ACTIVO  EN Prestamo  BAJA
+            $table->string('observacion')->nullable();
+            $table->unsignedBigInteger('boxtool_id')->nullable();
+            $table->foreign('boxtool_id')->references('id')->on('boxtools');
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('tools');
     }
 };

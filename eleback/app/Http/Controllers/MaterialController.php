@@ -89,6 +89,7 @@ class MaterialController extends Controller
         $material->unidad=$request->unidad;
         $material->minimo=$request->minimo;
         $material->codificar=$request->codificar;
+        $material->color=$request->color;
         $material->save();
     }
 

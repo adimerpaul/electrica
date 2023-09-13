@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tecnicos', function (Blueprint $table) {
+        Schema::create('boxtools', function (Blueprint $table) {
             $table->id();
-            $table->string('ci')->unique();
+            $table->integer('stock');
+            $table->integer('disponible');
             $table->string('nombre');
-            $table->string('telefono')->nullable();
-            $table->string('unidad')->nullable();
+            $table->string('tipo');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tecnicos');
+        Schema::dropIfExists('boxtools');
     }
 };

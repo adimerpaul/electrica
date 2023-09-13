@@ -51,7 +51,17 @@
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.destino" type="text" label="Destino" outlined dense /></div>
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.motivo" type="text" label="Motivo" outlined dense/></div>
           <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
-          <div class="col-4"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material"  /></div>
+
+          <div class="col-6" :style="'background-color: '+ material.color"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" >
+ 
+            <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps" >
+                  <q-item-section :style="'background-color: '+ scope.opt.color" @click="material=scope.opt;">
+                    <q-item-label :style="scope.opt.style" >{{ scope.opt.label }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select></div>
           <div class="col-4"><q-input dense outlined v-model="cantidad" type="number" label="Cantidad" /></div>
           <div class="col-2"><q-btn color="green" icon="add_circle_outline" @click="onclick" /></div>
           <!--

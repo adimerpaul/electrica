@@ -62,6 +62,12 @@
             </q-td>
 
         </template>
+        <template v-slot:body-cell-color="props">
+            <q-td key="color" :props="props">
+              <div :style="'height:20px; width: 20px;background-color: '+props.row.color"></div>
+            </q-td>
+
+        </template>
       </q-table>
 
       <q-dialog v-model="dialog_mod">
@@ -75,6 +81,15 @@
                   <q-input outlined v-model="dato2.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.unidad" type="text" label="Unidad Medida " hint="Ingresar unidad" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.minimo" type="number" label="Minimo stock" hint="nimimo alerta"  />
+                  <q-input outlined v-model="dato2.color" :rules="['anyColor']" hint="With validation" class="my-input" >
+                    <template v-slot:append>
+                      <q-icon name="colorize" class="cursor-pointer">
+                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                          <q-color v-model="dato2.color" />
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
                  <!-- <q-toggle v-model="dato2.codificar" color="green" false-value="NO" true-value="SI" :label="dato2.codificar+' CODIFICAR'"/>-->
               <div>
                 <q-btn label="Modificar" type="submit" color="positive" icon="add_circle" />
@@ -113,6 +128,7 @@
         alert: false,
         dialog_mod: false,
         dialog_del: false,
+        colores:[],
         filter:'',
         dato: {codificar:'NO'},
         model:'',
@@ -128,7 +144,8 @@
         {name: "stock", align: "left", label: "STOCK ", field: "stock", sortable: true,},
           {name: "minimo", align: "left", label: "MINIMO", field: "minimo", sortable: true,},
           {name: "codificar", align: "left", label: "codificar", field: "codificar", sortable: true,},
-          { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
+          {name: "color", align: "left", label: "color", field: "color", sortable: true,},
+          { name: "opcion", label: "OPCION", field: "opcion", sortable: false },
         ],
         data: [],
       };
@@ -222,3 +239,7 @@
     },
   };
   </script>
+<style lang="sass" scoped>
+.my-picker
+  max-width: 250px
+</style>

@@ -14,4 +14,8 @@ class Boxtool extends Model
         'nombre',
         'tipo',
     ];
-}
+
+    public function tool()
+    {
+        return $this->has(boxtool::class);
+    }}

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('hora');
             $table->integer('tiempo');
             $table->string('foto');
+            
             $table->unsignedBigInteger('tecnico_id')->nullable();
             $table->foreign('tecnico_id')->references('id')->on('tecnicos');
             $table->unsignedBigInteger('user_id')->nullable();

@@ -409,8 +409,19 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-            </q-card-section>
 
+            <q-item clickable to="/herramientas" exact >
+                <q-item-section avatar>
+                  <q-icon name="home_repair_service" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Herramientas</q-item-label>
+                  <q-item-label caption>
+                    para prestamo
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
           </q-card>
         </q-expansion-item>
 

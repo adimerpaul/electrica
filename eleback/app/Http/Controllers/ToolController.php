@@ -60,6 +60,9 @@ class ToolController extends Controller
                 $tool->estado='ACTIVO';
                 $tool->save();
             }
+            $boxtool->stock=$boxtool->stock + $request->cantidad;
+            $boxtool->disponible=$boxtool->disponible  + $request->cantidad;
+            $boxtool->save();
         }
         else{
             $tool=new Tool;
@@ -71,6 +74,9 @@ class ToolController extends Controller
             $tool->observacion=$request->observacion;
             $tool->boxtool_id=$request->boxtool_id;
             $tool->save();
+            $boxtool->stock=$boxtool->stock + 1;
+            $boxtool->disponible=$boxtool->disponible  + 1;
+            $boxtool->save();
         }
     }
 
@@ -121,6 +127,10 @@ class ToolController extends Controller
     public function destroy(Tool $tool)
     {
         //
-        $tool->delete();
+        $boxtool=Boxtool::find($tool->boxtool_id);
+        if($boxtool->disponible  >= $tool->cantidad){
+        $boxtool->stock=$boxtool->stock - $tool->cantidad;
+        $boxtool->disponible=$boxtool->disponible  -$tool->cantidad;
+        $tool->delete();}
     }
 }

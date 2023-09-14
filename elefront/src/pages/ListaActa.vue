@@ -99,8 +99,6 @@ export default {
         window.open(fileName,  'download');
     },
 
-
-
     cargalugar(){
       this.lugares=[]
       this.$axios.get('lugaresActa').then(res=>{

@@ -14,6 +14,7 @@ class Compra extends Model
     'fecha',
     'fechacompra',
     'gestion',
+    'usuario',
     'tienda_id'
     ];
 

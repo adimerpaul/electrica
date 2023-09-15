@@ -54,6 +54,7 @@ class BajaController extends Controller
             $baja->fecha=$fec;
             $baja->hora=$hora;
             $baja->inventario_id=$value['id'];
+            $baja->usuario=$request->user()->name;
             $baja->save();
             //
             $inv->estado='INACTIVO';

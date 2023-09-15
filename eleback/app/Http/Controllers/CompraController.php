@@ -66,6 +66,7 @@ class CompraController extends Controller
         $gestion=date("Y",strtotime($request->fecha));
         $compra->gestion=$gestion;
         $compra->tienda_id= $request->tienda_id;
+        $compra->usuario=$request->user()->name;
         $compra->save();
 
         $tienda=Tienda::find($request->tienda_id);

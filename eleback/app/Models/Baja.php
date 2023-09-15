@@ -12,6 +12,7 @@ class Baja extends Model
         'motivo',
         'fecha',
         'hora',
+        'usuario',
         'inventario_id',
         ];
 

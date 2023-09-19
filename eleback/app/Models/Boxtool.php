@@ -12,7 +12,6 @@ class Boxtool extends Model
         'stock',
         'disponible',
         'nombre',
-        'tipo',
     ];
 
     public function tool()

@@ -40,44 +40,18 @@ class ToolController extends Controller
     public function store(StoreToolRequest $request)
     {
         //
-        $boxtool=Boxtool::find($request->boxtool_id);
-        if($boxtool->tipo=='NO'){
-            $tool = Tool::where('boxtool_id',$request->boxtool_id)->get();
-            if(sizeof($tool)==0){
-                $tool=new Tool;
-                $tool->codigo=$request->codigo;
-                $tool->nombre=$boxtool->nombre;
-                $tool->cantidad=$request->cantidad;
-                $tool->saldo=$request->cantidad;
-                $tool->estado='ACTIVO';
-                $tool->boxtool_id=$request->boxtool_id;
-                $tool->save();
-            }
-            else{
-                $tool = Tool::where('boxtool_id',$request->boxtool_id)->first();
-                $tool->cantidad=$tool->cantidad + $request->cantidad;
-                $tool->saldo=$tool->saldo  + $request->cantidad;
-                $tool->estado='ACTIVO';
-                $tool->save();
-            }
-            $boxtool->stock=$boxtool->stock + $request->cantidad;
-            $boxtool->disponible=$boxtool->disponible  + $request->cantidad;
-            $boxtool->save();
-        }
-        else{
-            $tool=new Tool;
-            $tool->codigo=$request->codigo;
-            $tool->nombre=$boxtool->nombre;
-            $tool->cantidad=1;
-            $tool->saldo=1;
-            $tool->estado='ACTIVO';
-            $tool->observacion=$request->observacion;
-            $tool->boxtool_id=$request->boxtool_id;
-            $tool->save();
-            $boxtool->stock=$boxtool->stock + 1;
-            $boxtool->disponible=$boxtool->disponible  + 1;
-            $boxtool->save();
-        }
+        $tool=new Tool;
+        $tool->codigo=$request->codigo;
+        $tool->nombre=$boxtool->nombre;
+        $tool->estado='ACTIVO';
+        $tool->boxtool_id=$request->boxtool_id;
+        $tool->usuario=$request->user()->name;
+        $tool->save();
+        
+        $boxtool->stock=$boxtool->stock + $request->cantidad;
+        $boxtool->disponible=$boxtool->disponible  + $request->cantidad;
+        $boxtool->save();
+        
     }
 
     /**
@@ -128,9 +102,11 @@ class ToolController extends Controller
     {
         //
         $boxtool=Boxtool::find($tool->boxtool_id);
-        if($boxtool->disponible  >= $tool->cantidad){
+        if($boxtool->disponible  >= $tool->cantidad)
+        {
         $boxtool->stock=$boxtool->stock - $tool->cantidad;
-        $boxtool->disponible=$boxtool->disponible  -$tool->cantidad;
-        $tool->delete();}
+        $boxtool->disponible=$boxtool->disponible - $tool->cantidad;
+        $tool->delete();
+        }
     }
 }

@@ -14,7 +14,7 @@ class Prestamo extends Model
         'fecha',
         'hora',
         'tiempo',
-        'foto',
+        'retorno',
         'tecnico_id',
         'user_id',
     ];

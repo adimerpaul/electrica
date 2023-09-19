@@ -16,9 +16,13 @@ return new class extends Migration
         Schema::create('logdetalles', function (Blueprint $table) {
             $table->id();  
             $table->date('fecha');
-            $table->integer('monto');          
+            $table->integer('cantidad');        
+            $table->string('vale')->nullable();  
+            $table->string('obs')->nullable();        
             $table->unsignedBigInteger('ordendetalle_id')->nullable();
             $table->foreign('ordendetalle_id')->references('id')->on('ordendetalles');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

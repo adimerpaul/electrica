@@ -107,6 +107,14 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/boxtool',\App\Http\Controllers\BoxtoolController::class);
     Route::resource('/tool',\App\Http\Controllers\ToolController::class);
     Route::resource('/bajatool',\App\Http\Controllers\BajaToolController::class);
+ //Orden de compra ingreso parcial
+    Route::resource('/ordencompra',\App\Http\Controllers\OrdencompraController::class);
+    Route::resource('/ordendetalle',\App\Http\Controllers\OrdendetalleController::class);
+    Route::post('listUnid', [\App\Http\Controllers\OrdencompraController::class,'listUnid']); 
+    Route::post('listMaterial', [\App\Http\Controllers\OrdencompraController::class,'listMaterial']); 
+    Route::post('listResp', [\App\Http\Controllers\OrdencompraController::class,'listResp']); 
+    Route::post('listOrden', [\App\Http\Controllers\OrdencompraController::class,'listOrden']); 
+    Route::post('listDetalle', [\App\Http\Controllers\OrdendetalleController::class,'listDetalle']); 
     
 
 });

@@ -11,10 +11,9 @@ class Tool extends Model
     protected $fillable = [
         'codigo',
         'nombre',
-        'cantidad',
-        'saldo',
         'estado',
         'observacion',
+        'usuario',
         'boxtool_id',
     ];
 

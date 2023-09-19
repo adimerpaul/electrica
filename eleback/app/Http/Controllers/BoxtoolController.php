@@ -43,7 +43,6 @@ class BoxtoolController extends Controller
         $boxtool->stock=0;
         $boxtool->disponible=0;
         $boxtool->nombre=$request->nombre;
-        $boxtool->tipo=$request->tipo;
         $boxtool->save();
     }
 
@@ -81,7 +80,6 @@ class BoxtoolController extends Controller
         //
         $boxtool= Boxtool::find($request->id);
         $boxtool->nombre=$request->nombre;
-        $boxtool->tipo=$request->tipo;
         $boxtool->save();
     }
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->integer('tiempo');
-            $table->string('foto');
+            $table->date('retorno')->nullable();
             
             $table->unsignedBigInteger('tecnico_id')->nullable();
             $table->foreign('tecnico_id')->references('id')->on('tecnicos');

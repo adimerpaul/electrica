@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ordencompra;
+use App\Models\Ordendetalle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrdencompraRequest;
 use App\Http\Requests\UpdateOrdencompraRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class OrdencompraController extends Controller
 {
@@ -19,6 +22,19 @@ class OrdencompraController extends Controller
         //
     }
 
+    public function listOrden(Request $request){
+        return Ordencompra::with('tienda')->with('ordendetalle')->wheredate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
+    }
+
+    public function listUnid(){
+        return DB::SELECT("SELECT distinct unidad from ordendetalles");
+
+    }
+
+    public function listMaterial(){
+        return DB::SELECT("SELECT distinct material from ordendetalles");
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -38,8 +54,30 @@ class OrdencompraController extends Controller
     public function store(StoreOrdencompraRequest $request)
     {
         //
+        
+        $orden = new Ordencompra;
+        $orden->norden=$request->norden;
+        $orden->fecha=$request->fecha;
+        $orden->responsable=strtoupper($request->responsable);
+        $orden->tienda_id=$request->tienda_id;
+        $orden->user_id=$request->user()->id;
+        $orden->save();
+
+        foreach ($request->detalle as $d) {
+            $det=new Ordendetalle;
+            $det->cantidad=$d['cantidad'];
+            $det->unidad=strtoupper($d['unidad']);
+            $det->material=strtoupper($d['material']);
+            $det->estado='PENDIENTE';
+            $det->entregado=0;
+            $det->ordencompra_id=$orden->id;
+            $det->save();
+        }
     }
 
+    public function listResp(){
+        return DB::SELECT("SELECT distinct responsable from ordencompras");
+    }
     /**
      * Display the specified resource.
      *

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Logdetalle extends Model
 {
     use HasFactory;
-}
+    protected $fillable = [
+        'fecha',
+        'cantidad',
+        'vale',
+        'obs',
+        'ordendetalle_id',
+        'user_id'
+    ];
+    }

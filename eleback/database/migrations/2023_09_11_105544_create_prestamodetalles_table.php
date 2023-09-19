@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('codigo');
             $table->string('material');
-            $table->string('cantidad');
             $table->string('estado');
             $table->unsignedBigInteger('tool_id');
             $table->foreign('tool_id')->references('id')->on('tools');

@@ -421,10 +421,21 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
+
+        <q-item clickable to="/ordencompras" exact >
+                <q-item-section avatar>
+                  <q-icon name="receipt_long" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Orden Compra</q-item-label>
+                  <q-item-label caption>
+                    Detalle de Orden Compra
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
             </q-card-section>
           </q-card>
         </q-expansion-item>
-
 
         <q-item v-if="$store.getters['login/isLoggedIn']" clickable @click="logout">
           <q-item-section avatar>

@@ -32,6 +32,7 @@ import ListaActa from "pages/ListaActa";
 import Agenda from "pages/Agenda";
 import Resumenreporte from "pages/Resumenreporte";
 import Herramientas from "pages/Herramientas";
+import Ordencompras from "pages/Ordencompras";
 import Home from "pages/Home";
 
 const routes = [
@@ -70,6 +71,7 @@ const routes = [
       { path: 'reportematerial', component: ReporteMaterial ,meta: {requiresAuth: true}},
       { path: 'resumenreporte', component: Resumenreporte ,meta: {requiresAuth: true}},
       { path: 'herramientas', component: Herramientas ,meta: {requiresAuth: true}},
+      { path: 'ordencompras', component: Ordencompras ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'listaActa', component: ListaActa},
       { path: 'login', component: Login },

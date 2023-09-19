@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('disponible');
             $table->string('nombre');
-            $table->string('tipo');
             $table->timestamps();
         });
     }

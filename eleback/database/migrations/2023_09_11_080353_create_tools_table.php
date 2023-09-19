@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('codigo')->unique();
             $table->string('nombre');
-            $table->integer('cantidad')->default(1);
-            $table->integer('saldo')->default(1);
             $table->string('estado'); // ACTIVO  EN Prestamo  BAJA
             $table->string('observacion')->nullable();
+            $table->string('usuario')->nullable();
             $table->unsignedBigInteger('boxtool_id')->nullable();
             $table->foreign('boxtool_id')->references('id')->on('boxtools');
+
             $table->timestamps();
         });
     }

@@ -1,8 +1,6 @@
 <template>
     <div class="q-pa-md">
       <center class="text-h5">ALMACEN DE HERRAMIENTAS</center>
-
-
       
       <q-table dense :filter="filter" title="ALMACEN" :data="boxtools" :columns="columns" row-key="name" :rows-per-page-options="[0,50,100]">
         <template v-slot:top-right>
@@ -48,8 +46,6 @@
             <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
   
                    <div class="q-pa-xs "><q-input v-model="box.nombre" type="text" label="Nombre Herramienta" outlined dense /></div>
-                   <div class="q-pa-xs "><q-toggle v-model="box.tipo" color="green" true-value="SI" false-value="NO" :label="box.tipo +' TIENE CODIGO'"/></div>
-
 
               <div>
                 <q-btn label="Registrar" type="submit" color="positive" icon="add_circle" />
@@ -69,7 +65,6 @@
             <q-form @submit="onMod" class="q-gutter-md">
                   <div class="row">
                    <div class="q-pa-xs "><q-input v-model="box2.nombre" type="text" label="Nombre Herramienta" outlined dense /></div>
-                   <div class="q-pa-xs "><q-toggle v-model="box2.tipo" color="green" true-value="SI" false-value="NO" :label="box2.tipo +' TIENE CODIGO'"/></div>
 
                 </div>
               <div>
@@ -91,7 +86,6 @@
                     <div><q-select dense v-model="boxtool" :options="boxtools" label="Herramienta" filled /></div>
                     <div v-if="boxtool.id!=undefined" class="row">
                         <div class="q-pa-xs col-6"><q-input dense outlined v-model="tool.codigo" type="text" label="CODIGO" /></div>
-                        <div class="q-pa-xs col-6" v-if="boxtool.tipo=='NO'"><q-input dense outlined v-model="tool.cantidad" type="number" label="CANTIDAD" /></div>
                         <div class="q-pa-xs col-12" v-if="boxtool.tipo=='SI'"><q-input dense outlined v-model="tool.observacion" type="text" label="OBSERVACION" /></div>
                     </div>
               <div>
@@ -169,14 +163,11 @@ import moment from 'moment';
             {name: "nombre", align: "left", label: "NOMBRE", field: 'nombre', sortable: true,},
             {name: "stock", align: "left", label: "STOCK", field: 'stock', sortable: true,},
             {name: "disponible", align: "left", label: "DISPONIBLE", field: 'disponible', sortable: true,},
-            {name: "tipo", align: "left", label: "CODIGO", field: "tipo", sortable: true,},
         ],
         coltool: [
             {name: "opcion", label: "OPCION", field: "opcion", sortable: false },
             {name: "nombre", align: "left", label: "NOMBRE", field: 'nombre', sortable: true,},
-            {name: "cantidad", align: "left", label: "cantidad", field: 'cantidad', sortable: true,},
-            {name: "codigo", align: "left", label: "codigo", field: 'codigo', sortable: true,},
-            {name: "saldo", align: "left", label: "saldo", field: 'saldo', sortable: true,},
+            {name: "codigo", align: "left", label: "CODIGO", field: 'codigo', sortable: true,},
             {name: "estado", align: "left", label: "ESTADO", field: "estado", sortable: true,},
         ],
         data: [],

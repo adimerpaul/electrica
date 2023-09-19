@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->string('codigo');
-            $table->integer('cantidad');
             $table->string('motivo');
             $table->unsignedBigInteger('tool_id')->nullable();
             $table->foreign('tool_id')->references('id')->on('tools');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

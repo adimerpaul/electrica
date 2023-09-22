@@ -12,20 +12,26 @@ class Prestamo extends Model
         'unidad',
         'destino',
         'fecha',
+        'foto',
         'hora',
         'tiempo',
         'retorno',
+        'codigo',
+        'material',
+        'estado',
+        'observacion',
+        'tool_id',
         'tecnico_id',
         'user_id',
     ];
 
-    public function prestamodetalle()
+    public function detalle()
     {
-        return $this->hasMany(prestamodetalle::class);
+        return $this->hasMany(Prestamodetalle::class);
     }
 
     public function tecnico()
     {
-        return $this->belongsTo(user::class);
+        return $this->belongsTo(Tecnico::class);
     }
 }

@@ -81,7 +81,8 @@
                   <q-input outlined v-model="dato2.nombre" type="text" label="Nombre " hint="Ingresar nombre" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.unidad" type="text" label="Unidad Medida " hint="Ingresar unidad" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa datos']" />
                   <q-input outlined v-model="dato2.minimo" type="number" label="Minimo stock" hint="nimimo alerta"  />
-                  <q-input outlined v-model="dato2.color" :rules="['anyColor']" hint="With validation" class="my-input" >
+                  <q-select v-model="grupo" :options="grupos" label="Grupo" outlined />
+                  <q-input outlined v-model="dato2.color"  class="my-input" readonly>
                     <template v-slot:append>
                       <q-icon name="colorize" class="cursor-pointer">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -137,15 +138,18 @@
         props: [],
         modelpermiso:false,
         uni:{},
+        grupos:[],
+        grupo:{},
         columns: [
         {name: "codigo", align: "left", label: "CODIGO ", field: "codigo", sortable: true,},
         {name: "nombre", align: "left", label: "NOMBRE ", field: "nombre", sortable: true,},
         {name: "unidad", align: "left", label: "UNIDAD ", field: "unidad", sortable: true,},
         {name: "stock", align: "left", label: "STOCK ", field: "stock", sortable: true,},
           {name: "minimo", align: "left", label: "MINIMO", field: "minimo", sortable: true,},
-          {name: "codificar", align: "left", label: "codificar", field: "codificar", sortable: true,},
-          {name: "color", align: "left", label: "color", field: "color", sortable: true,},
-          { name: "opcion", label: "OPCION", field: "opcion", sortable: false },
+          {name: "codificar", align: "left", label: "CODIFICAR", field: "codificar", sortable: true,},
+          {name: "Grupo", align: "left", label: "GRUPO", field: row=>row.grupo_id==null?'':row.grupo.nombre, sortable: true,},
+          {name: "color", align: "left", label: "COLOR", field: "color", sortable: true,},
+          { name: "opcion", label: "OPCION", field: "OPCION", sortable: false },
         ],
         data: [],
       };
@@ -155,11 +159,21 @@
       //    this.$router.replace({ path: '/' })
       // }
 
-      this.misdatos();
+      this.misdatos()
+      this.getGrupo()
 
     },
     methods: {
-
+      getGrupo(){
+        this.grupos=[]
+        this.$axios.get("grupo").then((res) => {
+          res.data.forEach(r => {
+              r.label=r.nombre
+              this.grupos.push(r)
+          })
+          this.grupo={label:''}
+        })
+      },
       misdatos() {
         this.$q.loading.show();
         this.$axios.get("material").then((res) => {
@@ -170,6 +184,8 @@
       },
       editRow(item) {
         this.dato2 = item.row
+        if(this.dato2.color=='white')
+          this.dato2.color='rgb(255,255,255)'
         this.dialog_mod = true;
       },
       deleteRow(item) {
@@ -201,6 +217,8 @@
       },
       onMod() {
         this.$q.loading.show();
+        if(this.grupo.id!=undefined)
+        this.dato2.grupo_id=this.grupo.id
         this.$axios.put("material/" + this.dato2.id, this.dato2).then((res) => {
           this.$q.notify({
             color: "green-4",

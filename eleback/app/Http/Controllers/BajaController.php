@@ -50,18 +50,20 @@ class BajaController extends Controller
             $inv=Inventario::find($value['id']);
             if($inv->estado=='ACTIVO'){
             $baja=new Baja;
-            $baja->motivo=$request->motivo;
+            $baja->motivo='Cant 1 ,'.$request->motivo;
             $baja->fecha=$fec;
             $baja->hora=$hora;
             $baja->inventario_id=$value['id'];
             $baja->usuario=$request->user()->name;
             $baja->save();
             //
-            $inv->estado='INACTIVO';
+            $inv->cantidad=$inv->cantidad - 1;
+            if($inv->cantidad<=0)
+                $inv->estado='INACTIVO';
             $inv->save();
             //
             $material=Material::find($inv->material_id);
-            $material->stock = $material->stock - $inv->cantidad;
+            $material->stock = $material->stock - 1;
             $material->save();
             }
         }

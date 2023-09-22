@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('prestamodetalles', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo');
-            $table->string('material');
-            $table->string('estado');
-            $table->unsignedBigInteger('tool_id');
-            $table->foreign('tool_id')->references('id')->on('tools');
+            $table->date('fechadev');
+            $table->string('observacion')->nullable();
+            $table->string('usuario')->nullable();
+            $table->unsignedBigInteger('prestamo_id');
+            $table->foreign('prestamo_id')->references('id')->on('prestamos');
             $table->timestamps();
         });
     }

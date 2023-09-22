@@ -304,6 +304,7 @@ export default {
 
     },
     cargarMaterial(){
+      this.listMaterial=[]
       this.$axios.post('disponible').then(res=>{
 
         res.data.forEach(r => {
@@ -314,7 +315,7 @@ export default {
           else{
               p.lista.push(r)
           }
-        });
+        })
         console.log(this.listMaterial)
         if(this.listMaterial.length>0){
         this.material=this.listMaterial[0]

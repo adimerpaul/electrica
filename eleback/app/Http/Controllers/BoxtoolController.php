@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boxtool;
+use App\Models\Tool;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBoxtoolRequest;
 use App\Http\Requests\UpdateBoxtoolRequest;
@@ -20,6 +21,9 @@ class BoxtoolController extends Controller
         return Boxtool::all();
     }
 
+    public function listBox(){
+        return Boxtool::with('toolsactivo')->where('disponible','>',0)->get();
+    }
     /**
      * Show the form for creating a new resource.
      *

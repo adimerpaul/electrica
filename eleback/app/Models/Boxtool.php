@@ -14,7 +14,13 @@ class Boxtool extends Model
         'nombre',
     ];
 
-    public function tool()
+    public function tools()
     {
-        return $this->has(boxtool::class);
-    }}
+        return $this->hasMany(Tool::class);
+    }
+
+    public function toolsactivo()
+    {
+        return $this->hasMany(Tool::class)->where('estado','ACTIVO');
+    }
+}

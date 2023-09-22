@@ -91,6 +91,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::get('juntaActa',[\App\Http\Controllers\ActaController::class,'juntaActa']);
     Route::get('vecinoActa',[\App\Http\Controllers\ActaController::class,'vecinoActa']);
     Route::post('/upload', [\App\Http\Controllers\UploadController::class,'upload']);
+    Route::post('/uploadImg', [\App\Http\Controllers\UploadController::class,'uploadImg']);
 
     Route::post('listAgenda', [\App\Http\Controllers\AgendaController::class,'listAgenda']);
     Route::post('cambioFecha', [\App\Http\Controllers\AgendaController::class,'cambioFecha']);
@@ -101,12 +102,17 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('reportTecnicoMat', [\App\Http\Controllers\SalidaController::class,'reportTecnicoMat']); 
     Route::post('reportEntMat', [\App\Http\Controllers\SalidaController::class,'reportEntMat']); 
 
+    Route::resource('/grupo',\App\Http\Controllers\GrupoController::class);
+
 //Prestamo de material
     Route::resource('/prestamo',\App\Http\Controllers\PrestamoController::class);
     Route::resource('/prestamodetalle',\App\Http\Controllers\PrestamodetalleController::class);
     Route::resource('/boxtool',\App\Http\Controllers\BoxtoolController::class);
     Route::resource('/tool',\App\Http\Controllers\ToolController::class);
     Route::resource('/bajatool',\App\Http\Controllers\BajaToolController::class);
+    Route::post('listPrestamo', [\App\Http\Controllers\PrestamoController::class,'listPrestamo']); 
+    Route::get('listBox', [\App\Http\Controllers\BoxtoolController::class,'listBox']); 
+    
  //Orden de compra ingreso parcial
     Route::resource('/ordencompra',\App\Http\Controllers\OrdencompraController::class);
     Route::resource('/ordendetalle',\App\Http\Controllers\OrdendetalleController::class);

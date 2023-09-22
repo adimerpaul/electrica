@@ -22,6 +22,8 @@ return new class extends Migration
             $table->double('minimo');
             $table->string('codificar')->default('NO');
             $table->string('color')->default('white');
+            $table->unsignedBigInteger('grupo_id')->nullable();
+            $table->foreign('grupo_id')->references('id')->on('grupos');
             $table->timestamps();
         });
     }

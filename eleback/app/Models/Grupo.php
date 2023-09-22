@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Grupo extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'nombre'];
+
+    public function material()
+    {
+        return $this->hasMany(MAterial::class);
+    } 
 }

@@ -35,6 +35,10 @@ class TecnicoController extends Controller
      * @param  \App\Http\Requests\StoreTecnicoRequest  $request
      * @return \Illuminate\Http\Response
      */
+    public function listDep(){
+        return DB::SELECT("SELECT distinct unidad from tecnicos");
+    }
+
     public function store(StoreTecnicoRequest $request)
     {
         //
@@ -42,6 +46,7 @@ class TecnicoController extends Controller
         $tecnico->ci=strtoupper($request->ci);
         $tecnico->nombre=strtoupper($request->nombre);
         $tecnico->telefono=$request->telefono;
+        $tecnico->unidad=strtoupper($request->unidad);
         $tecnico->save();
     }
 

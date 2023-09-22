@@ -40,6 +40,7 @@ class ToolController extends Controller
     public function store(StoreToolRequest $request)
     {
         //
+        $boxtool= Boxtool::find($request->boxtool_id);
         $tool=new Tool;
         $tool->codigo=$request->codigo;
         $tool->nombre=$boxtool->nombre;
@@ -48,8 +49,8 @@ class ToolController extends Controller
         $tool->usuario=$request->user()->name;
         $tool->save();
         
-        $boxtool->stock=$boxtool->stock + $request->cantidad;
-        $boxtool->disponible=$boxtool->disponible  + $request->cantidad;
+        $boxtool->stock=$boxtool->stock + 1;
+        $boxtool->disponible=$boxtool->disponible  + 1;
         $boxtool->save();
         
     }
@@ -102,10 +103,10 @@ class ToolController extends Controller
     {
         //
         $boxtool=Boxtool::find($tool->boxtool_id);
-        if($boxtool->disponible  >= $tool->cantidad)
+        if($boxtool->disponible  >= 1)
         {
-        $boxtool->stock=$boxtool->stock - $tool->cantidad;
-        $boxtool->disponible=$boxtool->disponible - $tool->cantidad;
+        $boxtool->stock=$boxtool->stock -1;
+        $boxtool->disponible=$boxtool->disponible -1;
         $tool->delete();
         }
     }

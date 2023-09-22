@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prestamo;
+use App\Models\Tecnico;
+use App\Models\Boxtool;
+use App\Models\Tool;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePrestamoRequest;
 use App\Http\Requests\UpdatePrestamoRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PrestamoController extends Controller
 {
@@ -17,7 +22,12 @@ class PrestamoController extends Controller
     public function index()
     {
         //
-        return Prestamo::all();
+        return Prestamo::with('prestamodetalle')->with('tecnico')->get();
+    }
+
+    public function listPrestamo(Request $request){
+      return Prestamo::with('tecnico')->with('detalle')
+         ->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
     }
 
     /**
@@ -39,7 +49,31 @@ class PrestamoController extends Controller
     public function store(StorePrestamoRequest $request)
     {
         //
+        $tecnico=Tecnico::find($request->tecnico_id);
         $prestamo= new Prestamo;
+        $prestamo->unidad=$tecnico->unidad;
+        $prestamo->destino=$request->destino;
+        $prestamo->fecha=$request->fecha;
+        $prestamo->foto=$request->foto;
+        $prestamo->hora=date('H:i:s');
+        $prestamo->tiempo=$request->tiempo;
+        $prestamo->retorno=date('Y-m-d', strtotime($request->fecha. ' + '.$request->dias.' days'));
+        $prestamo->codigo=$request->codigo;
+        $prestamo->material=$request->material;
+        $prestamo->estado='PRESTAMO';
+        $prestamo->observacion=$request->observacion;
+        $prestamo->tool_id=$request->tool_id;
+        $prestamo->tecnico_id=$request->tecnico_id;
+        $prestamo->user_id=$request->user()->id;
+        $prestamo->save();
+
+        $tool=Tool::find($request->tool_id);
+        $tool->estado='PRESTAMO';
+        $tool->save();
+
+        $boxtool=Boxtool::find($tool->boxtool_id);
+        $boxtool->disponible=$boxtool->disponible - 1;
+        $boxtool->save();
     }
 
     /**

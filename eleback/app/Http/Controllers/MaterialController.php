@@ -16,7 +16,7 @@ class MaterialController extends Controller
     public function index()
     {
         //
-        return Material::all();
+        return Material::with('grupo')->get();
     }
 
     public function listmaterial(){
@@ -90,6 +90,7 @@ class MaterialController extends Controller
         $material->minimo=$request->minimo;
         $material->codificar=$request->codificar;
         $material->color=$request->color;
+        $material->grupo_id=$request->grupo_id;
         $material->save();
     }
 

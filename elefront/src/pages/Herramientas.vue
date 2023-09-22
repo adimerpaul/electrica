@@ -166,9 +166,9 @@ import moment from 'moment';
         ],
         coltool: [
             {name: "opcion", label: "OPCION", field: "opcion", sortable: false },
-            {name: "nombre", align: "left", label: "NOMBRE", field: 'nombre', sortable: true,},
             {name: "codigo", align: "left", label: "CODIGO", field: 'codigo', sortable: true,},
             {name: "estado", align: "left", label: "ESTADO", field: "estado", sortable: true,},
+            {name: "boxtool", align: "left", label: "TIPO", field: row=>row.boxtool.nombre, sortable: true,},
         ],
         data: [],
 

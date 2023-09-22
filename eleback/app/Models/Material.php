@@ -16,5 +16,11 @@ class Material extends Model
     'minimo',
     'codificar',
     'color',
-];
+    'grupo_id',
+    ];
+    
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class);
+    } 
 }

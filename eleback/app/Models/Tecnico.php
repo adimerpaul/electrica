@@ -11,7 +11,8 @@ class Tecnico extends Model
     protected $fillable = [
         'ci',
         'nombre',
-        'telefono'
+        'telefono',
+        'unidad'
     ];
 
 }

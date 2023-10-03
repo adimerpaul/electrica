@@ -9,9 +9,10 @@ class Prestamodetalle extends Model
 {
     use HasFactory;
     protected $fillable = [
-    'codigo',
-    'material',
-    'estado',
-    'tool_id',
+        'fechadev',
+        'horadev',
+        'observacion',
+        'usuario',
+        'prestamo_id',
     ];
 }

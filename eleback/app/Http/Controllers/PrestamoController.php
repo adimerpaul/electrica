@@ -26,7 +26,7 @@ class PrestamoController extends Controller
     }
 
     public function listPrestamo(Request $request){
-      return Prestamo::with('tecnico')->with('detalle')
+      return Prestamo::with('tecnico')->with('prestamodetalle')
          ->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
     }
 
@@ -56,7 +56,7 @@ class PrestamoController extends Controller
         $prestamo->fecha=$request->fecha;
         $prestamo->foto=$request->foto;
         $prestamo->hora=date('H:i:s');
-        $prestamo->tiempo=$request->tiempo;
+        $prestamo->tiempo=$request->dias;
         $prestamo->retorno=date('Y-m-d', strtotime($request->fecha. ' + '.$request->dias.' days'));
         $prestamo->codigo=$request->codigo;
         $prestamo->material=$request->material;

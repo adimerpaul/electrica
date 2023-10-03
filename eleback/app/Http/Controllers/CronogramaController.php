@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cronograma;
+use App\Models\Cronograma;          
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UploadController extends Controller
 {
@@ -37,11 +38,18 @@ class UploadController extends Controller
             $num=intval( $res[0]->numero) + 1;
         else
             $num=1;
-        if ($request->hasFile('file')) {
-            $file=$request->file('file');
-            $nombreArchivo =$num.".".$file->getClientOriginalExtension();
-            $file->move(\public_path('prestamos'), $nombreArchivo);
-        }
-        return $nombreArchivo;
+            if ($request->hasFile('file')){
+                $file    = $request->file('file');
+                $nombre     = $num.".".$file->getClientOriginalExtension();
+                $ruta=public_path('/prestamos/'.$nombre);
+                Image::make($file->getRealPath())
+                    ->resize(1200,1200
+                        ,function ($constraint){
+                            $constraint->aspectRatio();
+                        }
+                    )
+                    ->save($ruta);
+            }
+            return $nombre;
     }
 }

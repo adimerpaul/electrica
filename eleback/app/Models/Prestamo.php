@@ -25,7 +25,7 @@ class Prestamo extends Model
         'user_id',
     ];
 
-    public function detalle()
+    public function prestamodetalle()
     {
         return $this->hasMany(Prestamodetalle::class);
     }
@@ -33,5 +33,10 @@ class Prestamo extends Model
     public function tecnico()
     {
         return $this->belongsTo(Tecnico::class);
+    }
+
+    public function tool()
+    {
+        return $this->belongsTo(Tool::class);
     }
 }

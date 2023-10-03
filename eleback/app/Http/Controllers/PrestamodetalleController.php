@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prestamodetalle;
+use App\Models\Prestamo;
+use App\Models\Tool;
+use App\Models\Boxtool;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePrestamodetalleRequest;
 use App\Http\Requests\UpdatePrestamodetalleRequest;
@@ -38,6 +41,25 @@ class PrestamodetalleController extends Controller
     public function store(StorePrestamodetalleRequest $request)
     {
         //
+        $prestamodetalle= new Prestamodetalle;
+        $prestamodetalle->fechadev=$request->fechadev;
+        $prestamodetalle->horadev=date("H:i:s");
+        $prestamodetalle->observacion=$request->observacion;
+        $prestamodetalle->usuario=$request->user()->name;
+        $prestamodetalle->prestamo_id=$request->prestamo_id;
+        $prestamodetalle->save();
+
+        $prestamo=Prestamo::find($request->prestamo_id);
+        $prestamo->estado='DEVUELTO';
+        $prestamo->save();
+
+        $tool=Tool::find($prestamo->tool_id);
+        $tool->estado='ACTIVO';
+        $tool->save();
+
+        $boxtool=Boxtool::find($tool->boxtool_id);
+        $boxtool->disponible = $boxtool->disponible + 1;
+        $boxtool->save();
     }
 
     /**

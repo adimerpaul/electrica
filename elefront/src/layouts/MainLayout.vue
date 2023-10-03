@@ -56,19 +56,7 @@
             </q-item-label>
           </q-item-section>
         </q-item>
-<!--
-        <q-item clickable to="tecnicos" exact v-if="$store.state.login.booltecnico">
-          <q-item-section avatar>
-            <q-icon name="engineering" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Listado Tecnicos</q-item-label>
-            <q-item-label caption>
-              Gestion tecnicos
-            </q-item-label>
-          </q-item-section>
-        </q-item>
--->
+
         <q-item clickable to="juntavecinal" exact v-if="$store.state.login.booljunta">
           <q-item-section avatar>
             <q-icon name="real_estate_agent" />
@@ -422,6 +410,29 @@
                 </q-item-section>
               </q-item>
 
+            <q-item clickable to="tecnicos" exact v-if="$store.state.login.booltecnico">
+              <q-item-section avatar>
+                <q-icon name="engineering" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Listado Tecnicos</q-item-label>
+                <q-item-label caption>
+                  Gestion tecnicos
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable to="/prestamo" exact v-if="$store.state.login.booltecnico">
+              <q-item-section avatar>
+                <q-icon name="handyman" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Prestamo Herramientas</q-item-label>
+                <q-item-label caption>
+                  prestamo material
+                </q-item-label>
+              </q-item-section>
+            </q-item>
         <q-item clickable to="/ordencompras" exact >
                 <q-item-section avatar>
                   <q-icon name="receipt_long" />

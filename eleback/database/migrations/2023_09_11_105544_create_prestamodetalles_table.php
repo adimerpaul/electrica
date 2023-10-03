@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('prestamodetalles', function (Blueprint $table) {
             $table->id();
             $table->date('fechadev');
+            $table->time('horadev');
             $table->string('observacion')->nullable();
             $table->string('usuario')->nullable();
             $table->unsignedBigInteger('prestamo_id');

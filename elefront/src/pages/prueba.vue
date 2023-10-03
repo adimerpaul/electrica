@@ -336,7 +336,7 @@ export default {
           color: 'red',
           icon:'info'
         })
-        return false
+        return false  
         }
         this.zoom=19
         this.dialogReclamo=true

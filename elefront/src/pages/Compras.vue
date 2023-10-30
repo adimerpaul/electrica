@@ -334,9 +334,9 @@ import { date } from 'quasar'
             console.log('error2 ing')
             return false
             }
-            this.reg.material=this.material
+            //this.reg.material=this.material
             this.reg.total=parseFloat( this.reg.cantidad) * parseFloat( this.reg.unitario)
-            this.listado.push(this.reg);
+            this.listado.push({cantidad: this.reg.cantidad,material:this.material});
 
             this.material={label:''}
         },
@@ -347,7 +347,7 @@ import { date } from 'quasar'
         this.$axios.get("material").then((res) => {
           console.log(res.data)
           res.data.forEach(r => {
-            r.label=r.nombre
+            r.label=r.codigo+' '+r.nombre
             this.materiales.push(r)
           });
           this.filterMateriales=this.materiales

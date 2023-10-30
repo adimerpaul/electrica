@@ -121,7 +121,11 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listResp', [\App\Http\Controllers\OrdencompraController::class,'listResp']); 
     Route::post('listOrden', [\App\Http\Controllers\OrdencompraController::class,'listOrden']); 
     Route::post('listDetalle', [\App\Http\Controllers\OrdendetalleController::class,'listDetalle']); 
-    
 
+    Route::post('regLuminiaria', [\App\Http\Controllers\AgendaController::class,'regLuminiaria']); 
+    Route::post('listRep', [\App\Http\Controllers\AgendaController::class,'listRep']); 
+    Route::post('listJunta', [\App\Http\Controllers\AgendaController::class,'listJunta']); 
+    
+    
 });
 

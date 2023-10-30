@@ -45,7 +45,7 @@ class InventarioController extends Controller
             return Inventario::with('material')->where('material_id',$request->material_id)->get();
         }
         else{
-            return Inventario::with('material')->whereRelation('compra','fecha',$request->fecha)->orWhere('gestion',$gestion)->get();
+            return Inventario::with('material')->whereDate('updated_at',$request->fecha)->get();
         }
     }
 

@@ -159,6 +159,7 @@ export default {
       {name: "ci", align: "left", label: "CI ", field: "ci", sortable: true,},
       {name: "nombre", align: "left", label: "NOMBRE ", field: "nombre", sortable: true,},
         {name: "telefono", align: "left", label: "TELEFONO", field: "telefono", sortable: true,},
+        {name: "unidad", align: "left", label: "UNIDAD", field: "unidad", sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
       ],
       data: [],

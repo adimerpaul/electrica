@@ -27,6 +27,7 @@
 
       </q-table>
     </div>
+    <div style="font-size: 20px;"><b>TOTAL: </b> {{ totalsalida }}</div>
     <div class="col-12">
       <q-table
         title="REPORTE POR TECNICO"
@@ -92,6 +93,16 @@ export default {
     this.getTecnico()
     this.generarList()
     this.generarListTecnico()
+  },
+  computed: {
+    totalsalida() {
+      let total=0
+      this.salidas.forEach(r => {
+          total+=parseInt( r.total)
+      })
+      return total 
+        
+    }
   },
   methods: {
     printReport(){

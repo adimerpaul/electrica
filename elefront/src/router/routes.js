@@ -73,7 +73,7 @@ const routes = [
       { path: 'resumenreporte', component: Resumenreporte ,meta: {requiresAuth: true}},
       { path: 'herramientas', component: Herramientas ,meta: {requiresAuth: true}},
       { path: 'ordencompras', component: Ordencompras ,meta: {requiresAuth: true}},
-      { path: 'prestamo', component: Prestamo ,meta: {requiresAuth: true}},
+      { path: 'prestamo', component: Prestamo  ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'listaActa', component: ListaActa},
       { path: 'login', component: Login },

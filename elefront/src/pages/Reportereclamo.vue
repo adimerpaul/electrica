@@ -96,6 +96,7 @@ export default {
     }
     this.getUsers()
   },
+
   methods:{
     filterUs (val, update) {
         if (val === '') {

@@ -12,8 +12,9 @@ class Agenda extends Model
         'distrito',
         'junta',
         'dirigente',
+        'cargo',
         'telefono',
-        'nueva',
+        /*'nueva',
         'mtto',
         'plantado',
         'repot',
@@ -21,14 +22,21 @@ class Agenda extends Model
         'cantidad',
         'tipo',
         'potencia',
+        */
         'fecha',
+        'fechaprog',
         'observacion',
         'estado',
         'user_id',
-        'junta_id'
+        //'junta_id'
     ];
     
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+        
+    public function agendadetalles(){
+        return $this->hasMany(Agendadetalle::class);
     }
 }

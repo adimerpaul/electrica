@@ -103,6 +103,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="Eliminar" color="red" @click="bajaPoste(punto)" v-if="$store.state.login.booldelposte"/>
           <q-btn flat label="Actualizar" color="accent" type="submit" />
           <q-btn flat label="cerrar" color="green" v-close-popup />
         </q-card-actions>
@@ -275,7 +276,7 @@ export default {
        {'potencia':'600w','colores':'l600.png'},
        {'potencia':'400w','colores':'l400.png'},
        {'potencia':'360w','colores':'l360.png'},
-       {'potenci  a':'300w','colores':'l300.png'},
+       {'potencia':'300w','colores':'l300.png'},
        {'potencia':'250w','colores':'l250.png'},
        {'potencia':'240w','colores':'l240.png'},
        {'potencia':'200w','colores':'l200.png'},
@@ -313,7 +314,6 @@ export default {
         {name:"observacion",label:"observacion",field:"observacion"},
         {name:"ubicacion",label:"ubicacion",field:"ubicacion"},
       ],
-      puntos:[],
       map:null,
       punto:{},
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -328,7 +328,6 @@ export default {
   },
   created() {
 
-   // this.mispuntos()
     this.geolocate()
   },
   methods:{
@@ -511,7 +510,33 @@ updatePoste(){
           break;
       }
     },
+    bajaPoste(p){
+      this.$q.dialog({
+        title: 'ELIMINAR POSTE DE ALUMBRADO',
+        message: 'Esta seguro de Eliminar el Poste?',
+        cancel: true,
+        persistent: false
+      }).onOk(() => {
+        // console.log('>>>> OK')
+        this.$axios.post('updateEstado/'+p.id).then(res=>{
+            this.$q.notify({
+                    icon:'info',
+                    message: 'Poste Eliminado',
+                    color: 'red'
+                  })
+          this.modalpunto=false
+          this.geolocate()
 
+        })
+
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
     frmmodalpunto(p){
       // console.log('a')
       this.modalpunto=true
@@ -528,7 +553,6 @@ updatePoste(){
     },
     mispuntos(){
       this.postes=[]
-      this.puntos=[]
       this.$q.loading.show()
       this.$axios.post('listaposte',{'distrito':this.distrito.value}).then(res=>{
         this.datos=res.data
@@ -546,7 +570,6 @@ updatePoste(){
           if(r.distrito=='D5 EXT') this.d5e.push(r)
         });*/
         this.$q.loading.hide()
-         console.log(this.puntos)
       })
     }
   },

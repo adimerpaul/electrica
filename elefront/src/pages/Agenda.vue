@@ -69,10 +69,11 @@
         <q-list dense style="width: 20px;">
 
               <q-btn dense round flat color="accent"  icon="manage_accounts"  @click="cargaAsigna(props.row)" v-if="props.row.agendadetalles.length>0"/>
-              <q-btn dense round flat color="blue-10"  icon="today" @click="cargaFecha(props.row)" />
-              <q-btn dense round flat color="orange-4"  icon="light" @click="regluminaria(props.row)" />
-              <q-btn dense round flat color="orange-6" @click="editRow(props)" icon="edit" />
+              <q-btn dense round flat color="blue-10"  icon="today" @click="cargaFecha(props.row)" v-if="props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="orange-4"  icon="light" @click="regluminaria(props.row)" v-if="props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="orange-6" @click="editRow(props)" icon="edit" v-if="props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="info" @click="printReport(props.row)" icon="print" v-if="props.row.fechaprog!=null"/>
+              <q-btn dense round flat color="red" @click="delAgenda(props.row)" icon="delete" v-if="props.row.estado!='REALIZADO'"/>
         </q-list>
         </q-btn-dropdown>
 
@@ -342,6 +343,31 @@ import moment from 'moment';
           });
         })
 
+      },
+      delAgenda(agenda){
+        this.$q.dialog({
+        title: 'Registro de Agenda',
+        message: 'Esta seguro de Eliminar?',
+        cancel: true,
+        persistent: false
+      }).onOk(() => {
+        // console.log('>>>> OK')
+        this.$axios.delete( "agenda/"+ agenda.id).then((res) => {
+          this.Buscar()
+          this.$q.notify({
+            color: "red-4",
+            icon: "info",
+            message: "Registro eliminado",
+          })
+        })
+
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
       },
       printReport(agenda){
         let dato1='        ', dato2='        ', dato3='        '

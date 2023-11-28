@@ -1,12 +1,21 @@
 <template>
     <div class="q-pa-md">
-      <q-btn
+      <div class="row">
+        <div class="col-3 q-pa-xs"> <q-input v-model="fecha" type="date" label="Fecha" outlined dense/></div>
+        <div class="col-3 q-pa-xs"><q-btn color="info" icon="search"  @click="misdatos" outlined dense/></div>
+        <div class="col-6 q-pa-xs">
+          <q-btn
         label="Registro de Compra"
         color="positive"
         @click="alert = true"
         icon="add_circle"
         class="q-mb-xs"
       />
+        </div>
+      
+
+      </div>
+
 
       <q-dialog v-model="alert">
         <q-card style="max-width: 80%; width: 70%">
@@ -82,6 +91,13 @@
               <q-icon name="search" />
             </template>
           </q-input>
+        </template>
+        <template v-slot:body-cell-detalle="props">
+            <q-td key="detalle" :props="props">
+                <ul>
+                  <li v-for="d in props.row.contenidos" :key="d.id" style="font-size: 10px;">{{ d.material.nombre }} {{ d.cantidad }} </li>
+                </ul>
+            </q-td>
         </template>
         <template v-slot:body-cell-opcion="props">
             <q-td key="opcion" :props="props">
@@ -166,6 +182,7 @@ import { date } from 'quasar'
         dialog_del: false,
         dialogDetalle:false,
         dialogMod:false,
+        fecha:date.formatDate(new Date(), "YYYY-MM-DD"),
         listado:[],
         filter:'',
         dato: {},
@@ -193,6 +210,7 @@ import { date } from 'quasar'
         {name: "fecha", align: "left", label: "FECHA ING", field: "fecha", sortable: true,},
         {name: "gestion", align: "left", label: "gestion", field: "gestion", sortable: true,},
         {name: "tienda", align: "left", label: "TIENDA/PROV", field: row=>row.tienda.nombre, sortable: true,},
+        {name: "detalle", align: "left", label: "DETALLE", field: 'detalle', sortable: true,},
         { name: "opcion", label: "OPCIÓN", field: "opcion", sortable: false },
           ],
         columna2:[
@@ -370,7 +388,10 @@ import { date } from 'quasar'
       },
       misdatos() {
         this.$q.loading.show();
-        this.$axios.get("compra").then((res) => {
+        if(this.fecha==undefined || this.fecha==''){
+          this.fecha=date.formatDate(new Date(), "YYYY-MM-DD")
+        }
+        this.$axios.post("listadocompra",{fecha:this.fecha}).then((res) => {
           console.log(res.data)
           this.compras = res.data;
           this.$q.loading.hide();

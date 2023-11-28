@@ -154,8 +154,11 @@ class AgendaController extends Controller
      * @param  \App\Models\Agenda  $agenda
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agenda $agenda)
+    public function destroy( $id)
     {
         //
+        DB::SELECT("DELETE from agendadetalles where agenda_id=$id");
+        $agenda=Agenda::find($id);
+        $agenda->delete();
     }
 }

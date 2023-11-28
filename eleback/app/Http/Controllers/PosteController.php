@@ -19,18 +19,18 @@ class PosteController extends Controller
     public function index()
     {
         //
-        return Poste::all();
+        return Poste::where('estado','ACTIVO')->get();
     }
 
     public function listaposte(Request $request){
-        return Poste::where('distrito',$request->distrito)->get();
+        return Poste::where('distrito',$request->distrito)->where('estado','ACTIVO')->get();
     }
 
     public function calcularArea(Request $request){
         $distancia=$request->distancia;
         $lat1=$request->lat;
         $lng1=$request->lng;
-        $puntos=Poste::all();
+        $puntos=Poste::where('estado','ACTIVO')->get();
         //return $puntos;
         $enviar=array();
         foreach($puntos as $p){
@@ -134,6 +134,14 @@ class PosteController extends Controller
         return $poste->save();
     }
 
+    public function updateEstado($id)
+    {
+        //
+        $poste=Poste::find($id);
+        $poste->estado='INACTIVO';
+        return $poste->save();
+    }
+
     public function upPoste(Request $request)
     {
         //
@@ -166,7 +174,7 @@ class PosteController extends Controller
     }
 
     public function buscarPoste($nro){
-        return Poste::where('nroposte',$nro)->get();
+        return Poste::where('nroposte',$nro)->where('estado','ACTIVO')->get();
     }
 
     public function listplan(Request $request){
@@ -174,8 +182,9 @@ class PosteController extends Controller
         $mes=date("m",strtotime($request->fecha));
         //return $mes;
         return Poste::
-        //whereYear('fechaplan',$anio)
-       whereMonth('fechaplan',$mes)
+       whereYear('fechaplan',$anio)
+       ->whereMonth('fechaplan',$mes)
+       ->where('estado','ACTIVO')
         ->get();
     }
 }

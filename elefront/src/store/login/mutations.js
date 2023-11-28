@@ -28,6 +28,7 @@ export function auth_success(state, data){
    state.booleditacta=data.user.permisos.find(p=>p.id===19)!=undefined
    state.boolagenda=data.user.permisos.find(p=>p.id===20)!=undefined
    state.boolreportemat=data.user.permisos.find(p=>p.id===21)!=undefined
+   state.booldelposte=data.user.permisos.find(p=>p.id===22)!=undefined
 }
 export function   auth_error(state){
   state.status = 'error'
@@ -56,4 +57,5 @@ export function salir(state){
   state.booleditacta=false
   state.boolagenda=false
   state.boolreportemat=false
+  state.booldelposte=false
 }

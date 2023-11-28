@@ -25,6 +25,12 @@ class CompraController extends Controller
 
     }
 
+    public function listadocompra(Request $request){
+        $mes=date("m",strtotime($request->fecha));
+        $anio=date("Y",strtotime($request->fecha));
+        return Compra::whereMonth('fecha',$mes)->whereYear('fecha',$anio)->with('contenidos')->with('tienda')->get();
+    }
+
     public function valCompra($nro){
         return Compra::where('nrocompra',$nro)->get();
     }

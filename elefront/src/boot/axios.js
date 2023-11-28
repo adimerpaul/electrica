@@ -68,7 +68,7 @@ import axios from 'axios'
 // import Vue from 'vue';
 import { LMap, LTileLayer, LMarker,LIcon,LControl,LPopup } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-
+  
 import L from 'leaflet';
 import store from "src/store";
 // import store from './../store'

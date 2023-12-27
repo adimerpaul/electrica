@@ -24,7 +24,7 @@ class UploadController extends Controller
         if ($request->hasFile('file')) {
             $file=$request->file('file');
             $nombreArchivo =$request->distrito."-".$num.".".$file->getClientOriginalExtension();
-            $file->move(\public_path('archivos'), $nombreArchivo);
+            $file->move(\public_path('archi     vos'), $nombreArchivo);
         }
         return $nombreArchivo;
     }

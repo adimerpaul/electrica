@@ -16,7 +16,7 @@
         <q-card-section class="q-pt-xs">
           <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
                 <q-input
-                  filled
+                  outlined
                   v-model="dato.ci"
                   type="text"
                   label="CI "
@@ -26,7 +26,7 @@
                 />
 
                 <q-input
-                  filled
+                  outlined
                   v-model="dato.nombre"
                   type="text"
                   label="Nombre"
@@ -36,11 +36,17 @@
                 />
 
                 <q-input
-                  filled
+                  outlined
                   v-model="dato.telefono"
                   label="Cel / Tel"
-                  hint="numero de contacto"
-     
+                  hint="numero de contacto"     
+                />
+
+                <q-input
+                  outlined
+                  v-model="dato.unidad"
+                  label="Unidad/Oficina"
+                  hint=""     
                 />
 
             <div>
@@ -88,7 +94,7 @@
         <q-card-section class="q-pt-xs">
           <q-form @submit="onMod" class="q-gutter-md">
             <q-input
-              filled
+              outlined
               v-model="dato2.ci"
               label="ci "
               hint="Ingresar ci"
@@ -96,7 +102,7 @@
               :rules="[val =>  val.length > 0 || 'Por favor ingresa datos']"
             />
             <q-input
-              filled
+              outlined
               v-model="dato2.nombre"
               label="Nombre"
               hint="Nombre"
@@ -104,10 +110,16 @@
               :rules="[val => val.length > 0 || 'Por favor ingresa datos']"
             />
             <q-input
-              filled
+              outlined
               v-model="dato2.telefono"
               label="Tel Cel"
               hint="Celular"
+              />
+              <q-input
+              outlined
+              v-model="dato2.unidad"
+              label="Unidad/Oficina"
+              hint=""
               />
             <div>
               <q-btn label="Modificar" type="submit" color="positive" icon="add_circle" />
@@ -123,7 +135,7 @@
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="clear" color="red" text-color="white" />
-          <span class="q-ml-sm">Seguro de eliminar Registro.</span>
+          <span class="q-ml-sm">Seguro de eliminar Registro</span>
         </q-card-section>
 
         <q-card-actions align="right">

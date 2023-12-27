@@ -217,7 +217,7 @@ export default {
       dialogMod:false,
       junta:{},
       juntas:[],
-      jfilter:[],
+      jfilter:[], 
       modif:{},
       filter:'',
       datos:{fecha:date.formatDate(Date.now(),'YYYY-MM-DD')},
@@ -429,35 +429,35 @@ export default {
         this.searchActa()
       })
     },
-    getArch(event){
-      //Asignamos la imagen a  nuestra data
-      // console.log(event.target)
-      this.archivo = event.target.files[0];
-      this.porcentaje = 0
-      let id=''
-      let dist=''
-      if(this.datos.distrito!=undefined && this.datos.distrito!='')
-       dist=this.datos.distrito
-       else{
-       dist=this.modif.distrito
-       id=this.modif.id
-      }
-      const fd = new FormData()
-      fd.append('file', this.archivo)
-      fd.append('distrito', dist)
-      fd.append('id', id)
+      getArch(event){
+        //Asignamos la imagen a  nuestra data
+        // console.log(event.target)
+        this.archivo = event.target.files[0];
+        this.porcentaje = 0
+        let id=''
+        let dist=''
+        if(this.datos.distrito!=undefined && this.datos.distrito!='')
+        dist=this.datos.distrito
+        else{
+        dist=this.modif.distrito
+        id=this.modif.id
+        }
+        const fd = new FormData()
+        fd.append('file', this.archivo)
+        fd.append('distrito', dist)
+        fd.append('id', id)
 
-      this.$axios.post('upload', fd, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: (progressEvent) => {
-            this.porcentaje = Math.round((progressEvent.loaded / progressEvent.total) * 100)
-          }
-        }).then(res => {
-          this.nameFile=res.data
-           //console.log(res.data)
-        })
+        this.$axios.post('upload', fd, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: (progressEvent) => {
+              this.porcentaje = Math.round((progressEvent.loaded / progressEvent.total) * 100)
+            }
+          }).then(res => {
+            this.nameFile=res.data
+            //console.log(res.data)
+          })
 
-    },
+      },
 
     cargajunta(){
       this.juntas=[]

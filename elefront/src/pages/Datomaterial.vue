@@ -15,12 +15,12 @@
    <div class="row">
    <div class="col-6">
     <div style="width: 200px; height: 200px;">
-        <qrcode-stream @decode="onDecode"></qrcode-stream>
+        <qrcode-stream @detect="onDetect"></qrcode-stream>
       </div></div>
    <div class="col-6">
     <template v-if="correcto">
     <table>
-      <tr><th>Nro Compra</th><td>{{ info.compra.nrocompra }}</td></tr>
+      <tr><th>Nro Compra</th><td>{{ info.compra.nrocompra }}</td></tr>    
       <tr><th>Fecha Compra</th><td>{{ info.compra.fecha }}</td></tr>
       <tr><th>Proveedor/Tienda</th><td>{{ info.compra.tienda.nombre }}</td></tr>
       <tr><th>Codigo Material</th><td>{{ info.material.codigo }}</td></tr>
@@ -62,7 +62,7 @@ export default {
 
   },
   methods: {
-    onDecode (decodedString) {
+    onDetect (decodedString) {
     // ...
     console.log(decodedString)
     this.codigo=decodedString

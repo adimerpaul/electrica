@@ -23,10 +23,23 @@ class AgendaController extends Controller
     }
 
     public function listAgenda(Request $request){
+        $consulta =Agenda::with('user')->with('agendadetalles')->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin);
+        if($request->estado=='TODO')
+            $estado='';
+        else
+           $consulta->where('estado',$request->estado);
+        if($request->distrito=='TODO')
+            $distrito='';
+        else
+            $consulta->where('distrito',$request->distrito);
+        /*
         if($request->estado=='TODO')
             return Agenda::with('user')->with('agendadetalles')->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
         else
             return Agenda::with('user')->with('agendadetalles')->where('estado',$request->estado)->whereDate('fecha','>=',$request->ini)->whereDate('fecha','<=',$request->fin)->get();
+
+        */
+        return $consulta->get();
 
     }
 
@@ -72,7 +85,8 @@ class AgendaController extends Controller
     public function cambioFecha(Request $request){
         $agenda=Agenda::find($request->id);
         $agenda->fechaprog=$request->fechaprog;
-        $agenda->estado='EN PROCESO';
+        if($agenda->estado!='ASIGNADO')
+            $agenda->estado='EN PROCESO';
         $agenda->observacion=$request->observacion;
         $agenda->save();
     }
@@ -87,8 +101,27 @@ class AgendaController extends Controller
     public function asignar(Request $request){
         $agenda=Agenda::find($request->id);
         $agenda->user_id=$request->user_id;
-        $agenda->estado='REALIZADO';
+        $agenda->estado='ASIGNADO';
         $agenda->observacion=$request->observacion;
+        $agenda->save();
+    }
+    
+    public function finAgenda(Request $request){
+        //return $request;
+        foreach ($request->lista as $value) {
+            # code...
+       // return $value['id'];
+        $agenda=Agenda::find($value['id']);
+            if($agenda->estado=='ASIGNADO'){
+                $agenda->estado='REALIZADO';
+                $agenda->save();
+            }
+        }
+    }
+
+    public function habilita(Request $request){
+        $agenda=Agenda::find($request->id);
+        $agenda->estado='ASIGNADO';
         $agenda->save();
     }
 

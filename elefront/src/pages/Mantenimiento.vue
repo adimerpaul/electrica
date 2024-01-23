@@ -321,10 +321,10 @@ export default {
 
         res.data.forEach(r => {
           r.label=r.inventario.codigo
-          if(moment(r.inventario.created_at) < anio)
-            r.color='amber'
+          if(moment(r.inventario.created_at).format("YYYY-MM-DD") <= anio)
+            r.color='orange'
           else 
-            r.color=''
+            r.color='white'
           let p=this.listMaterial.find(x=>x.id===r.material_id)
           if(! p)
           {this.listMaterial.push({'id':r.material_id,label:r.material,lista:[r]})}

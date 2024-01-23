@@ -40,56 +40,62 @@
       </q-dialog>
       
         <div class="row">
-            <div class="col-3"><q-input dense outlined v-model="ini" type="date" label="Fecha Ini" /></div>
-            <div class="col-3"><q-input dense outlined v-model="fin" type="date" label="Fecha Fin" /></div>
+            <div class="col-2"><q-input dense outlined v-model="ini" type="date" label="Fecha Ini" /></div>
+            <div class="col-2"><q-input dense outlined v-model="fin" type="date" label="Fecha Fin" /></div>
             <div class="col-3"><q-select v-model="estado" :options="estado1" label="Estado" outlined dense /></div>
+            <div class="col-3"><q-select v-model="distri" :options="distritos2" label="Distritos" outlined dense /></div>
             <div class="col-2"><q-btn dense color="green" icon="search" label="Buscar" @click="Buscar" /></div>
         </div>
-      <q-table dense :filter="filter" title="CRONOGRAMA" :data="data" :columns="columns" row-key="name" :rows-per-page-options="[0,50,100]">
+      <q-table dense :filter="filter" title="CRONOGRAMA" :data="data" :columns="columns" row-key="id" :rows-per-page-options="[0,50,100]"     
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
+      :selected.sync="selected" >
+      
         <template v-slot:top-right>
-          <q-btn
-        label="Registro"
-        color="positive"
-        @click="regabrir"
-        icon="add_circle"
-        class="q-mb-xs"
-      />
+          <div class="q-pa-xs">
+            <q-btn
+            label="Registro"
+            color="positive"
+            @click="regabrir"
+            icon="add_circle"
+            class="q-mb-xs" dense
+          />
+          </div>
+          <div class="q-pa-xs"><q-btn color="cyan-10"  label="Finalizar" dense icon="check_circle_outline" @click="finAgenda"/></div>
+          
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Buscar">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
         </template>
+        
+        <template v-slot:body-cell-detalle="props">
+          <q-td key="detalle" :props="props" style="font-size: 10px;"><div v-for="d in props.row.agendadetalles" :key="d.id">{{ d.cantidad  }} {{ d.tipo}} {{ d.potencia}}</div></q-td>
+       </template>
+        <template v-slot:body-cell-estado="props">
+          <q-td :props="props">
+            <q-badge :color="props.row.color"  :label="props.row.estado" />
+            
+          </q-td>
+        </template>
 
-        <template v-slot:body="props">
-          <q-tr  :props="props" :style="'background-color:'+ props.row.color" >
-            <q-td key="opcion" :props="props">
+        <template v-slot:body-cell-opcion="props">
+            <q-td  :props="props">
               <q-btn-dropdown dense auto-close rounded color="primary" label="OP" split>
         <!-- dropdown content goes here -->
         <q-list dense style="width: 20px;">
 
-              <q-btn dense round flat color="accent"  icon="manage_accounts"  @click="cargaAsigna(props.row)" v-if="props.row.agendadetalles.length>0"/>
+              <q-btn dense round flat color="accent"  icon="manage_accounts"  @click="cargaAsigna(props.row)" v-if="props.row.agendadetalles.length>0 && props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="blue-10"  icon="today" @click="cargaFecha(props.row)" v-if="props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="orange-4"  icon="light" @click="regluminaria(props.row)" v-if="props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="orange-6" @click="editRow(props)" icon="edit" v-if="props.row.estado!='REALIZADO'"/>
               <q-btn dense round flat color="info" @click="printReport(props.row)" icon="print" v-if="props.row.fechaprog!=null"/>
               <q-btn dense round flat color="red" @click="delAgenda(props.row)" icon="delete" v-if="props.row.estado!='REALIZADO'"/>
+              <q-btn dense round flat color="indigo-14" @click="habilitar(props.row)" icon="published_with_changes" v-if="props.row.estado=='REALIZADO'"/>
         </q-list>
         </q-btn-dropdown>
-
             </q-td>
-            <q-td key="distrito" :props="props">{{ props.row.distrito }}</q-td>
-            <q-td key="junta" :props="props">{{ props.row.junta }}</q-td>
-            <q-td key="dirigente" :props="props">{{ props.row.dirigente }}</q-td>
-            <q-td key="cargo" :props="props">{{ props.row.cargo }}</q-td>
-            <q-td key="telefono" :props="props">{{ props.row.telefono }}</q-td>
-            <q-td key="fecha" :props="props">{{ props.row.fecha }}</q-td>
-            <q-td key="estado" :props="props" class="text-bold">{{ props.row.estado }}</q-td>
-            <q-td key="detalle" :props="props" style="font-size: 10px;"><div v-for="d in props.row.agendadetalles" :key="d.id">{{ d.cantidad  }} {{ d.tipo}} {{ d.potencia}}</div></q-td>
-            <q-td key="observacion" :props="props">{{ props.row.observacion }}</q-td>
-            <q-td key="fechaprog" :props="props">{{ props.row.fechaprog }}</q-td>
-            <q-td key="tecnico" :props="props">{{ props.row.tecnico }}</q-td>
-          </q-tr>
           </template>
       </q-table>
 
@@ -215,10 +221,13 @@ import moment from 'moment';
   export default {
     data() {
       return {
+        selected:[],
         estado:'TODO',
+        distri:'TODO',
         luminaria:{},
-        estado1:['TODO','INICIO','EN PROCESO','REALIZADO'],
+        estado1:['TODO','INICIO','EN PROCESO','ASIGNADO','REALIZADO'],
         distritos:['D1','D2','D3','D4','D5','D6'],
+        distritos2:['TODO','D1','D2','D3','D4','D5','D6'],
         potencia:['250w','150w','70w','40w'],
         lumtipo:['SODIO AMU','SODIO','LED'],
         agendas:[],
@@ -296,6 +305,24 @@ import moment from 'moment';
 
     },
     methods: {
+      finAgenda(){
+        if(this.selected.length<1)
+          return false
+        console.log(this.selected)
+        this.$axios.post("finAgenda",{lista:this.selected}).then((res) => {
+          console.log(res.data)
+          //return false
+          this.Buscar();
+          this.$q.notify({
+            color: "green-4",
+            icon: "info",
+            message: "finalizado",
+          });
+        })
+      },
+      getSelectedString () {
+        return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
+      },
       regabrir(){
         this.agenda={distrito:'D1'}
         this.repnombre=''
@@ -358,6 +385,31 @@ import moment from 'moment';
             color: "red-4",
             icon: "info",
             message: "Registro eliminado",
+          })
+        })
+
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+      },
+      habilitar(agenda){
+        this.$q.dialog({
+        title: 'Volver a realizar Cambios',
+        message: 'Esta seguro?',
+        cancel: true,
+        persistent: false
+      }).onOk(() => {
+        // console.log('>>>> OK')
+        this.$axios.post( "habilita", agenda).then((res) => {
+          this.Buscar()
+          this.$q.notify({
+            color: "green-4",
+            icon: "info",
+            message: "Registro habilitado",
           })
         })
 
@@ -648,7 +700,8 @@ import moment from 'moment';
       Buscar() {
         this.$q.loading.show();
         this.data=[]
-        this.$axios.post("listAgenda",{ini:this.ini,fin:this.fin,estado:this.estado}).then((res) => {
+        this.selected=[]
+        this.$axios.post("listAgenda",{ini:this.ini,fin:this.fin,estado:this.estado,distrito:this.distri}).then((res) => {
           console.log(res.data)
           res.data.forEach(r => {
             if(r.user_id==undefined || r.user_id==null)
@@ -657,17 +710,20 @@ import moment from 'moment';
               r.tecnico=r.user.name
             switch (r.estado) {
               case 'INICIO':
-                r.color='#F47104'
+                r.color='orange'
                 break;
               case 'EN PROCESO':
-                r.color='#77FF48'
+                r.color='green'
+                break;
+              case 'ASIGNADO':
+                r.color='info'
                 break;
               case 'REALIZADO':
-                r.color='white'
+                r.color='blue-grey-5'
                 break;
 
               default:
-                r.color='white'
+                r.color='blue-grey-5'
 
                 break;
             }

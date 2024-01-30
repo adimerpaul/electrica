@@ -45,6 +45,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
         Route::put('/updatePassword/{user}',[\App\Http\Controllers\UserController::class,'updatePassword']);
         Route::put('/updatepermisos/{user}',[\App\Http\Controllers\UserController::class,'updatepermisos']);
         Route::get('/listUser',[\App\Http\Controllers\UserController::class,'listUser']);
+        Route::post('/userEstado',[\App\Http\Controllers\UserController::class,'userEstado']);
         Route::resource('/permiso',\App\Http\Controllers\PermisoController::class);
     Route::post('listplan',[\App\Http\Controllers\PosteController::class,'listplan']);
     Route::post('disponible',[\App\Http\Controllers\BodegaController::class,'disponible']);
@@ -96,14 +97,14 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listAgenda', [\App\Http\Controllers\AgendaController::class,'listAgenda']);
     Route::post('cambioFecha', [\App\Http\Controllers\AgendaController::class,'cambioFecha']);
     Route::post('cambioEstado', [\App\Http\Controllers\AgendaController::class,'cambioEstado']);
-    Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']); 
-    Route::post('finAgenda', [\App\Http\Controllers\AgendaController::class,'finAgenda']); 
-    Route::post('habilita', [\App\Http\Controllers\AgendaController::class,'habilita']); 
-    
-    Route::post('reporteMaterial', [\App\Http\Controllers\SalidaController::class,'reporteMaterial']); 
-    Route::post('reportEntregaMat', [\App\Http\Controllers\SalidaController::class,'reportEntregaMat']); 
-    Route::post('reportTecnicoMat', [\App\Http\Controllers\SalidaController::class,'reportTecnicoMat']); 
-    Route::post('reportEntMat', [\App\Http\Controllers\SalidaController::class,'reportEntMat']); 
+    Route::post('asignar', [\App\Http\Controllers\AgendaController::class,'asignar']);
+    Route::post('finAgenda', [\App\Http\Controllers\AgendaController::class,'finAgenda']);
+    Route::post('habilita', [\App\Http\Controllers\AgendaController::class,'habilita']);
+
+    Route::post('reporteMaterial', [\App\Http\Controllers\SalidaController::class,'reporteMaterial']);
+    Route::post('reportEntregaMat', [\App\Http\Controllers\SalidaController::class,'reportEntregaMat']);
+    Route::post('reportTecnicoMat', [\App\Http\Controllers\SalidaController::class,'reportTecnicoMat']);
+    Route::post('reportEntMat', [\App\Http\Controllers\SalidaController::class,'reportEntMat']);
 
     Route::resource('/grupo',\App\Http\Controllers\GrupoController::class);
 
@@ -113,26 +114,26 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::resource('/boxtool',\App\Http\Controllers\BoxtoolController::class);
     Route::resource('/tool',\App\Http\Controllers\ToolController::class);
     Route::resource('/bajatool',\App\Http\Controllers\BajaToolController::class);
-    Route::post('listPrestamo', [\App\Http\Controllers\PrestamoController::class,'listPrestamo']); 
-    Route::get('listBox', [\App\Http\Controllers\BoxtoolController::class,'listBox']); 
-    
+    Route::post('listPrestamo', [\App\Http\Controllers\PrestamoController::class,'listPrestamo']);
+    Route::get('listBox', [\App\Http\Controllers\BoxtoolController::class,'listBox']);
+
  //Orden de compra ingreso parcial
     Route::resource('/ordencompra',\App\Http\Controllers\OrdencompraController::class);
     Route::resource('/ordendetalle',\App\Http\Controllers\OrdendetalleController::class);
-    Route::post('listUnid', [\App\Http\Controllers\OrdencompraController::class,'listUnid']); 
-    Route::post('listMaterial', [\App\Http\Controllers\OrdencompraController::class,'listMaterial']); 
-    Route::post('listResp', [\App\Http\Controllers\OrdencompraController::class,'listResp']); 
-    Route::post('listOrden', [\App\Http\Controllers\OrdencompraController::class,'listOrden']); 
-    Route::post('listDetalle', [\App\Http\Controllers\OrdendetalleController::class,'listDetalle']); 
+    Route::post('listUnid', [\App\Http\Controllers\OrdencompraController::class,'listUnid']);
+    Route::post('listMaterial', [\App\Http\Controllers\OrdencompraController::class,'listMaterial']);
+    Route::post('listResp', [\App\Http\Controllers\OrdencompraController::class,'listResp']);
+    Route::post('listOrden', [\App\Http\Controllers\OrdencompraController::class,'listOrden']);
+    Route::post('listDetalle', [\App\Http\Controllers\OrdendetalleController::class,'listDetalle']);
 
-    Route::post('regLuminiaria', [\App\Http\Controllers\AgendaController::class,'regLuminiaria']); 
-    Route::post('listRep', [\App\Http\Controllers\AgendaController::class,'listRep']); 
+    Route::post('regLuminiaria', [\App\Http\Controllers\AgendaController::class,'regLuminiaria']);
+    Route::post('listRep', [\App\Http\Controllers\AgendaController::class,'listRep']);
     Route::post('listJunta', [\App\Http\Controllers\AgendaController::class,'listJunta']);
 
-    Route::post('listadocompra', [\App\Http\Controllers\CompraController::class,'listadocompra']); 
-    Route::post('updateEstado/{id}', [\App\Http\Controllers\PosteController::class,'updateEstado']); 
-    
-    
-    
+    Route::post('listadocompra', [\App\Http\Controllers\CompraController::class,'listadocompra']);
+    Route::post('updateEstado/{id}', [\App\Http\Controllers\PosteController::class,'updateEstado']);
+
+
+
 });
 

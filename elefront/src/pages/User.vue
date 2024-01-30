@@ -79,6 +79,9 @@
             <q-td key="email" :props="props">
               {{props.row.email}}
             </q-td>
+            <q-td key="estado" :props="props" @click="cambioestado(props.row)">
+              <q-badge dense :color="props.row.estado=='ACTIVO'?'green':'red'"  :label="props.row.estado" />
+            </q-td>
             <q-td key="permisos" :props="props">
               <ul>
                 <li v-for="(p,i) in props.row.permisos" :key="i">{{p.nombre}}</li>
@@ -217,6 +220,7 @@
         columns: [
           {name: "name", align: "left", label: "NOMBRE ", field: "name", sortable: true,},
           {name: "email", align: "left", label: "E-MAIL", field: "email", sortable: true,},
+          {name: "estado", align: "left", label: "ESTADO", field: "estado", sortable: true,},
           {name: "permisos", align: "left", label: "PERMISOS", field: "permisos", sortable: true,},
           { name: "opcion", label: "OPCIÓN", field: "action", sortable: false },
         ],
@@ -228,7 +232,7 @@
         this.$router.replace({ path: '/home' })
       }
 
-      this.misdatos();
+      this.misdatos()
       this.$axios.get('permiso').then(res=>{
         res.data.forEach(r=>{
           this.permisos.push({id:r.id,nombre:r.nombre,estado:false})
@@ -237,6 +241,18 @@
       })
     },
     methods: {
+      cambioestado(user){
+        this.$axios.post('userEstado',user).then(res=>{
+           this.misdatos()
+           this.$q.notify({
+            color: "green-4",
+            textColor: "white",
+            icon: "check",
+            message: "correctamente",
+          })
+        })
+
+      },
       updatepermisos(){
         this.$axios.put('updatepermisos/'+this.dato2.id,{permisos:this.permisos2}).then(res=>{
           // console.log(res.data)

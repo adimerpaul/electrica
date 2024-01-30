@@ -26,6 +26,19 @@ class UserController extends Controller
             "user"=>$user
         ]);
     }
+
+    public function userEstado(Request $request){
+        $user=User::find($request->id);
+        if($user->estado=='ACTIVO'){
+            $user->estado='INACTIVO';
+        }
+        else{
+            $user->estado='ACTIVO';
+        }
+        $user->save();
+
+    }
+
     public function me(Request $request){
         $user=User::where('id',$request->user()->id)
                     ->where('estado','ACTIVO')

@@ -53,7 +53,7 @@
           <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
 
           <div class="col-6" :style="'background-color: '+ material.color"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" >
- 
+
             <template v-slot:option="scope">
                 <q-item v-bind="scope.itemProps" >
                   <q-item-section :style="'background-color: '+ scope.opt.color" @click="material=scope.opt;">
@@ -178,12 +178,12 @@ export default {
       <table class='table1'><tr><th>CODIGO</th> <th>CANTIDAD</th><th>MATERIAL</th><th>STOCK_ALMACEN</th><tr>"
 
       res.data.forEach(r => {
-      
+
         cadena+='<tr><td>'+r.codigo+'</td><td>'+r.cantidad+'</td><td>'+r.material+'</td><td>'+r.almacen+'</td></tr> '
-          
+
       })
       cadena+="</table></div>"
-      
+
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )
@@ -433,14 +433,14 @@ export default {
       <div class='titulo'><b>DETALLE </b></div>\
       <table style='padding:5px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"
         r.elementos.forEach(e => {
-      
+
         cadena+='<tr><td>'+e.cantidad+'</td><td>'+e.material+'</td><td>'+e.inventario.codigo+'</td></tr> '
-          
+
         })
         cadena+='</table><hr style=" border: 1px solid red;">'
       })
       cadena+="</div>"
-      
+
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )

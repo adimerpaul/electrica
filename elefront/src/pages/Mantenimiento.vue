@@ -80,7 +80,7 @@
               <div class="col-xs-3">
                 <b>Reclamo: </b>{{ punto.reclamo }}
               </div>
-              
+
               <div class="col-xs-6">
                 <b>Tecnico: </b>{{ punto.tecnico }}
               </div>
@@ -119,15 +119,15 @@
                   <q-select dense v-model="material" :options="listMaterial" label="Materiales" outlined @input="buscar()" />
                 </div>
                 <div class="col-md-3 col-xs-6">
-                  <q-select dense v-model="codigo" :options="codigos" label="Codigo" outlined >
-                    <template v-slot:option="scope">
+                  <q-select dense v-model="codigo" :options="codigos" label="Codigo" outlined />
+                    <!--<template v-slot:option="scope">
                       <q-item v-bind="scope.itemProps" >
                         <q-item-section :style="'background-color: '+ scope.opt.color" >
                           <q-item-label :style="scope.opt.style" >{{ scope.opt.label }}</q-item-label>
                         </q-item-section>
                       </q-item>
                     </template>
-                  </q-select>
+                  </q-select>-->
                 </div>
                 <div class="col-md-3 col-xs-6">
                   <b>Disponible:</b>{{ codigo.saldo }}
@@ -323,7 +323,7 @@ export default {
           r.label=r.inventario.codigo
           if(moment(r.inventario.created_at).format("YYYY-MM-DD") <= anio)
             r.color='orange'
-          else 
+          else
             r.color='white'
           let p=this.listMaterial.find(x=>x.id===r.material_id)
           if(! p)

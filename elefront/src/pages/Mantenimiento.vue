@@ -120,9 +120,9 @@
                 </div>
                 <div class="col-md-3 col-xs-6">
                   <q-select dense v-model="codigo" :options="codigos" label="Codigo" outlined />
-                    <!--<template v-slot:option="scope">
+                  <!--  <template v-slot:option="scope">
                       <q-item v-bind="scope.itemProps" >
-                        <q-item-section :style="'background-color: '+ scope.opt.color" >
+                        <q-item-section :style="'background-color: '+ scope.opt.color" @click="codigo=scope.opt;" >
                           <q-item-label :style="scope.opt.style" >{{ scope.opt.label }}</q-item-label>
                         </q-item-section>
                       </q-item>

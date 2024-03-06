@@ -25,6 +25,22 @@
 
       </q-table>
     </div>
+    <br>
+    <div class="row">
+      <div class="col-6 q-pa-xs"><q-select outlined dense use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnicos"  /></div>
+      <div class="col-6 q-pa-xs"><q-btn dense color="info" icon="search"  @click="listSaldo" /></div>
+
+    </div>
+    <div class="col-12">
+      <q-table
+        title="Lista material del Tecnico"
+        :data="saldo"
+
+        row-key="name"
+      />
+    </div>
+
+
 
   <div id="myelement" class="hidden"></div>
 
@@ -48,11 +64,11 @@ export default {
       salidas:[],
       materiales:[],
       filterMateriales:[],
-      tecnico:{},
+      tecnico:{label:''},
       filtertecnicos:[],
       tecnicos:[],
       detalle:[],
-
+      saldo:[],
       colsalida:[
         {name:'fecha',label:'FECHA',field:'fecha'},
         {name:'destino',label:'DESTINO',field:'destino'},
@@ -70,10 +86,39 @@ export default {
     }
   },
   created() {
+    this.getTecnico()
     this.getMaterial()
     this.generarList()
   },
   methods: {
+          filterTec (val, update) {
+        if (val === '') {
+          update(() => {
+            this.tecnicos = this.filterTecnicos
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.tecnicos = this.filterTecnicos.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+        getTecnico(){
+      this.tecnicos=[]
+      this.$axios.get("listUser").then((res) => {
+        console.log(res.data)
+        res.data.forEach(r => {
+          r.label=r.name
+          this.tecnicos.push(r)
+        })
+        this.filterTecnicos=this.tecnicos
+      })
+
+    },
     printReport(){
       this.$axios.post("reporteMaterial",{ini:this.fecha,fin:this.fecha2}).then((res) => {
         console.log(res.data)
@@ -98,17 +143,26 @@ export default {
       <table class='table1'><tr><th>CODIGO</th> <th>CANTIDAD</th><th>MATERIAL</th><th>STOCK_ALMACEN</th><tr>"
 
       res.data.forEach(r => {
-      
+
         cadena+='<tr><td>'+r.codigo+'</td><td>'+r.cantidad+'</td><td>'+r.material+'</td><td>'+r.almacen+'</td></tr> '
-          
+
       })
       cadena+="</table></div>"
-      
+
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )
         }
       })
+
+    },
+    listSaldo(){
+      if(this.tecnico.id==undefined)
+        return false
+      this.saldo=[]
+      this.$axios.post("materialTecnico/"+this.tecnico.id).then((res) => {
+          this.saldo=res.data
+        })
 
     },
     onclick(){
@@ -276,22 +330,7 @@ export default {
         this.filtertecnicos=this.tecnicos
       })
     },
-    filterTec (val, update) {
-        if (val === '') {
-          update(() => {
-            this.tecnicos = this.filtertecnicos
 
-            // here you have access to "ref" which
-            // is the Vue reference of the QSelect
-          })
-          return
-        }
-
-        update(() => {
-          const needle = val.toLowerCase()
-          this.tecnicos = this.filtertecnicos.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
-        })
-      },
     printSalida(salida){
       let contenido=''
       salida.elementos.forEach(r => {
@@ -357,14 +396,14 @@ export default {
       <div class='titulo'><b>DETALLE </b></div>\
       <table style='padding:5px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"
         r.elementos.forEach(e => {
-      
+
         cadena+='<tr><td>'+e.cantidad+'</td><td>'+e.material+'</td><td>'+e.inventario.codigo+'</td></tr> '
-          
+
         })
         cadena+='</table><hr style=" border: 1px solid red;">'
       })
       cadena+="</div>"
-      
+
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )

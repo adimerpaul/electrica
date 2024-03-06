@@ -45,7 +45,7 @@
 
       <q-card-section>
         <div class="row">
-          <div class="col-12">               
+          <div class="col-12">
             <q-select dense use-input input-debounce="0"   @input="cargaDatos" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
                         <template v-slot:no-option>
                                 <q-item>
@@ -145,7 +145,7 @@
 
       <q-card-section>
         <div class="row">
-          <div class="col-12">               
+          <div class="col-12">
             <q-select dense use-input input-debounce="0"   @input="cargaDatos2" @filter="filterFn" v-model="junta" :options="juntas" label="Junta Vecinal" outlined >
                         <template v-slot:no-option>
                                 <q-item>
@@ -211,13 +211,13 @@ import {date} from "quasar"
 export default {
   data () {
     return {
-      url:process.env.API,
+          
       dialogForm:false,
       dialogImg:false,
       dialogMod:false,
       junta:{},
       juntas:[],
-      jfilter:[], 
+      jfilter:[],
       modif:{},
       filter:'',
       datos:{fecha:date.formatDate(Date.now(),'YYYY-MM-DD')},
@@ -276,11 +276,11 @@ export default {
           this.datos.junta=''
           this.datos.distrito='D1'
           this.datos.vecino=''
-          this.datos.junta_id=null    
-   
+          this.datos.junta_id=null
+
         }
         else{
-          this.datos.junta_id=this.junta.id      
+          this.datos.junta_id=this.junta.id
           this.datos.distrito=this.junta.distrito
           this.datos.junta=this.junta.nombre
           this.datos.vecino=this.junta.representate
@@ -290,15 +290,15 @@ export default {
       cargaDatos2(){
         console.log(this.junta)
         if(this.junta.id==undefined){
-    
+
 
           this.modif.junta=''
           this.modif.vecino=''
-          this.modif.junta_id=null    
+          this.modif.junta_id=null
         }
         else{
 
-          this.modif.junta_id=this.junta.id      
+          this.modif.junta_id=this.junta.id
           this.modif.distrito=this.junta.distrito
           this.modif.junta=this.junta.nombre
           this.modif.vecino=this.junta.representate

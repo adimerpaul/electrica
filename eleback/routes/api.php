@@ -133,6 +133,8 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('listadocompra', [\App\Http\Controllers\CompraController::class,'listadocompra']);
     Route::post('updateEstado/{id}', [\App\Http\Controllers\PosteController::class,'updateEstado']);
 
+    Route::post('materialTecnico/{id}', [\App\Http\Controllers\SalidaController::class,'materialTecnico']);
+
 
 
 });

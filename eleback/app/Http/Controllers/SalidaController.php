@@ -121,16 +121,16 @@ class SalidaController extends Controller
 
     public function reporteMaterial(Request $request){
         return DB::SELECT("select e.material_id,(select codigo from materials where id=e.material_id) codigo,sum(e.cantidad) cantidad
-        ,e.material, (SELECT stock from materials where id=e.material_id) almacen 
-        from salidas s inner join elementos e on s.id=e.salida_id 
+        ,e.material, (SELECT stock from materials where id=e.material_id) almacen
+        from salidas s inner join elementos e on s.id=e.salida_id
         where s.fecha>='".$request->ini."' and s.fecha<='".$request->fin."'
         GROUP by e.material_id,e.material
         order by codigo;");
-    } 
+    }
 
     public function reportEntregaMat(Request $request){
         return DB::SELECT("SELECT s.fecha,s.destino,s.motivo,s.carro,u.name,e.cantidad,e.material,i.codigo
-        FROM salidas s inner join elementos e on s.id=e.salida_id 
+        FROM salidas s inner join elementos e on s.id=e.salida_id
         inner join users u on s.tecnico_id=u.id
         INNER join inventarios i on e.inventario_id=i.id
         where s.fecha>='$request->ini' and s.fecha<='$request->fin' and e.material_id=$request->material_id");
@@ -138,18 +138,18 @@ class SalidaController extends Controller
 
     public function reportTecnicoMat(Request $request){
         return DB::SELECT("SELECT m.codigo,e.material,sum(e.cantidad) total
-        FROM salidas s inner join elementos e on s.id=e.salida_id 
+        FROM salidas s inner join elementos e on s.id=e.salida_id
         inner join materials m on m.id=e.material_id
         where s.fecha>='$request->ini' and s.fecha<='$request->fin'
          and s.tecnico_id=$request->user_id group by m.codigo,e.material;");
     }
 
     public function reportEntMat(Request $request){
-        return DB::SELECT("SELECT s.fecha,u.name tecnico,sum(e.cantidad) total ,e.material 
-        FROM salidas s inner join elementos e on s.id=e.salida_id 
-        inner join users u on s.tecnico_id=u.id 
-        INNER join inventarios i on e.inventario_id=i.id 
-        where s.fecha>='$request->ini' and s.fecha<='$request->fin' 
+        return DB::SELECT("SELECT s.fecha,u.name tecnico,sum(e.cantidad) total ,e.material
+        FROM salidas s inner join elementos e on s.id=e.salida_id
+        inner join users u on s.tecnico_id=u.id
+        INNER join inventarios i on e.inventario_id=i.id
+        where s.fecha>='$request->ini' and s.fecha<='$request->fin'
         and e.material_id=$request->material_id group by s.fecha,u.name,e.material");
     }
     /**
@@ -195,5 +195,12 @@ class SalidaController extends Controller
     public function destroy(Salida $salida)
     {
         //
+    }
+
+    public function materialTecnico($id){
+        return DB::SELECT("SELECT date(b.created_at) fecha,b.material,i.codigo,b.saldo
+        from bodegas b INNER join materials m on b.material_id = m.id
+        inner join inventarios i on b.inventario_id=i.id
+        where b.estado='ACTIVO' and b.user_id=$id");
     }
 }

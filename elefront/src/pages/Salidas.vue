@@ -52,7 +52,8 @@
           <div class="col-md-6 col-xs-12"><q-input v-model="salida.motivo" type="text" label="Motivo" outlined dense/></div>
           <div class="col-md-6 col-xs-12"><q-select v-model="salida.carro" :options="carros" label="Carro" outlined dense/></div>
 
-          <div class="col-6" :style="'background-color: '+ material.color"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" >
+          <div class="col-6" :style="'background-color: '+ material.color">
+            <q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" >
 
             <template v-slot:option="scope">
                 <q-item v-bind="scope.itemProps" >
@@ -144,7 +145,7 @@ export default {
 
       ],
       codigo:'',
-      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA ROJA II','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores','Linea Piloto'],
+      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA ROJA II','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores','Linea Piloto','CARRO VALDE 5'],
       dialogReg:false,
     }
   },

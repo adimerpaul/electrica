@@ -35,6 +35,7 @@
             <template v-slot:body-cell-opcion="props">
               <q-td key="opcion" :props="props">
                 <q-btn color="info" icon="print" dense @click="printSalida(props.row)" />
+                <q-btn color="yellow" icon="edit" dense @click="modificar(props.row)" />
               </q-td>
             </template>
       </q-table>
@@ -102,6 +103,27 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogMod" full-width>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="shopping_cart" color="primary" text-color="white" dense size="40px"/>
+          <span class="q-ml-sm">MODIFICAR SALIDA DE MATERIAL</span>
+        </q-card-section>
+        <q-card-section>
+          <div class="row">
+          <div class="col-md-6 col-xs-12"><q-input v-model="salida2.destino" type="text" label="Destino" outlined dense /></div>
+          <div class="col-md-6 col-xs-12"><q-input v-model="salida2.motivo" type="text" label="Motivo" outlined dense/></div>
+
+        </div>
+      </q-card-section>
+        <q-card-section>
+          <div class="row">
+            <div class="col-4"><q-btn dense color="red" icon="cancel" label="CANCELAR"  v-close-popup /></div>
+            <div class="col-4"><q-btn dense color="yellow" icon="edit" label="MODIFICAR" @click="modSalida" /></div>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   <div id="myelement" class="hidden"></div>
 
   </q-page>
@@ -117,6 +139,7 @@ export default {
     return {
       filter:'',
       salida:{},
+      salida2:{},
       cantidad:1,
       material:{label:''},
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
@@ -147,6 +170,7 @@ export default {
       codigo:'',
       carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA ROJA II','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores','Linea Piloto','CARRO VALDE 5'],
       dialogReg:false,
+      dialogMod:false,
     }
   },
   created() {
@@ -326,7 +350,37 @@ export default {
         this.salida={}
         this.tecnico={label:''}
         this.detalle=[]
+        this.generarList()
         this.dialogReg=false
+        this.$q.loading.hide()
+      }).catch(error=>{
+        this.$q.notify({
+          color: "red-4",
+          icon: "info",
+          message: error.message,
+        });
+        this.$q.loading.hide()
+
+      })
+
+    },
+    modificar(registro){
+      this.salida2=registro
+      this.dialogMod=true
+    },
+    modSalida(){
+      this.$q.loading.show()
+
+      this.$axios.put("salida/"+this.salida2.id,this.salida2).then((res) => {
+        this.$q.notify({
+          color: "green-4",
+          icon: "info",
+          message: "Modificado",
+        });
+        console.log(res.data)
+        this.salida2={}
+        this.dialogMod=false
+    this.generarList()
         this.$q.loading.hide()
       }).catch(error=>{
         this.$q.notify({

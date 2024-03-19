@@ -184,6 +184,10 @@ class SalidaController extends Controller
     public function update(UpdateSalidaRequest $request, Salida $salida)
     {
         //
+        $salida=Salida::find($request->id);
+        $salida->destino=$request->destino;
+        $salida->motivo=$request->motivo;
+        $salida->save();
     }
 
     /**

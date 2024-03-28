@@ -5,7 +5,8 @@
       <div class="col-3"><q-select outlined input-debounce="0" use-input @filter="filterMat"  v-model="material" :options="materiales" label="MATERIALES" /></div>
       <div class="col-2"><q-btn color="green" icon="search" label="Buscar" @click="misdatos" /></div>
       <div class="col-2"><q-btn color="info" icon="print"  @click="printfull" /></div>
-      <div class="col-2"><q-btn color="red" icon="delete_sweep"  @click="baja" /></div>
+      <div class="col-1"><q-btn color="red" icon="delete_sweep"  @click="baja" /></div>
+      <div class="col-1"><q-btn color="red" label="PDF" dense @click="Printpdf()" /></div>
     </div>
     <q-table :filter="filter" title="LISTA DE INVENTARIO" :data="data" :columns="columns"
     row-key="id" :rows-per-page-options="[20, 50,100,0]"
@@ -132,6 +133,20 @@ export default {
       document.getElementById('myelement').innerHTML = cadena
       const d = new Printd()
       d.print( document.getElementById('myelement') )
+    },
+    Printpdf(){
+      if(this.selected.length==0)
+        return false
+        console.log(this.selected)
+      let cadena="<div style='text-align:center; font-weight: bold;'>LISTADO DE MATERIAL</div><br><table style='width:100%'><tr><th>CODIGO</th><th>NOMBRE</th><th>CANTIDAD</th><th>ESTADO</th></tr>"
+        this.selected.forEach(r => {
+          cadena+="<tr><td>"+r.codigo+"</td><td>"+r.material.nombre+"</td><td>"+r.cantidad+"</td><td>"+r.estado+"</td></tr>"
+        });
+
+      document.getElementById('myelement').innerHTML = cadena
+      const d = new Printd()
+      d.print( document.getElementById('myelement') )
+
     },
    printfull(){
      if(this.selected.length==0)

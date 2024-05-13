@@ -187,4 +187,15 @@ class PosteController extends Controller
        ->where('estado','ACTIVO')
         ->get();
     }
+
+    public function reporteCantidad(Request $request){
+        $res1= DB::SELECT("SELECT p.*,count(*) cantidad from postes p inner join reclamo r on r.poste_id=p.id
+        where r.estado='ATENDIDO' and p.estado='ACTIVO' and r.fechaman>='$request->ini' and r.fechaman<='$request->fin' group by p.id order by cantidad desc ");
+        return $res1;
+    }
+
+
+    public function report2(Request $request){
+        return Poste::where('id',$request->id)->with('reclamos')->first();
+    }
 }

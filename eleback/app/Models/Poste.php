@@ -25,4 +25,8 @@ class Poste extends Model
     'estado',
 ];
 
+    public function reclamos()
+    {
+        return $this->hasMany(Reclamo::class);
+    }
 }

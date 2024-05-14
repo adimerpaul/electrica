@@ -129,11 +129,11 @@ class SalidaController extends Controller
     }
 
     public function reportEntregaMat(Request $request){
-        return DB::SELECT("SELECT s.fecha,s.destino,s.motivo,s.carro,u.name,e.cantidad,e.material,i.codigo
+        return DB::SELECT("SELECT i.id,s.fecha,s.destino,s.motivo,s.carro,u.name,e.cantidad,e.material,i.codigo
         FROM salidas s inner join elementos e on s.id=e.salida_id
         inner join users u on s.tecnico_id=u.id
         INNER join inventarios i on e.inventario_id=i.id
-        where s.fecha>='$request->ini' and s.fecha<='$request->fin' and e.material_id=$request->material_id");
+        where s.fecha>='$request->ini' and s.fecha<='$request->fin' and e.material_id=$request->material_id order by i.id asc");
     }
 
     public function reportTecnicoMat(Request $request){

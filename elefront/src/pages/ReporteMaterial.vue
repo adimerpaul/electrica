@@ -16,6 +16,7 @@
         :filter="filter"
       >
       <template v-slot:top-right>
+        <q-btn dense color="green" icon="save_alt" label="EXCEL" @click="descarga" v-if="salidas.length>0"/>
         <q-input outlined dense debounce="300" v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
@@ -51,6 +52,7 @@ import { METHODS } from 'http';
 import { Notify } from 'quasar';
 import { date } from 'quasar'
 import {Printd} from "printd";
+import xlsx from "json-as-xlsx"
 
 export default {
   data() {
@@ -91,6 +93,38 @@ export default {
     this.generarList()
   },
   methods: {
+    descarga(){
+      if(this.salidas.length<1)
+        return false
+
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Salida Material",
+    columns: [
+        {label:'FECHA',value:'fecha'},
+        {label:'DESTINO',value:'destino'},
+        {label:'MOTIVO',value:'motivo'},
+        {label:'CARRO',value:'carro'},
+        {label:'TECNICO',value:'name'},
+        {label:'CANTIDAD',value:'cantidad'},
+        {label:'MATERIAL',value:'material'},
+        {label:'CODIGO',value:'codigo'},
+    ],
+    content: this.salidas
+  },
+
+]
+
+let settings = {
+  fileName: "ReporteMaterial", // Name of the resulting spreadsheet
+  extraLength: 6, // A bigger number means that columns will be wider
+  writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+}
+  this.$q.loading.hide()
+xlsx(dataimp, settings) // Will download the excel file
+
+    },
           filterTec (val, update) {
         if (val === '') {
           update(() => {

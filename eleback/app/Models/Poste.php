@@ -27,6 +27,6 @@ class Poste extends Model
 
     public function reclamos()
     {
-        return $this->hasMany(Reclamo::class);
+        return $this->hasMany(Reclamo::class)->with('user');
     }
 }

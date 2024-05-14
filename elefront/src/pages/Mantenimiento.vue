@@ -9,9 +9,15 @@
         <l-icon icon-url="pinyw.png" />
 
       </l-marker>
-        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];;punto=m;frmmodalpunto(m); ">        <l-icon
-          icon-url="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-        /></l-marker>
+        <l-marker v-for="m in puntos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;frmmodalpunto(m); ">
+          <l-icon>
+            <img :src="'img/'+m.color" style="width: 20px;height: 20px;"/>
+            <div class="headline">
+            {{ m.nroposte }}
+          </div>
+          </l-icon>
+
+      </l-marker>
 
         <l-control position="topright" >
           <q-btn @click="geolocate" icon="my_location" class="bg-primary text-white" dense round></q-btn>
@@ -65,12 +71,17 @@
           </template>
         </q-input>
       </template>
+      <template v-slot:top-left>
+        <q-select full-width dense use-input @filter="filterTec" v-model="tecnico" :options="tecnicos" label="Tecnico" filled />
+        <q-btn dense color="info" icon="search" @click="mispuntos" />
+      </template>
+
     </q-table>
 
     <q-dialog v-model="modalpunto" full-width>
       <q-card>
         <q-card-section>
-          <div class="text-h6">Nro poste {{poste.nroposte}} lat:{{poste.lat}} lng:{{poste.lng}}</div>
+          <div class="text-h6"><q-btn @click="eliminar(punto)" dense color="red" icon="delete" v-if="$store.state.login.user.id==punto.user_id"/> Nro poste {{poste.nroposte}} lat:{{poste.lat}} lng:{{poste.lng}} </div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -139,6 +150,7 @@
                   <q-btn color="green" icon="add_circle" dense @click="agregar" />
                 </div>
                 <div class="col-12">
+
                   <q-table
                     title="DETALLE"
                     :data="detalle"
@@ -186,6 +198,9 @@ const QRCode = require('qrcode')
 export default {
   data () {
     return {
+      tecnico:{label:''},
+      tecnicos:[{label:'TODOS',id:0}],
+      filtertecnicos:[],
       modalpunto:false,
       styleMap: true,
       detalle:[],
@@ -201,6 +216,7 @@ export default {
       cantidad:1,
       qrImage:'',
       colums:[
+        {name:"tecnico",label:"tecnico",field:row=>row.tecnico},
         {name:"nroposte",label:"nroposte",field:row=>row.poste.nroposte},
         {name:"potencia",label:"potencia",field:row=>row.poste.potencia},
         {name:"luminaria",label:"luminaria",field:row=>row.poste.luminaria},
@@ -251,10 +267,66 @@ export default {
     };
   },
   created() {
+    this.cargarTecnicos()
     this.mispuntos()
     this.cargarMaterial()
   },
   methods:{
+    eliminar(p){
+      console.log(p)
+      this.$q.dialog({
+        title: 'Eliminar',
+        message: 'Esta seguro?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        // console.log('>>>> OK')
+        this.$axios.delete("reclamo/"+p.id).then((res) => {
+          this.modalpunto=false
+          this.$q.notify({
+          color: "green-4",
+          icon: "info",
+          message: "REGISTRO ELIMINADO",
+        });
+          this.mispuntos()
+        })
+
+      }).onOk(() => {
+        // console.log('>>>> second OK catcher')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    },
+    cargarTecnicos(){
+      this.tecnicos=[ ]
+      this.$axios.get("tecMant").then((res) => {
+      this.tecnicos=[{label:'TODOS',id:0}]
+        res.data.forEach(r => {
+          r.label=r.name
+          this.tecnicos.push(r)
+        });
+        this.tecnico={label:''}
+        this.filtertecnicos=this.tecnicos
+      })
+    },
+    filterTec (val, update) {
+        if (val === '') {
+          update(() => {
+            this.tecnicos = this.filtertecnicos
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.tecnicos = this.filtertecnicos.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
     async geolocate() {
       this.ubicacion= [0, 0]
       console.log(navigator.geolocation)
@@ -480,14 +552,18 @@ export default {
       this.zoom= 13
     },
     mispuntos(){
+      if(this.tecnico.id==undefined)
+        return false
       this.$q.loading.show()
-      this.$axios.get('listmtto').then(res=>{
+      this.$axios.get('listmtto/'+this.tecnico.id).then(res=>{
         console.log(res.data)
         this.puntos=[]
         res.data.forEach(r=>{
           if(r.poste.nroposte==null) r.poste.nroposte=''
           r.lat=r.poste.lat
           r.lng=r.poste.lng
+          r.color=r.poste.color
+          r.nroposte=r.poste.nroposte
           r.fechaman=date.formatDate(new Date(),'YYYY-MM-DD')
           r.horaman=date.formatDate(new Date(),'HH:mm')
           this.puntos.push(r)

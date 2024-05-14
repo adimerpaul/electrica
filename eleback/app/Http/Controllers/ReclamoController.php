@@ -282,8 +282,11 @@ class ReclamoController extends Controller
      * @param  \App\Models\Reclamo  $reclamo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reclamo $reclamo)
+    public function destroy($id)
     {
         //
+        $reclamo=Reclamo::find($id);
+        $reclamo->delete();
+
     }
 }

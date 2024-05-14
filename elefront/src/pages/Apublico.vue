@@ -123,7 +123,7 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
-        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" 
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()"
          title="Usted esta Aqui"
         >
         <l-icon
@@ -392,8 +392,11 @@ export default {
       this.punto={}
       this.punto.lat=this.lat.toFixed(10)
       this.punto.lng=this.lng.toFixed(10)
-
       this.dialogRegistro=true
+      this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
+          console.log(res.data)
+          this.datos=res.data
+         })
     },
 
     verpuntos(){

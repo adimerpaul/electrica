@@ -57,10 +57,17 @@ class PosteController extends Controller
     }
     return (round($distance,2));
   }
-    public function listmtto(){
-        return Reclamo::with('poste')->where('tipo','MTTO')->where('estado','EN ESPERA')->get();
-    }
 
+    public function tecMant(){
+        return DB::SELECT("SELECT u.id,u.name from reclamos r inner join users u on r.user_id=u.id
+        where r.tipo='MTTO' and r.estado='EN ESPERA' group by u.id,u.name" );
+      }
+        public function listmtto($id){
+            if($id==0)
+                return Reclamo::with('poste')->where('tipo','MTTO')->where('estado','EN ESPERA')->get();
+            else
+                return Reclamo::where('user_id',$id)->with('poste')->where('tipo','MTTO')->where('estado','EN ESPERA')->get();
+        }
     /**
      * Show the form for creating a new resource.
      *

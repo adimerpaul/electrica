@@ -27,7 +27,7 @@
       <template v-slot:body-cell-elementos="props">
               <q-td key="elementos" :props="props">
                 <div v-for=" mat in props.row.elementos" :key="mat.id">
-                  {{ mat.cantidad }} {{ mat.material }} - {{ mat.inventario.num }}
+                  {{ mat.cantidad }} {{ mat.material }} - {{ mat.inventario.num }} {{ mat.inventario.letra }}
                 </div>
 
               </q-td>

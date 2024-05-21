@@ -24,13 +24,13 @@
             <q-form @submit="registrar" @reset="onReset" class="q-gutter-md">
                         <div class="q-pd-md" v-if="mensaje!=''" style="color:red">{{mensaje}}</div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <q-input dense outlined v-model="dato.nrocompra" label="Nro Compra/Serv/ANPE" />
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <q-select dense outlined v-model="dato.tipo" :options="['OC','OS','AN']" label="Tipo Orden" />
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <q-input dense outlined v-model="dato.fechacompra" type="date" label="Fecha Compra" />
                     </div>
                     <div class="col-4">
@@ -186,7 +186,7 @@ import { date } from 'quasar'
         fecha:date.formatDate(new Date(), "YYYY-MM-DD"),
         listado:[],
         filter:'',
-        dato: {},
+        dato: {tipo:'OC'},
         model:'',
         dato2: {},
         options: [],
@@ -333,7 +333,7 @@ import { date } from 'quasar'
             message: "Creado correctamente",
           });
           this.alert=false
-          this.dato={}
+          this.dato={tipo:'OC'}
             this.listado=[]
           this.$q.loading.hide();
 
@@ -416,7 +416,7 @@ import { date } from 'quasar'
             icon: "cloud_done",
             message: "Creado correctamente",
           });
-          this.dato={}
+          this.dato={tipo:'OC'}
           this.alert = false;
           this.misdatos();
         }).catch(err=>{
@@ -452,7 +452,7 @@ import { date } from 'quasar'
         })
       },
       onReset() {
-        this.dato= {};
+        this.dato= {tipo:'OC'};
       },
     },
   };

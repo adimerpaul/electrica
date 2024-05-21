@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
             $table->string('nrocompra')->nullable();
+            $table->string('tipo')->nullable();
             $table->string('nrovale')->nullable();
             $table->date('fecha');
             $table->date('fechacompra')->nullable();

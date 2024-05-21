@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('codigo');
             $table->string('letra')->nullable();
             $table->integer('num')->nullable();
+            $table->string('norden')->nullable();
+            $table->string('tiporden')->nullable();
             $table->string('gestion')->nullable();
             $table->string('estado')->default('ACTIVO');
             $table->unsignedBigInteger('material_id');

@@ -12,10 +12,8 @@
         class="q-mb-xs"
       />
         </div>
-      
 
       </div>
-
 
       <q-dialog v-model="alert">
         <q-card style="max-width: 80%; width: 70%">
@@ -27,7 +25,10 @@
                         <div class="q-pd-md" v-if="mensaje!=''" style="color:red">{{mensaje}}</div>
                 <div class="row">
                     <div class="col-6">
-                        <q-input dense outlined v-model="dato.nrocompra" type="number" label="Nro Compra" />
+                        <q-input dense outlined v-model="dato.nrocompra" label="Nro Compra/Serv/ANPE" />
+                    </div>
+                    <div class="col-6">
+                        <q-select dense outlined v-model="dato.tipo" :options="['OC','OS','AN']" label="Tipo Orden" />
                     </div>
                     <div class="col-6">
                         <q-input dense outlined v-model="dato.fechacompra" type="date" label="Fecha Compra" />

@@ -66,6 +66,7 @@ class CompraController extends Controller
 */
         $compra=new Compra();
         $compra->nrocompra=$request->nrocompra;
+        $compra->tipo=$request->tipo;
         $compra->nrovale=$request->nrovale;
         $compra->fechacompra=$request->fechacompra;
         $compra->fecha=$request->fecha;
@@ -97,6 +98,8 @@ class CompraController extends Controller
                 $inv->cantidad=1;
                 $inv->codigo=$gestion.'-'.$material->codigo.'-'.$numero.$tienda->codigo;
                 $inv->num=$numero;
+                $inv->norden=$compra->nrocompra;
+                $inv->tiporden=$compra->tipo;
                 $inv->letra=$tienda->codigo;
                 $inv->gestion=$gestion;
                 $inv->material_id=$material->id;
@@ -162,6 +165,7 @@ class CompraController extends Controller
         $compra=Compra::find($request->id);
         $compra->nrocompra=$request->nrocompra;
         $compra->nrovale=$request->nrovale;
+        $compra->tipo=$request->tipo;
         $compra->fechacompra=$request->fechacompra;
         $compra->save();
     }

@@ -40,13 +40,13 @@ class ReclamoController extends Controller
         if($request->id==0){
         return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
         ->whereDate('fechaman','>=',$request->ini)
-        ->whereDate('fechaman','<=',$request->fin)->get();
+        ->whereDate('fechaman','<=',$request->fin)->orderBy('fechaman','asc')->get();
         }
         else{
             return Reclamo::with('persona')->with('poste')->where('estado','ATENDIDO')
             ->where('user_id',$request->id)
             ->whereDate('fechaman','>=',$request->ini)
-            ->whereDate('fechaman','<=',$request->fin)->get();
+            ->whereDate('fechaman','<=',$request->fin)->orderBy('fechaman','asc')->get();
         }
     }
 

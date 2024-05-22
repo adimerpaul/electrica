@@ -486,10 +486,10 @@ export default {
       <div><b>DESTINO: </b>"+r.destino+"</div>\
       <div><b>MOTIVO: </b>"+r.motivo+"</div><hr>\
       <div class='titulo'><b>DETALLE </b></div>\
-      <table style='padding:5px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th></tr>"
+      <table style='padding:5px'><tr><th>CANTIDAD</th><th>MATERIAL</th><th>CODIGO</th><th>ORDEN</th></tr>"
         r.elementos.forEach(e => {
 
-        cadena+='<tr><td>'+e.cantidad+'</td><td>'+e.material+'</td><td>'+e.inventario.codigo+'</td></tr> '
+        cadena+='<tr><td>'+e.cantidad+'</td><td>'+e.material+'</td><td>'+e.inventario.codigo+'</td><td>'+e.inventario.tiporden+' '+e.inventario.norden+'</td></tr> '
 
         })
         cadena+='</table><hr style=" border: 1px solid red;">'

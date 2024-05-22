@@ -10,6 +10,7 @@ use App\Http\Requests\StoreCompraRequest;
 use App\Http\Requests\UpdateCompraRequest;
 use App\Models\Inventario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompraController extends Controller
 {
@@ -164,10 +165,12 @@ class CompraController extends Controller
         //
         $compra=Compra::find($request->id);
         $compra->nrocompra=$request->nrocompra;
-        $compra->nrovale=$request->nrovale;
         $compra->tipo=$request->tipo;
         $compra->fechacompra=$request->fechacompra;
+        $compra->nrovale=$request->nrovale;
         $compra->save();
+
+        DB::SELECT("UPDATE inventarios set norden=$compra->nrocompra, tiporden=$compra->tipo where compra_id=$compra->id ");
     }
 
     /**

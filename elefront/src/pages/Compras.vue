@@ -120,8 +120,9 @@
           </q-card-section>
           <q-card-section>
             <div class="row">
-              <div class="col-6"><q-input outlined v-model="compra.nrocompra" type="number" label="Nro Compra" /></div>
-              <div class="col-6"><q-input outlined v-model="compra.fechacompra" type="date" label="Fecha Compra" /></div>
+              <div class="col-4"><q-input outlined v-model="compra.nrocompra" type="text" label="Nro OC/OS/ANPE" /></div>
+              <div class="col-4"><q-select outlined v-model="compra.tipo" :options="['OC','OS','ANPE']" label="Tipo Orden" /></div>
+              <div class="col-4"><q-input outlined v-model="compra.fechacompra" type="date" label="Fecha Compra" /></div>
               <div class="col-6"><q-input outlined v-model="compra.nrovale" type="number" label="Nro Vale" /></div>
             </div>
 

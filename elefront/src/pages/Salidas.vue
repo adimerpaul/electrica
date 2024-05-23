@@ -191,10 +191,12 @@ export default {
       impresion.forEach(r => {
         cadena=''
         r.elementos.forEach(p => {
-          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra +' '+p.inventario.tiporden+' '+p.inventario.norden+' * ' 
+          if(p.inventario.tiporden==null) p.inventario.tiporden=''
+          if(p.inventario.norden==null) p.inventario.norden=''
+          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra +' '+p.inventario.tiporden+' '+p.inventario.norden+' * '
         });
         r.datos=cadena
-        
+
       });
         this.$q.loading.show();
         let dataimp = [

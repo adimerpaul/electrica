@@ -36,12 +36,8 @@
         :columns="columns"
       >
         <template v-slot:top-right>
-          <q-btn
-            color="primary"
-            icon-right="archive"
-            label="Exportar PDF"
-            @click="exportPdf"
-          />
+          <q-btn color="primary" icon-right="archive" label="Exportar PDF" @click="exportPdf" />
+          <q-btn color="green"  label="EXCEL" @click="descarga" />
         </template>
       </q-table>
     </div>
@@ -55,6 +51,7 @@ import {date} from "quasar"
 import {jsPDF} from "jspdf"
 import { exportFile } from 'quasar'
 import {Printd} from "printd";
+import xlsx from "json-as-xlsx"
 
 
 export default {
@@ -98,6 +95,47 @@ export default {
   },
 
   methods:{
+    descarga(){
+      if(this.misdenuncias.length<1)
+        return false
+      //return false
+      let con=0
+      this.misdenuncias.forEach(r=>{
+            r.orden=con++
+            if(r.tecnico==null) r.tecnico=''
+            if(r.fechaman==null) r.fechaman=''
+            if(r.actividad==null) r.actividad=''
+            if(r.persona==undefined) r.persona={nombre:'',ci:'',telefono:''}
+ })
+
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Reporte",
+    columns: [
+        {label:'N',value:'orden'},
+        {label:'FECHA',value:'fecha'},
+        {label:'N poste',value:row=>row.poste.nroposte},
+        {label:'estado',value:'estado'},
+        {label:'contribuyente',value:row=>row.persona.nombre},
+        {label:'ci',value:row=>row.persona.ci},
+        {label:'tecnico',value:'tecnico'},
+        {label:'fecha man',value:'fechaman'},
+        {label:'actividad',value:'actividad'},
+    ],
+    content: impresion
+  },
+]
+    let settings = {
+      fileName: "ReporteMtto", // Name of the resulting spreadsheet
+      extraLength: 6, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+      this.$q.loading.hide()
+    xlsx(dataimp, settings) // Will download the excel file
+
+    },
+
     filterUs (val, update) {
         if (val === '') {
           update(() => {

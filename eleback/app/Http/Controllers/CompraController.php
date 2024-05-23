@@ -170,7 +170,7 @@ class CompraController extends Controller
         $compra->nrovale=$request->nrovale;
         $compra->save();
 
-        DB::SELECT("UPDATE inventarios set norden=$compra->nrocompra, tiporden=$compra->tipo where compra_id=$compra->id ");
+        DB::SELECT("UPDATE inventarios set norden='".$compra->nrocompra."', tiporden='".$compra->tipo."' where compra_id=".$compra->id);
     }
 
     /**

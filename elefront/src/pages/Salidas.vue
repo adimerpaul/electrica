@@ -191,7 +191,7 @@ export default {
       impresion.forEach(r => {
         cadena=''
         r.elementos.forEach(p => {
-          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra+' * ' 
+          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra +' '+p.inventario.tiporden+' '+p.inventario.norden+' * ' 
         });
         r.datos=cadena
         

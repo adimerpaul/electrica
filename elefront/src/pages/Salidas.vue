@@ -5,7 +5,8 @@
     <div class="row">
       <div class="col-4 q-pa-xs"><q-input dense v-model="fecha" type="date" label="Fecha" outlined/></div>
       <div class="col-4"><q-btn color="green" icon="search" label="Buscar" @click="generarList" /></div>
-      <div class="col-4"><q-btn color="info" icon="print" label="Impresion" @click="printDia" /></div>
+      <div class="col-2"><q-btn color="info" icon="print" label="Impresion" @click="printDia" /></div>
+      <div class="col-2"><q-btn color="green" icon="download" label="EXCEL" @click="descarga" /></div>
       <div class="col-4 q-pa-xs"><q-input dense v-model="fecha2" type="date" label="Fecha2" outlined/></div>
       <div class="col-4"><q-btn color="accent" icon="print" label="Reporte" @click="printReport" /></div>
     </div>
@@ -133,6 +134,7 @@ import { METHODS } from 'http';
 import { Notify } from 'quasar';
 import { date } from 'quasar'
 import {Printd} from "printd";
+import xlsx from "json-as-xlsx"
 
 export default {
   data() {
@@ -179,6 +181,47 @@ export default {
     this.generarList()
   },
   methods: {
+    descarga(){
+      if(this.salidas.length<1)
+        return false
+      let impresion=this.salidas
+      let cadena=''
+      console.log(this.salidas)
+      //return false
+      impresion.forEach(r => {
+        cadena=''
+        r.elementos.forEach(p => {
+          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra+' * ' 
+        });
+        r.datos=cadena
+        
+      });
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Salida Material",
+    columns: [
+        {label:'FECHA',value:'fecha'},
+        {label:'DESTINO',value:'destino'},
+        {label:'MOTIVO',value:'motivo'},
+        {label:'CARRO',value:'carro'},
+        {label:'TECNICO',value:row=>row.tecnico.name},
+        {label:'material',value:'datos'},
+    ],
+    content: impresion
+  },
+
+]
+
+let settings = {
+  fileName: "ReporteMaterial", // Name of the resulting spreadsheet
+  extraLength: 6, // A bigger number means that columns will be wider
+  writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+}
+  this.$q.loading.hide()
+xlsx(dataimp, settings) // Will download the excel file
+
+    },
     printReport(){
       this.$axios.post("reporteMaterial",{ini:this.fecha,fin:this.fecha2}).then((res) => {
         console.log(res.data)

@@ -185,17 +185,23 @@ export default {
       if(this.salidas.length<1)
         return false
       let impresion=this.salidas
-      let cadena=''
+      let cadena=[]
       console.log(this.salidas)
       //return false
       impresion.forEach(r => {
-        cadena=''
+        
         r.elementos.forEach(p => {
           if(p.inventario.tiporden==null) p.inventario.tiporden=''
           if(p.inventario.norden==null) p.inventario.norden=''
-          cadena+=p.cantidad +' ' + p.material +' - ' + p.inventario.num +' '+ p.inventario.letra +' '+p.inventario.tiporden+' '+p.inventario.norden+' * '
+          r.cantidad=p.cantidad
+          r.material= p.material 
+          r.invnum= p.inventario.num
+          r.invletra=p.inventario.letra 
+          r.tiporden=p.inventario.tiporden
+          r.norden=p.inventario.norden
+          cadena.push(r)
         });
-        r.datos=cadena
+        
 
       });
         this.$q.loading.show();
@@ -208,9 +214,13 @@ export default {
         {label:'MOTIVO',value:'motivo'},
         {label:'CARRO',value:'carro'},
         {label:'TECNICO',value:row=>row.tecnico.name},
-        {label:'material',value:'datos'},
+        {label:'CANTIDAD',value:'cantidad'},
+        {label:'NUMERO',value:'invnum'},
+        {label:'LETRA',value:'invletra'},
+        {label:'TIP ORDEN',value:'tiporden'},
+        {label:'N ORDEN',value:'norden'},
     ],
-    content: impresion
+    content: cadena
   },
 
 ]

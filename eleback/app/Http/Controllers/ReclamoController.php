@@ -289,4 +289,8 @@ class ReclamoController extends Controller
         $reclamo->delete();
 
     }
+    /**
+     * SELECT r.fechaman,r.horaman, p.lat,p.lng,p.nroposte,p.material,r.tecnico,b.material,i.codigo FROM reclamos r inner join detalles d on r.id=d.reclamo_id inner join postes p on p.id=r.poste_id inner join bodegas b on d.bodega_id=b.id inner join inventarios i on i.id=b.inventario_id where b.material_id=5;
+    SELECT r.fecha,r.hora, r.lat,r.lng,r.lugar,u.name,b.material,i.codigo FROM trabajos r inner join trabajodetalles d on r.id=d.trabajo_id inner join bodegas b on d.bodega_id=b.id inner join inventarios i on i.id=b.inventario_id inner join users u on r.user_id=u.id where b.material_id=5
+     */
 }

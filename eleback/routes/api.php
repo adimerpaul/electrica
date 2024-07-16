@@ -54,6 +54,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('upPoste',[\App\Http\Controllers\PosteController::class,'upPoste']);
     Route::post('listsalida',[\App\Http\Controllers\SalidaController::class,'listsalida']);
+    Route::post('listsalida2',[\App\Http\Controllers\SalidaController::class,'listsalida2']);
     Route::post('me',[\App\Http\Controllers\UserController::class,'me']);
     Route::get('listmtto/{id}',[\App\Http\Controllers\PosteController::class,'listmtto']);
     Route::get('listAtencion',[\App\Http\Controllers\ReclamoController::class,'listAtencion']);

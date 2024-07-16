@@ -100,12 +100,14 @@ export default {
         return false
       //return false
       let con=0
+      let impresion=[]
       this.misdenuncias.forEach(r=>{
             r.orden=con++
             if(r.tecnico==null) r.tecnico=''
             if(r.fechaman==null) r.fechaman=''
             if(r.actividad==null) r.actividad=''
             if(r.persona==undefined) r.persona={nombre:'',ci:'',telefono:''}
+            impresion.push(r)
  })
 
         this.$q.loading.show();

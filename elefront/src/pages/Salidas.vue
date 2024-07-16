@@ -153,6 +153,7 @@ export default {
       filtertecnicos:[],
       tecnicos:[],
       detalle:[],
+      datoexcel:[],
       columna:[
         {name:'cant',label:'Cantidad',field:'cant'},
         {name:'codigo',label:'codigo',field:'codigo'},
@@ -182,28 +183,9 @@ export default {
   },
   methods: {
     descarga(){
-      if(this.salidas.length<1)
+      if(this.datoexcel.length<1)
         return false
-      let impresion=this.salidas
-      let cadena=[]
-      console.log(this.salidas)
-      //return false
-      impresion.forEach(r => {
-        
-        r.elementos.forEach(p => {
-          if(p.inventario.tiporden==null) p.inventario.tiporden=''
-          if(p.inventario.norden==null) p.inventario.norden=''
-          r.cantidad=p.cantidad
-          r.material= p.material 
-          r.invnum= p.inventario.num
-          r.invletra=p.inventario.letra 
-          r.tiporden=p.inventario.tiporden
-          r.norden=p.inventario.norden
-          cadena.push(r)
-        });
-        
-
-      });
+      let impresion=this.datoexcel
         this.$q.loading.show();
         let dataimp = [
   {
@@ -213,14 +195,15 @@ export default {
         {label:'DESTINO',value:'destino'},
         {label:'MOTIVO',value:'motivo'},
         {label:'CARRO',value:'carro'},
-        {label:'TECNICO',value:row=>row.tecnico.name},
+        {label:'TECNICO',value:'name'},
         {label:'CANTIDAD',value:'cantidad'},
-        {label:'NUMERO',value:'invnum'},
-        {label:'LETRA',value:'invletra'},
+        {label:'MATERIAL',value:'material'},
+        {label:'NUMERO',value:'num'},
+        {label:'LETRA',value:'letra'},
         {label:'TIP ORDEN',value:'tiporden'},
         {label:'N ORDEN',value:'norden'},
     ],
-    content: cadena
+    content: impresion
   },
 
 ]
@@ -370,6 +353,9 @@ xlsx(dataimp, settings) // Will download the excel file
         return false
       this.$axios.post("listsalida",{fecha:this.fecha}).then((res) => {
         this.salidas=res.data
+        this.$axios.post("listsalida2",{fecha:this.fecha}).then((res) => {
+        this.datoexcel=res.data
+      })
       })
 
     },

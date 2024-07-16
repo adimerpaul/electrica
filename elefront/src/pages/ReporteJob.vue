@@ -45,11 +45,8 @@
         :filter="filter"
       >
       <template v-slot:top-right>
-        <q-btn
-            color="red"
-            label="PDF"
-            @click="exportPdf"
-          />
+        <q-btn color="red" label="PDF" @click="exportPdf" />
+        <q-btn color="green" label="EXCEL" @click="descarga" />
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon name="search" />
@@ -69,6 +66,7 @@ import {date} from "quasar"
 import {jsPDF} from "jspdf"
 import { exportFile } from 'quasar'
 import {Printd} from "printd";
+import xlsx from "json-as-xlsx"
 
 export default {
   name: `Reportejob`,
@@ -106,6 +104,40 @@ export default {
     }
   },
   methods:{
+    descarga(){
+      if(this.misjobs.length<1)
+        return false
+      //return false
+      let impresion=this.misjobs
+        this.userprint=this.user
+        this.tiprint=this.tipo
+        this.ini=this.fecha1
+        this.fin=this.fecha2
+
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Reporte",
+    columns: [
+        {label:'FECHA',value:'fecha'},
+        {label:'HORA',value:'hora'},
+        {label:'LUGAR',value:'lugar'},
+        {label:'TECNICO',value:row=>row.user.name},
+        {label:'TIPO',value:'tipo'},
+        {label:'ACTIVIDAD',value:'actividad'},
+    ],
+    content: impresion
+  },
+]
+    let settings = {
+      fileName: "ReporteMtto", // Name of the resulting spreadsheet
+      extraLength: 6, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+      this.$q.loading.hide()
+    xlsx(dataimp, settings) // Will download the excel file
+
+    },
     filterUs (val, update) {
         if (val === '') {
           update(() => {

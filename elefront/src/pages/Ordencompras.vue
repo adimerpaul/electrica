@@ -18,7 +18,7 @@
                         <div class="q-pd-md" v-if="mensaje!=''" style="color:red">{{mensaje}}</div>
                 <div class="row">
                     <div class="col-6">
-                        <q-input dense outlined v-model="dato.norden" type="number" label="Nro Orden Compra" required />
+                        <q-input dense outlined v-model="dato.norden"  label="Nro Orden Compra" required />
                     </div>
                     <div class="col-6">
                         <q-input dense outlined v-model="dato.fecha" type="date" label="Fecha" lazy-rules :rules="[(val) => (val && val.length > 0) || 'Por favor ingresa Fecha']" required/>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-6"><q-select use-input input-debounce="0" @filter="filterTienda" dense v-model="tienda" :options="tiendas" label="Tienda/Proveedor" outlined  /></div>
                     <div class="col-6"><b>REPRESENTANTE: </b> {{ tienda.representante }}<br><b>DIRECCION: </b> {{ tienda.direccion }}<br><b>TELEFONO: </b> {{ tienda.telefono }}</div>
-                
+
                     <div class="col-2"><q-input dense outlined v-model="det.unidad" label="Unidad" lazy-rules  list="unidades"/>
                         <datalist id="unidades">
                           <option v-for="u in unidades" :key="u.unidad">{{u.unidad}}</option>
@@ -110,7 +110,7 @@
         </template>
         <template v-slot:body-cell-estado="props">
             <q-td key="estado" :props="props">
-              <q-badge :color="props.row.estado=='COMPLETADO'?'green':'red'"  :label="props.row.estado" />  
+              <q-badge :color="props.row.estado=='COMPLETADO'?'green':'red'"  :label="props.row.estado" />
             </q-td>
         </template>
       </q-table>
@@ -180,13 +180,13 @@
               @submit="regIngreso"
               @reset="onReset"
               class="q-gutter-md"
-            >           
+            >
           <q-card-section>
             <div class="row">
               <div class="col-6 q-pa-xs"><q-input dense outlined v-model="ingreso.cantidad" type="number" label="Cantidad" required/></div>
               <div class="col-6 q-pa-xs"><q-input dense outlined v-model="ingreso.vale"  label="Nro Vale" /></div>
               <div class="col-12 q-pa-xs"><q-input dense outlined v-model="ingreso.obs"  label="Observacion" /></div>
-            </div>              
+            </div>
               <div>
               </div>
           </q-card-section>
@@ -199,7 +199,7 @@
       </q-dialog>
 
       <q-dialog v-model="dialog_ver" >
-        <q-card style="max-width: 80%; width: 70%"> 
+        <q-card style="max-width: 80%; width: 70%">
           <q-card-section class="row items-center bg-primary text-white">
             <span class="q-ml-sm text-weight-bold">HISTORIAL DE INGRESO A ALMACEN</span>
           </q-card-section>
@@ -496,8 +496,8 @@ import { date } from 'quasar'
             console.log('error2 ing')
             return false
             }
-                
-                        
+
+
             this.detalle.push(this.det)
             this.det={'cantidad':1}
         },

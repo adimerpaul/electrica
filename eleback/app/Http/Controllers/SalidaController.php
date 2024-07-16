@@ -35,6 +35,14 @@ class SalidaController extends Controller
         return Salida::with('elementos')->with('tecnico')->whereDate('fecha',$request->fecha)->get();
     }
 
+    public function listsalida2(Request $request){
+        return
+        DB::SELECT("SELECT s.fecha,s.destino,s.motivo,s.carro,u.name,e.cantidad,e.material,i.num,i.letra,i.tiporden,i.norden from salidas s inner join elementos e on s.id=e.salida_id
+        inner join inventarios i on e.inventario_id=i.id
+        inner join users u on s.tecnico_id=u.id where s.fecha='$request->fecha'");
+
+    }
+
     public function create()
     {
         //

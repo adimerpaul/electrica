@@ -139,4 +139,15 @@ class TrabajoController extends Controller
     {
         //
     }
+
+    public function reportTrabMaterial(Request $request){
+        return DB::SELECT("SELECT r.fecha,r.hora, r.lat,r.lng,r.lugar,u.name,b.material,i.codigo
+        FROM trabajos r inner join trabajodetalles d on r.id=d.trabajo_id
+        inner join bodegas b on d.bodega_id=b.id
+        inner join inventarios i on i.id=b.inventario_id
+        inner join users u on r.user_id=u.id
+        where b.material_id=$request->material_id
+        and r.fecha>='$request->ini'
+        and r.fecha<='$request->fin'");
+    }
 }

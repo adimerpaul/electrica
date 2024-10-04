@@ -14,13 +14,14 @@
                 <q-input outlined dense label="Fecha fin" type="date" v-model="fecha2" required/>
               </div>
               <div class="col-xs-12 col-md-3">
-                <q-toggle
+                <q-select v-model="tipo" :options="lTipo" label="Seleccionar" outlined dense />
+                <!--<q-toggle
                   v-model="tipo"
                   color="green"
                   :label="tipo"
                   true-value="PLAZAS Y PARQUES"
                   false-value="DEPENDENCIAS"
-                /></div>
+                />--></div>
               <div class="col-12 col-sm-3">
                 <q-select outlined dense label="Usuario" v-model="user" :options="users" use-input @filter="filterUs" />
               </div>
@@ -57,6 +58,18 @@
       </q-table>
     </div>
   </div>
+  <q-table
+    title="Listado Reporte Material en Mtto"
+    :data="listRepMaterial"
+    row-key="name"
+
+    >
+    <template v-slot:top-right>
+          <div class="col-4"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" filled /></div>
+          <q-btn color="green"  label="Buscar" @click="getRepMaterial" dense/>
+          <q-btn color="indigo"  label="EXCEL" @click="generarExcel" dense/>
+        </template>
+    </q-table>
   <div id="myelement" class="hidden"></div>
 
 </q-page>
@@ -73,6 +86,11 @@ export default {
   data(){
     return{
       tipo:"PLAZAS Y PARQUES",
+      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS'],
+      material:{label:''},
+      materiales:[],
+      filterMateriales:[],
+      listRepMaterial:[],
       tiprint:'',
       filter:'',
       fecha1:date.formatDate(new Date(),'YYYY-MM-DD'),
@@ -102,8 +120,69 @@ export default {
     if (!this.$store.state.login.boolreporte){
        this.$router.replace({ path: '/home' })
     }
+    this.getMaterial()
   },
   methods:{
+    generarExcel(){
+    let dataimp = [
+  {
+    sheet: "Reporte",
+    columns: [
+        {label:'FECHA',value:'fecha'},
+        {label:'HORA',value:'hora'},
+        {label:'LAT',value:'lat'},
+        {label:'LNG',value:'lng'},
+        {label:'LUGAR',value: 'lugar'},
+        {label:'TECNICO',value:'name'},
+        {label:'MATERIAL',value:'material'},
+        {label:'CODIGO',value:'codigo'},
+    ],
+    content: this.listRepMaterial
+  },
+]
+    let settings = {
+      fileName: "ReporteMaterialMttoDep", // Name of the resulting spreadsheet
+      extraLength: 6, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+      this.$q.loading.hide()
+    xlsx(dataimp, settings) // Will download the excel file
+
+  },
+    getRepMaterial(){
+      if(this.material.id==undefined) return false
+      this.$axios.post("reportTrabMaterial",{material_id:this.material.id,ini:this.fecha1,fin:this.fecha2}).then((res) => {
+        console.log(res.data)
+        this.listRepMaterial=res.data
+      })
+
+    },
+    filterMat (val, update) {
+        if (val === '') {
+          update(() => {
+            this.materiales = this.filterMateriales
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.materiales = this.filterMateriales.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+    getMaterial(){
+      this.materiales=[]
+      this.$axios.get("listmaterial").then((res) => {
+        res.data.forEach(r => {
+          r.label=r.nombre
+          this.materiales.push(r)
+        })
+        this.filterMateriales=this.materiales
+      })
+    },
     descarga(){
       if(this.misjobs.length<1)
         return false

@@ -36,9 +36,19 @@
       <q-table
         title="Lista material del Tecnico"
         :data="saldo"
-
         row-key="name"
-      />
+        :filter="filterbuscar"
+      >
+      <template v-slot:top-right>
+        <q-btn dense color="green" icon="save_alt" label="EXCEL" @click="desPendiente" v-if="saldo.length>0"/>
+        <q-input outlined dense debounce="300" v-model="filterbuscar" placeholder="Buscar">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+      </q-table>
+
     </div>
 
 
@@ -69,8 +79,10 @@ export default {
       tecnico:{label:''},
       filtertecnicos:[],
       tecnicos:[],
+      user:{},
       detalle:[],
       saldo:[],
+      filterbuscar:'',
       colsalida:[
         {name:'fecha',label:'FECHA',field:'fecha'},
         {name:'destino',label:'DESTINO',field:'destino'},
@@ -93,6 +105,34 @@ export default {
     this.generarList()
   },
   methods: {
+    desPendiente(){
+      if(this.saldo.length<1)
+        return false
+
+        this.$q.loading.show();
+        let dataimp = [
+  {
+    sheet: "Material Pendiente",
+    columns: [
+        {label:'FECHA',value:'fecha'},
+        {label:'MATERIAL',value:'material'},
+        {label:'CODIGO',value:'codigo'},
+        {label:'SALDO',value:'saldo'},
+    ],
+    content: this.saldo
+  },
+
+]
+
+let settings = {
+  fileName: "Reporte-"+this.user.name, // Name of the resulting spreadsheet
+  extraLength: 6, // A bigger number means that columns will be wider
+  writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+}
+  this.$q.loading.hide()
+xlsx(dataimp, settings) // Will download the excel file
+
+    },
     descarga(){
       if(this.salidas.length<1)
         return false
@@ -196,6 +236,7 @@ xlsx(dataimp, settings) // Will download the excel file
       this.saldo=[]
       this.$axios.post("materialTecnico/"+this.tecnico.id).then((res) => {
           this.saldo=res.data
+          this.user=this.tecnico
         })
 
     },

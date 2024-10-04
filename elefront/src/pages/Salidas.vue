@@ -353,7 +353,7 @@ xlsx(dataimp, settings) // Will download the excel file
         return false
       this.$axios.post("listsalida",{fecha:this.fecha}).then((res) => {
         this.salidas=res.data
-        this.$axios.post("listsalida2",{fecha:this.fecha}).then((res) => {
+        this.$axios.post("listsalida2",{fecha:this.fecha,fecha2:this.fecha2}).then((res) => {
         this.datoexcel=res.data
       })
       })

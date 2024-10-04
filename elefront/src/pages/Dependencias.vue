@@ -36,13 +36,14 @@
     </div>
     <q-table :data="jobs"  :columns="colums" :filter="filter">
       <template v-slot:top-left>
-                <q-toggle
+        <q-select v-model="tipo2" :options="lTipo" label="Selecionar" dense outlined />
+                <!--<q-toggle
                   v-model="tipo2"
                   color="green"
                   :label="tipo2"
                   true-value="PLAZAS Y PARQUES"
                   false-value="DEPENDENCIAS"
-                />
+                />-->
                 <q-btn color="red"  label="PDF" @click="exportPdf" />
       </template>
       <template v-slot:top-right>
@@ -87,13 +88,14 @@
                     </datalist>
               </div>
               <div class="col-md-6 col-xs-12">
-                <q-toggle
+                <q-select v-model="tipo" :options="lTipo" label="Seleccionar" outlined dense/>
+                <!--<q-toggle
                   v-model="tipo"
                   color="green"
                   :label="tipo"
                   true-value="PLAZAS Y PARQUES"
                   false-value="DEPENDENCIAS"
-                /></div>
+                />--></div>
             </div>
               <div class="col-12">
                 <q-input required dense outlined type="textarea" label="Actividad" v-model="job.actividad" />
@@ -169,6 +171,7 @@ export default {
       codigos:[],
       tipo:'PLAZAS Y PARQUES',
       tipo2:'PLAZAS Y PARQUES',
+      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS'],
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
       filter:'',
       job:{fecha:date.formatDate(new Date(),'YYYY-MM-DD'),hora:date.formatDate(new Date(),'HH:mm'),},
@@ -279,7 +282,7 @@ export default {
         return false
       this.job.lugar=this.lugar
       this.job.detalle=this.detalle
-        this.$q.loading.show();
+      this.$q.loading.show();
       this.$axios.post('trabajo',this.job).then(res=>{
         this.modalpunto=false
         this.job={}

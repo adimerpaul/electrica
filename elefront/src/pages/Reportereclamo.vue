@@ -37,11 +37,23 @@
       >
         <template v-slot:top-right>
           <q-btn color="primary" icon-right="archive" label="Exportar PDF" @click="exportPdf" />
-          <q-btn color="green"  label="EXCEL" @click="descarga" />
+          <q-btn color="green"  label="EXCEL" @click="descarga" dense/>
         </template>
       </q-table>
     </div>
   </div>
+  <q-table
+    title="Reporte Material Matto"
+    :data="repMaterial"
+    :columns="colRep"
+    row-key="name"
+  >
+  <template v-slot:top-right>
+          <div class="col-4"><q-select outlined dense use-input @filter="filterMat" v-model="material" :options="materiales" label="Material" filled /></div>
+          <q-btn color="green"  label="Buscar" @click="getRepMaterial" dense/>
+          <q-btn color="indigo"  label="EXCEL" @click="generarExcel" dense/>
+        </template>
+  </q-table>
   <div id="myelement" class="hidden"></div>
 
 </q-page>
@@ -65,6 +77,21 @@ export default {
       users:[{lable:'TODOS',id:0}],
       user:{},
       filtUser:[],
+      materiales:[],
+      material:{label:''},
+      filterMateriales:[],
+      repMaterial:[],
+      colRep:[
+        {label:'fecha',name:'fecha',field:'fechaman'},
+        {label:'hora',name:'hora',field:'horaman'},
+        {label:'lat',name:'lat',field:'lat'},
+        {label:'lng',name:'lng',field:'lng'},
+        {label:'nroposte',name:'nroposte',field:'nroposte'},
+        {label:'poste',name:'poste',field:'poste'},
+        {label:'material',name:'material',field:'material'},
+        {label:'tecnico',name:'tecnico',field:'tecnico'},
+        {label:'codigo',name:'codigo',field:'codigo'},
+      ],
       columns:[
         {name:"actividad",field:"actividad",label:"ACTIVIDAD"},
         {name:"estado",field:"estado",label:"ESTADO"},
@@ -92,9 +119,72 @@ export default {
        this.$router.replace({ path: '/home' })
     }
     this.getUsers()
+    this.getMaterial()
   },
 
   methods:{
+    getRepMaterial(){
+      if(this.material.id==undefined) return false
+      this.$axios.post("reporteRecMaterial",{material_id:this.material.id,ini:this.fecha1,fin:this.fecha2}).then((res) => {
+        console.log(res.data)
+        this.repMaterial=res.data
+      })
+
+    },
+    filterMat (val, update) {
+        if (val === '') {
+          update(() => {
+            this.materiales = this.filterMateriales
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          this.materiales = this.filterMateriales.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+    getMaterial(){
+      this.materiales=[]
+      this.$axios.get("listmaterial").then((res) => {
+        res.data.forEach(r => {
+          r.label=r.nombre
+          this.materiales.push(r)
+        })
+        this.filterMateriales=this.materiales
+      })
+    },
+
+  generarExcel(){
+    let dataimp = [
+  {
+    sheet: "Reporte",
+    columns: [
+        {label:'FECHA',value:'fechaman'},
+        {label:'HORA',value:'horaman'},
+        {label:'LAT',value:'lat'},
+        {label:'LNG',value:'lng'},
+        {label:'N poste',value: 'nroposte'},
+        {label:'POSTE',value:'poste'},
+        {label:'MATERIAL',value:'material'},
+        {label:'TECNICO',value:'tecnico'},
+        {label:'CODIGO',value:'codigo'},
+    ],
+    content: this.repMaterial
+  },
+]
+    let settings = {
+      fileName: "ReporteMaterialMtto", // Name of the resulting spreadsheet
+      extraLength: 6, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+      this.$q.loading.hide()
+    xlsx(dataimp, settings) // Will download the excel file
+
+  },
     descarga(){
       if(this.misdenuncias.length<1)
         return false

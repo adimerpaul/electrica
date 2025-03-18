@@ -37,6 +37,7 @@ Route::post('/reclamo',[\App\Http\Controllers\ReclamoController::class,'store'])
     Route::post('registroMultiple',[\App\Http\Controllers\ReclamoController::class,'registroMultiple']);
     Route::resource('poste',\App\Http\Controllers\PosteController::class);
     Route::post('listActa',[\App\Http\Controllers\ActaController::class,'listActa']);
+    Route::get('prediccion/{id}', [\App\Http\Controllers\PosteController::class,'prediccion']);
 
     Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('listaposte',[\App\Http\Controllers\PosteController::class,'listaposte']);

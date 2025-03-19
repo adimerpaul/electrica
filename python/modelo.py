@@ -104,7 +104,7 @@ model = keras.models.load_model("modelo_prediccion.h5")
 scaler = joblib.load("scaler.pkl")
 
 # Simulación de una nueva luminaria
-nueva_luminaria = np.array([[1, 2, -16.5, -68.1, 30, 5, 2]])  # Incluye distrito
+nueva_luminaria = np.array([[1, 2, 3, -16.5, -68.1, 30, 5, 2]])  # Incluye distrito
 nueva_luminaria = scaler.transform(nueva_luminaria)  # Normalizar
 
 prediccion = model.predict(nueva_luminaria)

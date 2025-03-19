@@ -34,6 +34,7 @@ import Resumenreporte from "pages/Resumenreporte";
 import Herramientas from "pages/Herramientas";
 import Ordencompras from "pages/Ordencompras";
 import Prestamo from "pages/Prestamo";
+import Reportemtto from "pages/Repmtto.vue";
 import Home from "pages/Home";
 
 const routes = [
@@ -74,6 +75,7 @@ const routes = [
       { path: 'herramientas', component: Herramientas ,meta: {requiresAuth: true}},
       { path: 'ordencompras', component: Ordencompras ,meta: {requiresAuth: true}},
       { path: 'prestamo', component: Prestamo  ,meta: {requiresAuth: true}},
+      { path: 'reportemtto', component: Reportemtto  ,meta: {requiresAuth: true}},
       { path: 'informacion', component: Informacion},
       { path: 'listaActa', component: ListaActa},
       { path: 'login', component: Login },

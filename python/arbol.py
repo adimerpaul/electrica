@@ -1,11 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score, ConfusionMatrixDisplay
+from sklearn.metrics import roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 
 # 1. Cargar datos desde tu fuente (reemplaza con tu método de carga)
 from sqlalchemy import create_engine
@@ -68,20 +68,17 @@ joblib.dump(scaler, "scaler.pkl")
 # 3. Dividir datos en entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 4. Crear y entrenar el modelo de Regresión Logística
-model = LogisticRegression(solver='liblinear', random_state=42)
+# 4. Crear y entrenar el modelo de Árbol de Decisión
+model = DecisionTreeClassifier(random_state=42)  # Puedes ajustar los hiperparámetros
 model.fit(X_train, y_train)
 
 # 5. Guardar el modelo
-joblib.dump(model, 'logistic_regression_model.pkl')
+joblib.dump(model, 'decision_tree_model.pkl')
 
 # 6. Evaluación del modelo
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Precisión del modelo: {accuracy * 100:.2f}%")
-
-print("\nReporte de Clasificación:\n", classification_report(y_test, y_pred))
-print("\nMatriz de Confusión:\n", confusion_matrix(y_test, y_pred))
 
 # 7. Generar Curva ROC y Matriz de Confusión
 y_scores = model.predict_proba(X_test)[:, 1]  # Probabilidades para la clase positiva

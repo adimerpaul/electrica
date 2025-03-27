@@ -3,18 +3,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 
 # 1. Cargar datos desde tu fuente (reemplaza con tu método de carga)
-# Por ejemplo, desde un archivo CSV:
-# df = pd.read_csv("tu_archivo_datos.csv")
-
-# O desde una base de datos MySQL (como en tu código original):
 from sqlalchemy import create_engine
 
-DB_USER = "root"
-DB_PASS = ""
-DB_HOST = "localhost"
-DB_NAME = "laravel-353031351031"
+DB_USER = "alejandro"
+DB_PASS = "Alej%4024"
+DB_HOST = "192.168.154.20"
+DB_NAME = "alumbrado"
 
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 
@@ -38,7 +37,7 @@ GROUP BY l.id, l.nroposte, l.luminaria, l.potencia, l.lat, l.lng, l.distrito;
 
 df = pd.read_sql(query, engine)
 
-# 2. Preprocesamiento de datos (como en tu código original)
+# 2. Preprocesamiento de datos
 df.fillna(0, inplace=True)
 
 encoder_nroposte = LabelEncoder()
@@ -70,27 +69,33 @@ joblib.dump(scaler, "scaler.pkl")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 4. Crear y entrenar el modelo SVM
-model = SVC(kernel='rbf', C=1.0, gamma='scale', probability=True, random_state=42) # Puedes ajustar los hiperparámetros
+model = SVC(kernel='rbf', C=1.0, gamma='scale', probability=True, random_state=42)
 model.fit(X_train, y_train)
 
 # 5. Guardar el modelo
 joblib.dump(model, 'svm_model.pkl')
 
-# 6. Evaluación del modelo (opcional)
-from sklearn.metrics import accuracy_score
-
+# 6. Evaluación del modelo
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Precisión del modelo: {accuracy * 100:.2f}%")
 
-# Ejemplo de como cargar el modelo guardado.
-loaded_model = joblib.load('svm_model.pkl')
+# 7. Generar Curva ROC y Matriz de Confusión
+y_scores = model.predict_proba(X_test)[:, 1]  # Probabilidades para la clase positiva
+fpr, tpr, thresholds = roc_curve(y_test, y_scores)
+roc_auc = roc_auc_score(y_test, y_scores)
 
-# Ejemplo de como cargar el scaler guardado.
-loaded_scaler = joblib.load('scaler.pkl')
+plt.figure()
+plt.plot(fpr, tpr, label=f'AUC-ROC = {roc_auc:.2f}')
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Tasa de Falsos Positivos (FPR)')
+plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
+plt.title('Curva ROC')
+plt.legend(loc='lower right')
+plt.show()
 
-# Ejemplo de como cargar los encoders guardados
-loaded_encoder_nroposte = joblib.load('encoder_nroposte.pkl')
-loaded_encoder_luminaria = joblib.load('encoder_luminaria.pkl')
-loaded_encoder_potencia = joblib.load('encoder_potencia.pkl')
-loaded_encoder_distrito = joblib.load('encoder_distrito.pkl')
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot()
+plt.title('Matriz de Confusión')
+plt.show()

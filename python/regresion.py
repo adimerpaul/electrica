@@ -3,9 +3,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score, ConfusionMatrixDisplay
 
 # 1. Cargar datos desde tu fuente (reemplaza con tu método de carga)
 from sqlalchemy import create_engine
@@ -52,17 +51,21 @@ df["potencia"] = encoder_potencia.fit_transform(df["potencia"])
 encoder_distrito = LabelEncoder()
 df["distrito"] = encoder_distrito.fit_transform(df["distrito"])
 
+# Guardar los codificadores para uso futuro
 joblib.dump(encoder_nroposte, "encoder_nroposte.pkl")
 joblib.dump(encoder_luminaria, "encoder_luminaria.pkl")
 joblib.dump(encoder_potencia, "encoder_potencia.pkl")
 joblib.dump(encoder_distrito, "encoder_distrito.pkl")
 
+# Dividir los datos en características (X) y etiquetas (y)
 X = df.drop(columns=["id", "estado_actual"])
 y = df["estado_actual"]
 
+# Normalización de las características
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
+# Guardar el escalador para uso futuro
 joblib.dump(scaler, "scaler.pkl")
 
 # 3. Dividir datos en entrenamiento y prueba
@@ -77,17 +80,25 @@ joblib.dump(model, 'logistic_regression_model.pkl')
 
 # 6. Evaluación del modelo
 y_pred = model.predict(X_test)
+
+# Cálculo de las métricas
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Precisión del modelo: {accuracy * 100:.2f}%")
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
 
-print("\nReporte de Clasificación:\n", classification_report(y_test, y_pred))
-print("\nMatriz de Confusión:\n", confusion_matrix(y_test, y_pred))
+# Mostrar las métricas
+print(f"Precisión (Accuracy): {accuracy:.2f}")
+print(f"Recall (Sensibilidad): {recall:.2f}")
+print(f"F1-Score: {f1:.2f}")
 
-# 7. Generar Curva ROC y Matriz de Confusión
+# 7. Calcular AUC-ROC
 y_scores = model.predict_proba(X_test)[:, 1]  # Probabilidades para la clase positiva
-fpr, tpr, thresholds = roc_curve(y_test, y_scores)
 roc_auc = roc_auc_score(y_test, y_scores)
+print(f"AUC-ROC: {roc_auc:.2f}")
 
+# 8. Generar y mostrar la curva ROC
+fpr, tpr, thresholds = roc_curve(y_test, y_scores)
 plt.figure()
 plt.plot(fpr, tpr, label=f'AUC-ROC = {roc_auc:.2f}')
 plt.plot([0, 1], [0, 1], 'k--')
@@ -96,6 +107,9 @@ plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
 plt.title('Curva ROC')
 plt.legend(loc='lower right')
 plt.show()
+
+# 9. Mostrar el reporte de clasificación y la matriz de confusión
+print("\nReporte de Clasificación:\n", classification_report(y_test, y_pred))
 
 cm = confusion_matrix(y_test, y_pred)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm)

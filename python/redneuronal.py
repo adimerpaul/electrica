@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 
 # **1️⃣ Conectar a MySQL usando SQLAlchemy**
 DB_USER = "alejandro"
@@ -36,6 +36,7 @@ LEFT JOIN reclamos m ON l.id = m.poste_id
 WHERE l.estado = 'ACTIVO'
 GROUP BY l.id, l.nroposte, l.luminaria, l.potencia, l.lat, l.lng, l.distrito;
 """
+
 
 df = pd.read_sql(query, engine)
 
@@ -87,28 +88,33 @@ model = keras.Sequential([
 
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-# ** Entrenar el modelo**
+# **Entrenar el modelo**
 model.fit(X_train, y_train, epochs=50, batch_size=16, validation_data=(X_test, y_test))
 
-# ** Guardar el modelo**
+# **Guardar el modelo**
 try:
     model.save("modelo_prediccion.h5")
     print("✅ Modelo guardado correctamente")
 except Exception as e:
     print(f"❌ Error al guardar el modelo: {e}")
 
-# ** Evaluación del modelo**
+# **Evaluación del modelo**
 loss, accuracy = model.evaluate(X_test, y_test)
-print(f" Precisión del modelo: {accuracy * 100:.2f}%")
+print(f"Precisión del modelo: {accuracy * 100:.2f}%")
 
-# ** Generar Curva ROC y Matriz de Confusión**
+# **Generar Curva ROC y Matriz de Confusión**
 model = keras.models.load_model("modelo_prediccion.h5")
 scaler = joblib.load("scaler.pkl")
 
+# Obtener las probabilidades predichas
 y_scores = model.predict(X_test).flatten()
+
+# Calcular la AUC-ROC
 fpr, tpr, thresholds = roc_curve(y_test, y_scores)
 roc_auc = roc_auc_score(y_test, y_scores)
+print(f"AUC-ROC: {roc_auc:.2f}")
 
+# Graficar la curva ROC
 plt.figure()
 plt.plot(fpr, tpr, label=f'AUC-ROC = {roc_auc:.2f}')
 plt.plot([0, 1], [0, 1], 'k--')
@@ -118,9 +124,21 @@ plt.title('Curva ROC')
 plt.legend(loc='lower right')
 plt.show()
 
+# Convertir las probabilidades en predicciones binarias (umbral de 0.5)
 y_pred = (y_scores > 0.5).astype(int)
+
+# Calcular la matriz de confusión
 cm = confusion_matrix(y_test, y_pred)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm)
 disp.plot()
 plt.title('Matriz de Confusión')
 plt.show()
+
+# **Evaluación de métricas adicionales**
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+print(f"Precisión: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+print(f"F1-Score: {f1:.2f}")

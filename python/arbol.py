@@ -1,12 +1,13 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import joblib
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
-
 # 1. Cargar datos desde tu fuente (reemplaza con tu método de carga)
 from sqlalchemy import create_engine
 
@@ -68,34 +69,65 @@ joblib.dump(scaler, "scaler.pkl")
 # 3. Dividir datos en entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 4. Crear y entrenar el modelo de Árbol de Decisión
-model = DecisionTreeClassifier(random_state=42)  # Puedes ajustar los hiperparámetros
-model.fit(X_train, y_train)
+# 4. Crear y entrenar los modelos
+models = {
+    "Árbol de Decisión": DecisionTreeClassifier(random_state=42),
+    "Regresión Logística": LogisticRegression(),
+    "Bosque Aleatorio": RandomForestClassifier(random_state=42),
+    "SVM": SVC(probability=True, random_state=42)
+}
 
-# 5. Guardar el modelo
-joblib.dump(model, 'decision_tree_model.pkl')
+# Diccionario para almacenar métricas
+metrics = []
 
-# 6. Evaluación del modelo
-y_pred = model.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Precisión del modelo: {accuracy * 100:.2f}%")
+# 5. Entrenar y evaluar cada modelo
+for model_name, model in models.items():
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    y_scores = model.predict_proba(X_test)[:, 1]  # Probabilidades para la clase positiva
 
-# 7. Generar Curva ROC y Matriz de Confusión
-y_scores = model.predict_proba(X_test)[:, 1]  # Probabilidades para la clase positiva
-fpr, tpr, thresholds = roc_curve(y_test, y_scores)
-roc_auc = roc_auc_score(y_test, y_scores)
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    auc_roc = roc_auc_score(y_test, y_scores)
 
-plt.figure()
-plt.plot(fpr, tpr, label=f'AUC-ROC = {roc_auc:.2f}')
-plt.plot([0, 1], [0, 1], 'k--')
-plt.xlabel('Tasa de Falsos Positivos (FPR)')
-plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
-plt.title('Curva ROC')
-plt.legend(loc='lower right')
-plt.show()
+    metrics.append({
+        "Modelo": model_name,
+        "Precisión": accuracy,
+        "Recall": recall,
+        "F1-Score": f1,
+        "AUC-ROC": auc_roc
+    })
 
-cm = confusion_matrix(y_test, y_pred)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm)
-disp.plot()
-plt.title('Matriz de Confusión')
-plt.show()
+    print(f"\n{model_name}:")
+    print(f"Precisión (Accuracy): {accuracy:.2f}")
+    print(f"Recall (Sensibilidad): {recall:.2f}")
+    print(f"F1-Score: {f1:.2f}")
+    print(f"AUC-ROC: {auc_roc:.2f}")
+
+    # 6. Generar y mostrar Curvas ROC
+    fpr, tpr, thresholds = roc_curve(y_test, y_scores)
+    plt.figure()
+    plt.plot(fpr, tpr, label=f'{model_name} (AUC = {auc_roc:.2f})')
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlabel('Tasa de Falsos Positivos (FPR)')
+    plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
+    plt.title('Curva ROC')
+    plt.legend(loc='lower right')
+    plt.show()
+
+    # 7. Mostrar Matriz de Confusión
+    cm = confusion_matrix(y_test, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp.plot()
+    plt.title(f'Matriz de Confusión - {model_name}')
+    plt.show()
+
+# 8. Crear una tabla con los resultados
+metrics_df = pd.DataFrame(metrics)
+metrics_df = metrics_df.sort_values(by="AUC-ROC", ascending=False)
+
+# Mostrar resultados de la comparación
+print("\nResultados de Comparación de Modelos:")
+print(metrics_df)

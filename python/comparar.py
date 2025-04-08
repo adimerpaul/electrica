@@ -2,8 +2,8 @@ from sqlalchemy import create_engine
 import pandas as pd
 import numpy as np
 from tensorflow import keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from keras.api.models import Sequential
+from keras.src.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LogisticRegression
@@ -18,10 +18,10 @@ from sklearn.metrics import (
 )
 
 # 1️⃣ Conectar a MySQL usando SQLAlchemy
-DB_USER = "root"
-DB_PASS = ""
-DB_HOST = "localhost"
-DB_NAME = "electrica"
+DB_USER = "alejandro"
+DB_PASS = "Alej%4024"
+DB_HOST = "192.168.154.20"
+DB_NAME = "alumbrado"
 
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 
@@ -50,13 +50,13 @@ df.fillna(0, inplace=True)
 for col in ["nroposte", "luminaria", "potencia", "distrito"]:
     encoder = LabelEncoder()
     df[col] = encoder.fit_transform(df[col])
-    joblib.dump(encoder, f"encoder_{col}.pkl")
+    joblib.dump(encoder, f"modelos/encoder_{col}.pkl")  # Guardar los codificadores
 
 X = df.drop(columns=["id", "estado_actual"])
 y = df["estado_actual"]
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
-joblib.dump(scaler, "scaler.pkl")
+joblib.dump(scaler, "modelos/scaler.pkl")  # Guardar el escalador
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 4️⃣ Modelo de Red Neuronal
@@ -67,7 +67,7 @@ nn_model = Sequential([
 ])
 nn_model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 nn_model.fit(X_train, y_train, epochs=50, batch_size=16, validation_data=(X_test, y_test))
-nn_model.save("modelo_prediccion.h5")
+nn_model.save("modelos/modelo_prediccion.h5")  # Guardar el modelo entrenado
 
 # 5️⃣ Evaluar los 5 modelos
 modelos = {
@@ -85,7 +85,7 @@ for nombre, modelo in modelos.items():
         y_scores = modelo.predict(X_test).flatten()
     else:
         modelo.fit(X_train, y_train)
-        y_scores = modelo.predict_proba(X_test)[:, 1]
+        y_scores = modelo.predict_proba(X_test)[:, 1]  # Entrenar y obtener probabilidades
 
     y_pred = (y_scores > 0.5).astype(int)
     acc = accuracy_score(y_test, y_pred)
@@ -104,7 +104,7 @@ for nombre, modelo in modelos.items():
         "AUC-ROC": auc_val,
         "Matriz de Confusión": cm
     }
-    plt.plot(fpr, tpr, label=f'{nombre} (AUC = {auc_val:.2f})')
+    plt.plot(fpr, tpr, label=f'{nombre} (AUC = {auc_val:.2f}, Accuracy = {acc:.2f})')
 
 plt.plot([0, 1], [0, 1], 'k--')
 plt.xlabel('Tasa de Falsos Positivos')
@@ -115,6 +115,7 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
+# 6️⃣ Generar el resumen de resultados
 resultados_texto = "\n"
 for modelo, metricas in resultados.items():
     resultados_texto += f"\n📌 Modelo: {modelo}\n"
@@ -123,5 +124,4 @@ for modelo, metricas in resultados.items():
             resultados_texto += f"{k}: {v:.2f}\n"
     resultados_texto += f"Matriz de Confusión:\n{metricas['Matriz de Confusión']}\n"
 
-resultados_texto[:2000]  # Mostrar parte inicial del texto en respuesta
-
+print(resultados_texto[:2000])  # Mostrar parte inicial del texto en respuesta

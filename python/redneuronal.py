@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay
 
 # **1️⃣ Conectar a MySQL usando SQLAlchemy**
-DB_USER = "alejandro"
-DB_PASS = "Alej%4024"
-DB_HOST = "192.168.154.20"
-DB_NAME = "alumbrado"
+DB_USER = "root"
+DB_PASS = ""
+DB_HOST = "localhost"
+DB_NAME = "electrica"
 
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 

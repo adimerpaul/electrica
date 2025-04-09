@@ -13,12 +13,12 @@ app = Flask(__name__)
 DB_USER = "root"
 DB_PASS = ""
 DB_HOST = "localhost"
-DB_NAME = "laravel-353031351031"
+DB_NAME = "electrica"
 
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 
 # 🔹 Cargar el modelo y el scaler
-modelo = keras.models.load_model("modelo_prediccion.h5")
+modelo = keras.models.load_model("modelos/modelo_prediccion.h5")
 scaler = joblib.load("scaler.pkl")
 
 # 🔹 Columnas utilizadas en el entrenamiento (deben coincidir con el scaler)

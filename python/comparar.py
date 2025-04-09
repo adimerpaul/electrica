@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import numpy as np
 from tensorflow import keras
-from keras.api.models import Sequential
+from keras.src.models import Sequential
 from keras.src.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
@@ -18,10 +18,10 @@ from sklearn.metrics import (
 )
 
 # 1️⃣ Conectar a MySQL usando SQLAlchemy
-DB_USER = "alejandro"
-DB_PASS = "Alej%4024"
-DB_HOST = "192.168.154.20"
-DB_NAME = "alumbrado"
+DB_USER = "root"
+DB_PASS = ""
+DB_HOST = "localhost"
+DB_NAME = "electrica"
 
 engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 
@@ -72,9 +72,9 @@ nn_model.save("modelos/modelo_prediccion.h5")  # Guardar el modelo entrenado
 # 5️⃣ Evaluar los 5 modelos
 modelos = {
     "Red Neuronal": nn_model,
-    "Logistic Regression": LogisticRegression(),
-    "Decision Tree": DecisionTreeClassifier(),
-    "Random Forest": RandomForestClassifier(),
+    "Regresión Logística": LogisticRegression(),
+    "Árbol de Decisión": DecisionTreeClassifier(),
+    "Bosque Aleatorio": RandomForestClassifier(),
     "SVM": SVC(probability=True)
 }
 resultados = {}
@@ -124,4 +124,5 @@ for modelo, metricas in resultados.items():
             resultados_texto += f"{k}: {v:.2f}\n"
     resultados_texto += f"Matriz de Confusión:\n{metricas['Matriz de Confusión']}\n"
 
+# Mostrar un resumen con las métricas de los modelos
 print(resultados_texto[:2000])  # Mostrar parte inicial del texto en respuesta

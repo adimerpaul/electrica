@@ -23,6 +23,10 @@ class Poste extends Model
     'color',
     'fechaplan',
     'estado',
+    'tipo',
+    'brazo',
+    'comentario',
+    'revisado',
 ];
 
     public function reclamos()

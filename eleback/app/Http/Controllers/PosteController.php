@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Facades\Http;
 
 class PosteController extends Controller
 {
@@ -103,6 +104,11 @@ class PosteController extends Controller
         $poste->color=$request->color;
         $poste->junta='';
         $poste->tipo='NUEVO';
+        $poste->fechaplan=$request->fechaplan;
+        $poste->estado='ACTIVO';
+        $poste->brazo=$request->brazo;
+        $poste->comentario=$request->comentario;
+        $poste->revisado=$request->revisado;
         return $poste->save();
     }
 
@@ -168,6 +174,9 @@ class PosteController extends Controller
         $poste->observacion=$request->observacion;
         $poste->color=$request->color;
         $poste->fechaplan=$request->fechaplan;
+        $poste->brazo=$request->brazo;
+        $poste->comentario=$request->comentario;
+        $poste->revisado=$request->revisado;
         return $poste->save();
     }
 
@@ -209,41 +218,30 @@ class PosteController extends Controller
     }
 
 
-    public function prediccion($id){
+    public function prediccion($id)
+        {    
+        // URL de tu servidor Flask
+        $url = "http://127.0.0.1:5000/predecir?id=".$id;
 
-        {
-    
-            // Ruta del script Python dentro del proyecto
-            $pythonScript = resource_path('python/prediccion.py');
-            // Ejecutar Python con el ID del poste
-            //$process = new Process(["python", $pythonScript, $id]);
-           // $process->run();
+        try {
+            $response = Http::get($url);
 
-        // Comprobar si el archivo Python existe
-        if (!file_exists($pythonScript)) {
-            return response()->json(["error" => "El script Python no existe en $pythonScript"], 500);
+            if ($response->successful()) {
+                return response()->json($response->json());
+            } else {
+                return response()->json([
+                    'error' => 'Error desde Flask',
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ], 500);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'No se pudo conectar con Flask',
+                'mensaje' => $e->getMessage()
+            ], 500);
         }
-
-        // Ejecutar el script con el ID
         
-        //$process = new Process(["python", $pythonScript, $id]);
-           $process = new Process(["C:\\Users\\Alejandro\\AppData\\Local\\Programs\\Python\\Python310\\python.exe", $pythonScript, $id]);
-            $process->setEnv([]); 
-            $process->run();
-
-        // Capturar error si falla
-        if (!$process->isSuccessful()) {
-            return response()->json(["error" => "Error en Python: " . $process->getErrorOutput()], 500);
-        }
-
-        // Decodificar el resultado JSON
-        $output = json_decode($process->getOutput(), true);
-
-        if (!$output) {
-            return response()->json(["error" => "Python no devolvió un JSON válido: " . $process->getOutput()], 500);
-        }
-
-        return response()->json($output);
-        }
     }
 }

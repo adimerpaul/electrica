@@ -31,6 +31,10 @@ return new class extends Migration
             $table->string('color');
             $table->string('tipo')->nullable();
             $table->string('estado')->default('ACTIVO');
+            $table->string('brazo')->nullable();
+            $table->string('comentario')->nullable();
+            $table->boolean('revisado')->default(false);
+
             $table->timestamps();
         });
     }

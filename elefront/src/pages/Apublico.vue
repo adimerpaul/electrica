@@ -37,12 +37,22 @@
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
+              <div class="col-12">
+                <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
+              </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
 
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion" required />
+              </div>
+
+              <div class="col-12">
+                <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
+              </div>
+              <div class="col-12">
+                <q-input dense outlined label="Revisado" v-model="punto.revisado" type="checkbox" />
               </div>
 
             </div>
@@ -91,6 +101,9 @@
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
+              <div class="col-12">
+                <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
+              </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
               </div>
@@ -98,8 +111,13 @@
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion"  />
               </div>
-
-            </div>
+              <div class="col-12">
+                <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
+              </div>
+              <div class="col-12">
+                <q-input dense outlined label="Revisado" v-model="punto.revisado" type="checkbox" />
+              </div>
+              </div>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -114,7 +132,7 @@
     <div class="row col-12">
       <div class="col-md-3 col-xs-8"><q-select dense v-model="distrito" :options="distritos" label="Distritos" ourlined /></div>
       <div class="col-2"><q-btn color="green" icon="search" @click="mispuntos" /></div>
-      <div class="col-2"><q-btn color="teal" icon="add_circle_outline" @click="punto={}; dialogRegistro=true" /></div>
+      <div class="col-2"><q-btn color="teal" icon="add_circle_outline" @click="punto={revisado: false}; dialogRegistro=true" /></div>
       <div class="col-md-3 col-xs-10"><q-input dense outlined v-model="numeroposte" type="text" label="Numero Poste"/></div>
       <div class="col-1"><q-btn color="info" icon="place" @click="searchPlace" /></div>
     </div>

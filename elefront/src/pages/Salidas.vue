@@ -171,7 +171,7 @@ export default {
 
       ],
       codigo:'',
-      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA ROJA II','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores','Linea Piloto','CARRO VALDE 5'],
+      carros:['','CARRO VALDE 1','CARRO VALDE 2','CARRO VALDE 3','CARRO VALDE AZUL','CAMIONETA ROJA','CAMIONETA ROJA II','CAMIONETA BLANCA','CARRO DE TRAFICO','C Dependencia','C Parques y Plazas','C Posteadores','Linea Piloto','CARRO VALDE 5','MERCADOS','Fuentes Ornamentales'],
       dialogReg:false,
       dialogMod:false,
     }

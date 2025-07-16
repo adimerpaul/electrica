@@ -37,7 +37,7 @@
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
-              <div class="col-12">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
               </div>
               <div class="col-md-3 col-xs-6">
@@ -51,8 +51,8 @@
               <div class="col-12">
                 <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
               </div>
-              <div class="col-12">
-                <q-input dense outlined label="Revisado" v-model="punto.revisado" type="checkbox" />
+              <div class="col-12" v-if="$store.state.login.boolinspeccion">
+                <q-checkbox  v-model="punto.revisado" label="REVISADO" color="green" size="xl"/>
               </div>
 
             </div>
@@ -101,7 +101,7 @@
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
               </div>
-              <div class="col-12">
+              <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
               </div>
               <div class="col-md-3 col-xs-6">
@@ -114,8 +114,8 @@
               <div class="col-12">
                 <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
               </div>
-              <div class="col-12">
-                <q-input dense outlined label="Revisado" v-model="punto.revisado" type="checkbox" />
+              <div class="col-12" v-if="$store.state.login.boolinspeccion">
+                  <q-checkbox color="green" v-model="punto.revisado" label="REVISADO" size="xl"/>
               </div>
               </div>
         </q-card-section>
@@ -148,9 +148,12 @@
           icon-url="purplepin.png"
         />
       </l-marker>
-        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" @click="center=[m.lat,m.lng];punto=m;modalpunto=true ">
+        <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" :draggable="punto_movable && m.id === punto_movable.id"
+          @click="activarEdicion(m)"
+          @moveend="onMoveEnd">
           <l-icon>
-          <img :src="'img/'+m.color" style="width: 20px;height: 20px;"/>
+            <!--si revisado true al nombre de imagen agregar un r_-->
+          <img :src="m.revisado==1?'img/r_'+m.color:'img/'+m.color" style="width: 20px;height: 20px;"/>
           <div class="headline">
             {{ m.nroposte }}
           </div>
@@ -250,6 +253,7 @@ export default {
   data () {
     return {
       datos:[],
+      punto_movable: null,
       numeroposte:'',
       styleMap:true,
       lat:0,
@@ -349,6 +353,20 @@ export default {
     this.geolocate()
   },
   methods:{
+    activarEdicion(m) {
+    this.center = [m.lat, m.lng];
+    this.punto = m;
+    this.modalpunto = true;
+    this.punto_movable = m; // solo este punto será movable
+  },
+    onMoveEnd(e) {
+    const newLatLng = e.target.getLatLng();
+    this.punto_movable.lat = newLatLng.lat;
+    this.punto_movable.lng = newLatLng.lng;
+
+    // Aquí podrías guardar en base de datos o emitir por socket
+    console.log("Nueva ubicación:", newLatLng.lat, newLatLng.lng);
+  },
     async geolocate() {
       this.ubicacion= [0, 0]
       console.log(navigator.geolocation)
@@ -411,6 +429,7 @@ export default {
       this.punto.lat=this.lat.toFixed(10)
       this.punto.lng=this.lng.toFixed(10)
       this.dialogRegistro=true
+      this.datos=[]
       this.$axios.post('calcularArea',{lat:this.lat,lng:this.lng,distancia:200}).then(res=>{
           console.log(res.data)
           this.datos=res.data

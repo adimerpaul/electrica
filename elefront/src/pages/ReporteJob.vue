@@ -86,7 +86,7 @@ export default {
   data(){
     return{
       tipo:"PLAZAS Y PARQUES",
-      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS'],
+      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS','FIBRA OPTICA'],
       material:{label:''},
       materiales:[],
       filterMateriales:[],

@@ -31,6 +31,16 @@ class PermisoSeeder extends Seeder
             ['nombre'=>'GESTIONAR POSTES'],
             ['nombre'=>'RECLAMOS'],
             ['nombre'=>'ALMACEN'],
+            ['nombre'=>'DEPENDENCIAS/PLAZAS'],
+            ['nombre'=>'REPORTE DEP/PLAZA'],
+            ['nombre'=>'VER ACTAS'],
+            ['nombre'=>'REGISTRAR ACTA'],
+            ['nombre'=>'EDITAR ACTA'],
+            ['nombre'=>'AGENDAR TRABAJOS'],
+            ['nombre'=>'REPORTE MATERIAL'],
+            ['nombre'=>'ELIMINAR MATERIAL'],
+            ['nombre'=>'INSPECCION'],
+
         ]);
 
     }

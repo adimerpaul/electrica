@@ -171,7 +171,7 @@ export default {
       codigos:[],
       tipo:'PLAZAS Y PARQUES',
       tipo2:'PLAZAS Y PARQUES',
-      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS'],
+      lTipo:['PLAZAS Y PARQUES','DEPENDENCIAS','SEMAFOROS','FIBRA OPTICA'],
       fecha:date.formatDate(new Date(),'YYYY-MM-DD'),
       filter:'',
       job:{fecha:date.formatDate(new Date(),'YYYY-MM-DD'),hora:date.formatDate(new Date(),'HH:mm'),},

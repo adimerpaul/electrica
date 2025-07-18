@@ -13,7 +13,7 @@
         <q-card-section class="q-pt-none">
             <div class="row">
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="latitud" v-model="punto.lat"  />
+                <q-input dense outlined label="latitud" v-model="punto.lat"  required/>
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="longitud" v-model="punto.lng"  />
@@ -22,26 +22,32 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
+              </div>
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Potencia"  v-model="punto.potencia"
                 :options="potencias" @change="cargarcolor()" />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
+                <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Piso','Fuentes','Otro']" required />
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Tipo Luminaria" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" required />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" type="number" required/>
+                <q-select dense outlined label="Cant Luminarias" v-model="punto.cantidad" :options="['0','1','2','3','4','5','6','7','8']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
+                <q-select dense outlined label="Altura" v-model="punto.altura" :options="['0','4','8','10','12','16']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
+                <q-select dense outlined label="Brazo" v-model="punto.brazo" :options="['0','1','3','4']" required />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
+                <q-select dense outlined label="Estado Poste" v-model="punto.estado_poste" :options="['BUENO','MALO','INCLINADO']" required/>
               </div>
 
               <div class="col-12">
@@ -51,8 +57,11 @@
               <div class="col-12">
                 <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
               </div>
-              <div class="col-12" v-if="$store.state.login.boolinspeccion">
+              <div class="col-6" v-if="$store.state.login.boolinspeccion">
                 <q-checkbox  v-model="punto.revisado" label="REVISADO" color="green" size="xl"/>
+              </div>
+              <div class="col-6" v-if="$store.state.login.boolinspeccion">
+                <q-checkbox  v-model="punto.reubicar" label="REUBICAR POSTE" color="green" size="xl"/>
               </div>
 
             </div>
@@ -78,7 +87,7 @@
         <q-card-section class="q-pt-none">
             <div class="row">
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="latitud" v-model="punto.lat"  />
+                <q-input dense outlined label="latitud" v-model="punto.lat"  required/>
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="longitud" v-model="punto.lng"   />
@@ -87,36 +96,44 @@
                 <q-input dense outlined label="Nro Poste" v-model="punto.nroposte"  required />
               </div>
               <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
+              </div>
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Potencia"  v-model="punto.potencia" :options="potencias" @change.native="cargarcolor" />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Otro']" />
+                <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Piso','Fuentes','Otro']" />
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Tipo Luminaria" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Cant Luminarias" v-model="punto.cantidad" type="number" required/>
+                <q-select dense outlined label="Cant Luminarias" v-model="punto.cantidad" :options="['0','1','2','3','4','5','6','7','8']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Altura" v-model="punto.altura" type="number" required/>
+                <q-select dense outlined label="Altura" v-model="punto.altura" :options="['0','4','8','10','12','16']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Brazo" v-model="punto.brazo" type="number" step="0.1" />
+                <q-select dense outlined label="Brazo" v-model="punto.brazo" :options="['0','1','3','4']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Distrito" v-model="punto.distrito" :options="['D1','D2','D3','D4','D5']" required/>
+                <q-select dense outlined label="Estado Poste" v-model="punto.estado_poste" :options="['BUENO','MALO','INCLINADO']" required/>
               </div>
-
               <div class="col-12">
                 <q-input dense outlined label="Observacion" v-model="punto.observacion"  />
               </div>
               <div class="col-12">
                 <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
               </div>
-              <div class="col-12" v-if="$store.state.login.boolinspeccion">
+              <div class="col-6" v-if="$store.state.login.boolinspeccion">
                   <q-checkbox color="green" v-model="punto.revisado" label="REVISADO" size="xl"/>
               </div>
+              <div class="col-6" v-if="$store.state.login.boolinspeccion">
+                  <q-checkbox color="green" v-model="punto.reubicar" label="REUBICAR POSTE" size="xl"/>
+                  </div>
               </div>
         </q-card-section>
 
@@ -356,6 +373,8 @@ export default {
     activarEdicion(m) {
     this.center = [m.lat, m.lng];
     this.punto = m;
+    if (this.punto.reubicar == 0) this.punto.reubicar = false; else this.punto.reubicar = true;
+    if (this.punto.revisado == 0) this.punto.revisado = false; else this.punto.revisado = true;
     this.modalpunto = true;
     this.punto_movable = m; // solo este punto será movable
   },
@@ -425,7 +444,7 @@ export default {
     registropunto(){
       //alert(this.ubicacion.lat)
 
-      this.punto={}
+      this.punto={reubicar:false,revisado:false,luminaria:'',observacion:'',comentario:''}
       this.punto.lat=this.lat.toFixed(10)
       this.punto.lng=this.lng.toFixed(10)
       this.dialogRegistro=true
@@ -578,9 +597,12 @@ updatePoste(){
       })
     },
     frmmodalpunto(p){
-      // console.log('a')
-      this.modalpunto=true
+         console.log(p)
       this.punto=p
+      if(this.punto.reubicar==0)this.punto.reubicar=false; else this.punto.reubicar=true
+      if(this.punto.revisado==0)this.punto.revisado=false; else this.punto.revisado=true
+      this.modalpunto=true
+
     },
     clickclientes(c){
       // console.log(c)

@@ -27,6 +27,10 @@ class Poste extends Model
     'brazo',
     'comentario',
     'revisado',
+    'estado_poste',
+    'acceso',
+    'tipo_lum',
+    'reubicar'
 ];
 
     public function reclamos()

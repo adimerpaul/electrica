@@ -109,6 +109,10 @@ class PosteController extends Controller
         $poste->brazo=$request->brazo;
         $poste->comentario=$request->comentario;
         $poste->revisado=$request->revisado;
+        $poste->estado_poste=$request->estado_poste;
+        $poste->acceso=$request->acceso;
+        $poste->tipo_lum=$request->tipo_lum;
+        $poste->reubicar=$request->reubicar;
         return $poste->save();
     }
 
@@ -177,6 +181,10 @@ class PosteController extends Controller
         $poste->brazo=$request->brazo;
         $poste->comentario=$request->comentario;
         $poste->revisado=$request->revisado;
+        $poste->estado_poste=$request->estado_poste;
+        $poste->acceso=$request->acceso;
+        $poste->tipo_lum=$request->tipo_lum;
+        $poste->reubicar=$request->reubicar;
         return $poste->save();
     }
 
@@ -219,7 +227,7 @@ class PosteController extends Controller
 
 
     public function prediccion($id)
-        {    
+        {
         // URL de tu servidor Flask
         $url = "http://127.0.0.1:5000/predecir?id=".$id;
 
@@ -242,6 +250,6 @@ class PosteController extends Controller
                 'mensaje' => $e->getMessage()
             ], 500);
         }
-        
+
     }
 }

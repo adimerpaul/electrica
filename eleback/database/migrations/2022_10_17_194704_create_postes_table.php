@@ -34,7 +34,10 @@ return new class extends Migration
             $table->string('brazo')->nullable();
             $table->string('comentario')->nullable();
             $table->boolean('revisado')->default(false);
-
+            $table->boolean('reubicar')->default(false);
+            $table->string('estado_poste')->nullable();
+            $table->string('acceso')->nullable();
+            $table->string('tipo_lum')->nullable();
             $table->timestamps();
         });
     }

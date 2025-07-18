@@ -47,6 +47,9 @@
                 <q-select dense outlined label="Brazo" v-model="punto.brazo" :options="['0','1','3','4']" required />
               </div>
               <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Acceso" v-model="punto.acceso" :options="['ESCALERA','CARRO BALDE','AMBOS']" required />
+              </div>
+              <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Estado Poste" v-model="punto.estado_poste" :options="['BUENO','MALO','INCLINADO']" required/>
               </div>
 
@@ -118,6 +121,9 @@
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Brazo" v-model="punto.brazo" :options="['0','1','3','4']" required/>
+              </div>
+              <div class="col-md-3 col-xs-6">
+                <q-select dense outlined label="Acceso Poste" v-model="punto.acceso" :options="['ESCALERA','CARRO BALDE','AMBOS']" required/>
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Estado Poste" v-model="punto.estado_poste" :options="['BUENO','MALO','INCLINADO']" required/>

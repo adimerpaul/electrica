@@ -32,10 +32,10 @@
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Piso','Fuentes','Otro']" required />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Tipo Luminaria" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" required />
+                <q-select dense outlined label="Lampara" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" required />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
+                <q-input dense outlined label="Tipo Lampara" v-model="punto.luminaria" required />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Cant Luminarias" v-model="punto.cantidad" :options="['0','1','2','3','4','5','6','7','8']" required/>
@@ -108,10 +108,10 @@
                 <q-select dense outlined label="Material" v-model="punto.material" :options="['Madera','Metalico','Cemento','Empotrado','Ornamental','Cigarro','Riel','Colgado','Piso','Fuentes','Otro']" />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-select dense outlined label="Tipo Luminaria" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" />
+                <q-select dense outlined label="Lampara" v-model="punto.tipo_lum" :options="['LED','SODIO','MERCURIO','HALURO','XENON','TUNGSTENO','FLUORECENTE','OTRO','NINGUNO']" />
               </div>
               <div class="col-md-3 col-xs-6">
-                <q-input dense outlined label="Luminaria" v-model="punto.luminaria" required />
+                <q-input dense outlined label="Tipo Lampara" v-model="punto.luminaria" required />
               </div>
               <div class="col-md-3 col-xs-6">
                 <q-select dense outlined label="Cant Luminarias" v-model="punto.cantidad" :options="['0','1','2','3','4','5','6','7','8']" required/>

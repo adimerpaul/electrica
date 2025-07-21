@@ -164,12 +164,14 @@
           <l-tile-layer :url="styleMap?`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png`:`http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}`"
                       layer-type="base"
                       name="OpenStreetMap" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 20 }"></l-tile-layer>
-        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()"
-         title="Usted esta Aqui"
-        >
-        <l-icon
-          icon-url="purplepin.png"
-        />
+        <l-marker :lat-lng="[lat,lng]" draggable  @moveend="updateCoordinates" @click="registropunto()" >
+          <l-icon
+            icon-url="purplepin.png"
+          />
+
+        </l-marker>
+      <l-marker :lat-lng="miposicion">
+        <l-popup>Tu ubicación actual</l-popup>
       </l-marker>
         <l-marker v-for="m in datos" :key="m.id" :lat-lng="[m.lat,m.lng]" :draggable="punto_movable && m.id === punto_movable.id"
           @click="activarEdicion(m)"
@@ -275,6 +277,8 @@ import {date} from "quasar";
 export default {
   data () {
     return {
+      miposicion:[-17.970310, -67.111780],
+      watchId : null,
       datos:[],
       punto_movable: null,
       numeroposte:'',
@@ -375,7 +379,34 @@ export default {
 
     this.geolocate()
   },
+  mounted(){
+   if (navigator.geolocation) {
+    console.log('Geolocalización soportada.');
+    this.watchId = navigator.geolocation.watchPosition(this.updatePosition, this.handleError, {
+      enableHighAccuracy: true,
+      timeout: 2000, // 1 segundo
+      maximumAge: 0 // No usar caché
+    });
+  } else {
+    console.warn('Geolocalización no soportada.');
+  }
+},
+beforeDestroy(){
+    if (this.watchId !== null) {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+},
+
   methods:{
+    handleError(err) {
+      console.error('Error al obtener ubicación:', err);
+    },
+    updatePosition(pos){
+      let lat = pos.coords.latitude;
+      let lng = pos.coords.longitude;
+      this.miposicion = [lat, lng];
+      console.log('Ubicación actual:', this.miposicion );
+    },
     activarEdicion(m) {
     this.center = [m.lat, m.lng];
     this.punto = m;
@@ -399,6 +430,7 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
           this.lat=position.coords.latitude
           this.lng=position.coords.longitude
+          this.miposicion=[this.lat,this.lng];
           this.zoom=18;
         this.ubicacion=[this.lat,this.lng];
         this.center=this.ubicacion

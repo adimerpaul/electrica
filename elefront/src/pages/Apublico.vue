@@ -54,11 +54,11 @@
               </div>
 
               <div class="col-12">
-                <q-input dense outlined label="Observacion" v-model="punto.observacion" required />
+                <q-input dense outlined label="Codigo Luminaria / Obser" v-model="punto.observacion" required />
               </div>
 
               <div class="col-12">
-                <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
+                <q-input dense outlined label="Estado/Observacion" v-model="punto.comentario" />
               </div>
               <div class="col-6" v-if="$store.state.login.boolinspeccion">
                 <q-checkbox  v-model="punto.revisado" label="REVISADO" color="green" size="xl"/>
@@ -129,10 +129,10 @@
                 <q-select dense outlined label="Estado Poste" v-model="punto.estado_poste" :options="['BUENO','MALO','INCLINADO']" required/>
               </div>
               <div class="col-12">
-                <q-input dense outlined label="Observacion" v-model="punto.observacion"  />
+                <q-input dense outlined label="Codigo / Obs" v-model="punto.observacion"  />
               </div>
               <div class="col-12">
-                <q-input dense outlined label="Describe estado del poste" v-model="punto.comentario" />
+                <q-input dense outlined label="Estado / Observacion" v-model="punto.comentario" />
               </div>
               <div class="col-6" v-if="$store.state.login.boolinspeccion">
                   <q-checkbox color="green" v-model="punto.revisado" label="REVISADO" size="xl"/>
